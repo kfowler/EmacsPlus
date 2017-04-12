@@ -1,6 +1,6 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus;
 
@@ -22,52 +22,53 @@ public class EmacsPlus implements ApplicationComponent
     private static String ultCommand;
     private static String penultCommand;
     private static boolean visualBeep;
-    
+
     public static PluginDescriptor getPlugin() {
         return EmacsPlus.ourPlugin;
     }
-    
+
     public void initComponent() {
         final PluginId pluginId = PluginManager.getPluginByClassName(EmacsPlus.class.getName());
         EmacsPlus.ourPlugin = (PluginDescriptor)PluginManager.getPlugin(pluginId);
-        Keymaps.enableKeymaps();
+        // Let BundledKeymapProvider do this
+        // Keymaps.enableKeymaps();
         CommandProcessor.getInstance().addCommandListener((CommandListener)new CommandListener() {
             public void beforeCommandFinished(final CommandEvent event) {
             }
-            
+
             public void undoTransparentActionStarted() {
             }
-            
+
             public void undoTransparentActionFinished() {
             }
-            
+
             public void commandStarted(final CommandEvent event) {
             }
-            
+
             public void commandFinished(final CommandEvent event) {
                 setUltCommand(event.getCommandName());
             }
         });
         CommandProcessor.getInstance().addCommandListener(EmacsPlusAction.getCommandListener());
     }
-    
+
     private static void setUltCommand(final String name) {
         EmacsPlus.penultCommand = EmacsPlus.ultCommand;
         EmacsPlus.ultCommand = name;
     }
-    
+
     public static String getUltCommand() {
         return EmacsPlus.ultCommand;
     }
-    
+
     public static String getPenultCommand() {
         return EmacsPlus.penultCommand;
     }
-    
+
     public static void beep() {
         beep(false);
     }
-    
+
     public static void beep(final boolean reset) {
         if (!EmacsPlus.visualBeep) {
             Toolkit.getDefaultToolkit().beep();
@@ -76,18 +77,18 @@ public class EmacsPlus implements ApplicationComponent
             setUltCommand("");
         }
     }
-    
+
     public static void resetCommand(@NotNull final String name) {
         if (name == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "name", "com/mulgasoft/emacsplus/EmacsPlus", "resetCommand"));
         }
         setUltCommand(name);
     }
-    
+
     public void disposeComponent() {
         System.out.println("disposeComponent");
     }
-    
+
     @NotNull
     public String getComponentName() {
         final String s = "EmacsPlus";
@@ -96,7 +97,7 @@ public class EmacsPlus implements ApplicationComponent
         }
         return s;
     }
-    
+
     static {
         EmacsPlus.ourPlugin = null;
         EmacsPlus.ultCommand = null;

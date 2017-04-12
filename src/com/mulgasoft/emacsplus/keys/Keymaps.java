@@ -1,6 +1,6 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.keys;
 
@@ -48,7 +48,7 @@ public abstract class Keymaps
     private static List<String> mapNames;
     private static boolean isAlt;
     private static String isLocale;
-    
+
     public static void enableKeymaps() {
         enableKeymap("Keymap_EmacsPlus.xml");
         enableKeymap("Keymap_EmacsPlusMac.xml");
@@ -57,7 +57,7 @@ public abstract class Keymaps
         enableUserKeymap(Keymaps.USER_KEYMAP);
         setupKeymapListener();
     }
-    
+
     private static void enableUserKeymap(final String name) {
         try {
             final File file = new File(name);
@@ -70,29 +70,31 @@ public abstract class Keymaps
             e.printStackTrace();
         }
     }
-    
+
     private static void enableLocaleKeymap(final String name) {
         final Locale l = Locale.getDefault();
         if (!enableKeymap("lang/" + l.getLanguage() + "/" + name + "_" + l.getCountry() + ".xml")) {
             enableKeymap("lang/" + l.getLanguage() + "/" + name + ".xml");
         }
     }
-    
+
     private static boolean enableKeymap(final String name) {
         return loadKeymap(Keymaps.class.getResourceAsStream(name));
     }
-    
+
     private static boolean loadKeymap(final InputStream stream) {
         boolean result = false;
         try {
             if (stream != null) {
                 final Document document = JDOMUtil.loadDocument(stream);
                 if (document != null) {
+                    /* This is broken
                     final KeymapManagerEx mgr = KeymapManagerEx.getInstanceEx();
                     final KeymapImpl emKeymap = new KeymapImpl();
                     emKeymap.readExternal(document.getRootElement(), mgr.getAllKeymaps());
                     mgr.getSchemesManager().addNewScheme((Scheme)emKeymap, true);
                     Keymaps.mapNames.add(0, emKeymap.getName());
+                    */
                     result = true;
                 }
                 else {
@@ -105,15 +107,15 @@ public abstract class Keymaps
         }
         return result;
     }
-    
+
     public static boolean isAlt() {
         return Keymaps.isAlt;
     }
-    
+
     public static String isLocale() {
         return Keymaps.isLocale;
     }
-    
+
     private static void setupKeymapListener() {
         final KeymapManagerEx mgr = KeymapManagerEx.getInstanceEx();
         mgr.addKeymapManagerListener((KeymapManagerListener)new KeymapManagerListener() {
@@ -123,7 +125,7 @@ public abstract class Keymaps
         });
         activate(mgr.getActiveKeymap());
     }
-    
+
     private static void activate(final Keymap keymap) {
         if (keymap != null) {
             Keymap map = keymap;
@@ -145,7 +147,7 @@ public abstract class Keymaps
             } while ((map = map.getParent()) != null);
         }
     }
-    
+
     public static KeyStroke getIntlKeyStroke(final int key) {
         KeyStroke ks = null;
         switch (key) {
@@ -180,11 +182,11 @@ public abstract class Keymaps
         }
         return ks;
     }
-    
+
     public static int getMeta() {
         return isAlt() ? 512 : 256;
     }
-    
+
     static {
         USER_KEYMAP = System.getProperty("user.home") + "/.emacs+keymap" + ".xml";
         Keymaps.mapNames = new ArrayList<String>();
