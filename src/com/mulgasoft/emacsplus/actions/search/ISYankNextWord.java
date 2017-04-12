@@ -1,0 +1,32 @@
+// 
+// Decompiled by Procyon v0.5.30
+// 
+
+package com.mulgasoft.emacsplus.actions.search;
+
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.editor.Caret;
+import com.intellij.openapi.editor.Editor;
+import com.mulgasoft.emacsplus.handlers.ISHandler;
+import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
+import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
+
+public class ISYankNextWord extends EmacsPlusAction
+{
+    public ISYankNextWord() {
+        super((EditorActionHandler)new myHandler());
+    }
+    
+    private static final class myHandler extends ISHandler
+    {
+        public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
+            final Document doc = isEditor.getDocument();
+            final Editor editor = ISHandler.getTextEditor(isEditor);
+            final String text = this.getNextWord(editor, isEditor.isOneLineMode() && !this.isRegexp(isEditor), false);
+            if (text != null && !text.isEmpty()) {
+                doc.insertString(isCaret.getOffset(), (CharSequence)this.fixYank(isEditor, text));
+            }
+        }
+    }
+}
