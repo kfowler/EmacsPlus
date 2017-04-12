@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+    }
+}
+
+plugins {
+    id 'org.jetbrains.intellij' version '0.2.0'
+}
+
+apply plugin: 'java'
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+
+sourceSets {
+    main {
+        java.srcDir 'src'
+        resources.srcDir 'resources'
+    }
+    test {
+        java.srcDir 'test'
+    }
+}
+
+intellij {
+    version ideaVersion
+    pluginName 'Emacs+'
+    updateSinceUntilBuild false
+    downloadSources Boolean.valueOf(downloadIdeaSources)
+
+    publish {
+        channels publishChannels.split(',')
+        username publishUsername
+        password publishPassword
+    }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+}
