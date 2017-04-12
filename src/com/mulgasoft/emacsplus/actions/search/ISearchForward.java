@@ -1,6 +1,6 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.search;
 
@@ -73,17 +73,17 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
     private static final String UNDO_ACTION = "undoKeystroke";
     private int myStartOffset;
     private boolean myIsMulti;
-    protected Editor myEditor;
+    protected EditorEx myEditor;
     private boolean isReplace;
     private theSelection oldSelection;
     private ISearchDelegate mySearcher;
     private FindModel.FindModelObserver fmo;
-    
+
     String getNoActionMsg(final EditorAction action) {
         final String msg = String.format(this.GEN_MSG, action.getTemplatePresentation().getText());
         return msg;
     }
-    
+
     protected ISearchForward(final boolean isReplace) {
         super((EditorActionHandler)new IncrementalFindAction.Handler(isReplace));
         this.GEN_MSG = "Emacs+ %s behavior not supported in this version of IDEA";
@@ -107,35 +107,35 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         EmacsPlusAction.addCommandListener(this, this.getName());
         this.isReplace = isReplace;
     }
-    
+
     protected ISearchForward() {
         this(false);
     }
-    
+
     protected String getName() {
         return "isearch-forward";
     }
-    
+
     protected Editor getEditor() {
         return this.myEditor;
     }
-    
+
     protected ISearchDelegate getSearcher() {
         return this.mySearcher;
     }
-    
+
     private boolean isMulti() {
         return this.myIsMulti;
     }
-    
+
     public void before(final CommandEvent e) {
-        this.myEditor = ISHandler.getTextEditor(e.getProject());
+        this.myEditor = (EditorEx) ISHandler.getTextEditor(e.getProject());
         this.myStartOffset = this.myEditor.getCaretModel().getPrimaryCaret().getOffset();
         if (!this.isReplace) {
             this.oldSelection = new theSelection(this.myEditor.getSelectionModel(), (this.myEditor instanceof EditorEx) ? this.myEditor : null);
         }
     }
-    
+
     public void after(final CommandEvent e) {
         this.mySearcher = ISearchFactory.getISearchObject(this.myEditor);
         if (this.mySearcher != null && this.mySearcher.getSearchField() != null) {
@@ -156,7 +156,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             EmacsPlusAction.errorMessage(this.getNoActionMsg(this));
         }
     }
-    
+
     protected void changeFieldActions(final ISearchDelegate searcher, final boolean isReplace) {
         final JTextComponent field = isReplace ? searcher.getReplaceField() : searcher.getSearchField();
         final KeyboardShortcut kbS = new KeyboardShortcut(KeyStroke.getKeyStroke(9, 512), (KeyStroke)null);
@@ -184,7 +184,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             this.searchSpecifics(searcher, ksE, field);
         }
     }
-    
+
     private void replaceSpecifics(final KeyStroke ksE, final JComponent field) {
         if (!this.isMulti()) {
             this.removeFromAction("com.intellij.find.editorHeaderActions.ReplaceOnEnterAction", ksE, field);
@@ -192,7 +192,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             field.getInputMap().put(ksE, "IS.Replace");
         }
     }
-    
+
     private void searchSpecifics(final ISearchDelegate searcher, final KeyStroke ksE, final JComponent field) {
         final KeyboardShortcut kbC = new KeyboardShortcut(KeyStroke.getKeyStroke(9, 128), (KeyStroke)null);
         if (field instanceof JTextComponent) {
@@ -206,16 +206,16 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             }
         }
     }
-    
+
     private void watchModelChanges(final FindModel model) {
         model.addObserver(this.fmo);
     }
-    
+
     protected void setSwitchAction(final ISearchDelegate searcher) {
         new SwitchToISearch(searcher);
         new SwitchToISearchBack(searcher);
     }
-    
+
     private void cleanUp() {
         if (this.mySearcher != null) {
             final FindModel fm = this.mySearcher.getFindModel();
@@ -225,7 +225,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             this.mySearcher = null;
         }
     }
-    
+
     private void isearchReturn() {
         final ISearchDelegate searcher = this.getSearcher();
         if (searcher != null) {
@@ -235,7 +235,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         this.myEditor.getSelectionModel().removeSelection();
         this.myEditor.getScrollingModel().scrollToCaret(ScrollType.CENTER);
     }
-    
+
     private AnAction findAction(final JComponent field, final Class actionClass) {
         final List<AnAction> actions = (List<AnAction>)field.getClientProperty("AnAction.shortcutSet");
         AnAction action = null;
@@ -247,7 +247,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         }
         return action;
     }
-    
+
     private Shortcut findCut(final Shortcut[] cuts, final Shortcut cut) {
         Shortcut result = null;
         for (final Shortcut sc : cuts) {
@@ -258,7 +258,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         }
         return result;
     }
-    
+
     private boolean addToAction(final Class actionClass, final Shortcut cut, final JTextComponent field) {
         boolean result = false;
         final AnAction action = this.findAction(field, actionClass);
@@ -277,7 +277,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         }
         return result;
     }
-    
+
     private boolean addToAction(final String actionClass, final Shortcut cut, final JTextComponent field) {
         boolean result = false;
         try {
@@ -287,7 +287,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         catch (ClassNotFoundException ex) {}
         return result;
     }
-    
+
     private boolean removeFromAction(final Class actionClass, final Shortcut cut, final JComponent field) {
         boolean result = false;
         final AnAction action = this.findAction(field, actionClass);
@@ -312,7 +312,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         }
         return result;
     }
-    
+
     private boolean removeFromAction(final String actionClass, final KeyStroke ks, final JComponent field) {
         boolean result = this.removeFromAction(actionClass, (Shortcut)new KeyboardShortcut(ks, (KeyStroke)null), field);
         if (!result) {
@@ -321,7 +321,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         }
         return result;
     }
-    
+
     private boolean removeFromAction(final String actionClass, final Shortcut cut, final JComponent field) {
         boolean result = false;
         try {
@@ -331,7 +331,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         catch (ClassNotFoundException ex) {}
         return result;
     }
-    
+
     private class theSelection
     {
         VisualPosition vpstart;
@@ -339,7 +339,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         int start;
         int end;
         boolean isSticky;
-        
+
         theSelection(final SelectionModel sm, final EditorEx editor) {
             this.isSticky = false;
             if (sm.hasSelection()) {
@@ -356,18 +356,18 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
                 }
             }
         }
-        
+
         boolean isEmpty() {
             return this.vpstart == null;
         }
     }
-    
+
     private class ISearchInterrupt extends TextAction
     {
         public ISearchInterrupt(final String name) {
             super(name);
         }
-        
+
         @Override
         public void actionPerformed(final ActionEvent e) {
             boolean hasMatches = true;
@@ -383,67 +383,67 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             ISearchForward.this.myEditor.getScrollingModel().scrollToCaret(ScrollType.CENTER);
         }
     }
-    
+
     private class InnerShowHistory extends AnAction implements DumbAware
     {
         JTextComponent field;
-        
+
         protected InnerShowHistory(final ISearchDelegate searcher, final JTextComponent field, final KeyboardShortcut shortcut) {
             this.field = null;
             this.field = field;
             this.registerCustomShortcutSet((ShortcutSet)new CustomShortcutSet(new Shortcut[] { shortcut }), (JComponent)field);
         }
-        
+
         public void actionPerformed(final AnActionEvent e) {
             ISearchForward.this.getSearcher().showHistory(false, this.field);
         }
-        
+
         public void update(final AnActionEvent e) {
             e.getPresentation().setEnabled(ISearchForward.this.getSearcher() != null);
         }
     }
-    
+
     private class InnerISearchReturn extends AnAction implements DumbAware
     {
         JComponent field;
-        
+
         protected InnerISearchReturn(final ISearchDelegate searcher, final JComponent field, final KeyboardShortcut shortcut) {
             this.field = null;
             this.field = field;
             this.registerCustomShortcutSet((ShortcutSet)new CustomShortcutSet(new Shortcut[] { shortcut }), field);
         }
-        
+
         public void actionPerformed(final AnActionEvent e) {
             ISearchForward.this.isearchReturn();
         }
-        
+
         public void update(final AnActionEvent e) {
             final ISearchDelegate searcher = ISearchForward.this.getSearcher();
             e.getPresentation().setEnabled(searcher != null && searcher.hasMatches() && !ISearchForward.this.isMulti() && !StringUtil.isEmpty(searcher.getSearchField().getText()));
         }
     }
-    
+
     private class ISearchReturn extends TextAction
     {
         public ISearchReturn(final String name) {
             super(name);
         }
-        
+
         @Override
         public void actionPerformed(final ActionEvent e) {
             ISearchForward.this.isearchReturn();
         }
     }
-    
+
     private class IReplaceReturn extends TextAction
     {
         private boolean once;
-        
+
         public IReplaceReturn(final String name) {
             super(name);
             this.once = true;
         }
-        
+
         @Override
         public void actionPerformed(final ActionEvent e) {
             final ISearchDelegate searcher = ISearchForward.this.getSearcher();
@@ -455,7 +455,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
                 }
             }
         }
-        
+
         private List<CaretState> makeState(final ISearchDelegate searcher) {
             List<CaretState> result = null;
             if (this.once) {
@@ -478,17 +478,17 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             return result;
         }
     }
-    
+
     private class IMoveDown extends TextAction
     {
         private boolean isReplace;
-        
+
         public IMoveDown(final String name, final boolean isReplace) {
             super(name);
             this.isReplace = false;
             this.isReplace = isReplace;
         }
-        
+
         @Override
         public void actionPerformed(final ActionEvent e) {
             final ISearchDelegate searcher = ISearchForward.this.getSearcher();
@@ -498,17 +498,17 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             }
         }
     }
-    
+
     private class IMoveUp extends TextAction
     {
         private boolean isReplace;
-        
+
         public IMoveUp(final String name, final boolean isReplace) {
             super(name);
             this.isReplace = false;
             this.isReplace = isReplace;
         }
-        
+
         @Override
         public void actionPerformed(final ActionEvent e) {
             final ISearchDelegate searcher = ISearchForward.this.getSearcher();
@@ -518,13 +518,13 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             }
         }
     }
-    
+
     private class SwitchToISearch extends AnAction
     {
         SwitchToISearch(final ISearchDelegate searcher) {
             this.registerCustomShortcutSet(ISearchForward.this.getShortcutSet(), searcher.getComponent());
         }
-        
+
         public void actionPerformed(final AnActionEvent e) {
             final JTextComponent field = ISearchForward.this.getSearcher().getSearchField();
             if (field != null && field.getText().isEmpty()) {
@@ -545,7 +545,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             action.actionPerformed(e);
         }
     }
-    
+
     private class SwitchToISearchBack extends AnAction
     {
         SwitchToISearchBack(final ISearchDelegate searcher) {
@@ -553,7 +553,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             ContainerUtil.addAll((Collection)shortcuts, (Object[])ActionManager.getInstance().getAction("Emacs+.ISearchBackward").getShortcutSet().getShortcuts());
             this.registerCustomShortcutSet((ShortcutSet)new CustomShortcutSet((Shortcut[])shortcuts.toArray(new Shortcut[shortcuts.size()])), searcher.getComponent());
         }
-        
+
         private void setInitialText(final ISearchDelegate seacher, final JTextComponent field, final String itext) {
             final String text = (itext != null) ? itext : "";
             if (text.contains("\n")) {
@@ -563,7 +563,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             seacher.getFindModel().setStringToFind(text);
             field.selectAll();
         }
-        
+
         public void actionPerformed(final AnActionEvent e) {
             final ISearchDelegate searcher = ISearchForward.this.getSearcher();
             if (searcher != null) {
