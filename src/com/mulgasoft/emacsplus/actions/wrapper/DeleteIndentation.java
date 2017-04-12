@@ -1,6 +1,6 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.wrapper;
 
@@ -17,16 +17,18 @@ public class DeleteIndentation extends EmacsPlusWrapper
     public DeleteIndentation() {
         super((EditorActionHandler)new Handler());
     }
-    
+
     private static class Handler extends EditorWriteActionHandler
     {
         EditorWriteActionHandler wrappedHandler;
-        
+
         public Handler() {
+            /*
             super(true);
-            this.wrappedHandler = (EditorWriteActionHandler)new JoinLinesHandler(EmacsPlusWrapper.getWrappedHandler("EditorJoinLines"));
+            this.wrappedHandler = (EditorWriteActionHandler)new JoinLinesActionandler(EmacsPlusWrapper.getWrappedHandler("EditorJoinLines"));
+            */
         }
-        
+
         public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
             if (caret != null) {
                 final Document document = editor.getDocument();
