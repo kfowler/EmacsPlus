@@ -9,6 +9,7 @@ import com.intellij.ide.IdeBundle;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.LightColors;
 import com.mulgasoft.emacsplus.EmacsPlus;
 import java.awt.*;
@@ -22,11 +23,11 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class ISearchHistory extends ISHandler
 {
-    protected static int ourSearchIndex;
-    protected static int ourReplaceIndex;
+    private static int ourSearchIndex;
+    private static int ourReplaceIndex;
     private static int ourStartOffset;
-    protected boolean isSearchField;
-    protected boolean isReplaceField;
+    private boolean isSearchField;
+    private boolean isReplaceField;
     private boolean isReset;
     private Color myReplaceBackground;
     private static List<String> keys;
@@ -38,7 +39,7 @@ public abstract class ISearchHistory extends ISHandler
         this.isSearchField = false;
         this.isReplaceField = false;
         this.isReset = false;
-        this.myReplaceBackground = Color.WHITE;
+        this.myReplaceBackground = JBColor.WHITE;
         this.myReplaceField = null;
         this.myReplaceListener = new DocumentListener() {
             @Override
