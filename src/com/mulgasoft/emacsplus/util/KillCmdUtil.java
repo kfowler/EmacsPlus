@@ -124,7 +124,7 @@ public class KillCmdUtil
                 if (caretData != null) {
                     final List<String> segments =
                         new ClipboardTextPerCaretSplitter().split(text, caretData, caretData.startOffsets.length);
-                    final StringBuffer buf = new StringBuffer();
+                    final StringBuilder buf = new StringBuilder();
                     for (final String s : segments) {
                         buf.append(s);
                     }
