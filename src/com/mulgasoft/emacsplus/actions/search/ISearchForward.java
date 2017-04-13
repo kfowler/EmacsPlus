@@ -263,9 +263,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             if (this.findCut(cuts, cut) == null) {
                 final Shortcut[] newcuts = new Shortcut[cuts.length + 1];
                 newcuts[0] = cut;
-                for (int i = 0; i < cuts.length; ++i) {
-                    newcuts[i + 1] = cuts[i];
-                }
+                System.arraycopy(cuts, 0, newcuts, 1, cuts.length);
                 action.unregisterCustomShortcutSet(field);
                 action.registerCustomShortcutSet(new CustomShortcutSet(newcuts), field);
             }
