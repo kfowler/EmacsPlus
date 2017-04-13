@@ -16,7 +16,6 @@ import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiUtilBase;
-import java.awt.*;
 import javax.swing.*;
 
 public class EditorUtil

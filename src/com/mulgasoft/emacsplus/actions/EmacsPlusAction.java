@@ -9,7 +9,6 @@ import com.intellij.openapi.command.CommandEvent;
 import com.intellij.openapi.command.CommandListener;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actions.TextComponentEditorAction;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.StatusBar;
 import java.util.HashMap;
 import java.util.Map;

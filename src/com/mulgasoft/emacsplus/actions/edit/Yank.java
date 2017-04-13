@@ -8,7 +8,6 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.command.CommandEvent;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.YankHandler;
 

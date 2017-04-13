@@ -13,7 +13,6 @@ import com.intellij.openapi.actionSystem.Shortcut;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
-import java.awt.event.InputEvent;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;

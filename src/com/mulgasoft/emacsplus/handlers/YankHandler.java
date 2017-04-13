@@ -13,7 +13,6 @@ import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.ex.EditorEx;
 import com.intellij.openapi.editor.textarea.TextComponentEditor;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.util.Producer;
 import com.mulgasoft.emacsplus.util.KillCmdUtil;
 import java.awt.datatransfer.Transferable;
 import org.jetbrains.annotations.NonNls;

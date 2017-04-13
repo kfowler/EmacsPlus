@@ -12,7 +12,6 @@ import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.util.ActionUtil;
-import java.awt.*;
 
 public class DeleteOtherWindows extends EmacsPlusAction
 {

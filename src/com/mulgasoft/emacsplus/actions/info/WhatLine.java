@@ -9,8 +9,6 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
-import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.StatusBar;
 import com.mulgasoft.emacsplus.handlers.EmacsPlusCaretHandler;
 

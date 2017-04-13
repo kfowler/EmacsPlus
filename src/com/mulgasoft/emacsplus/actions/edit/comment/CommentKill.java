@@ -11,7 +11,6 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.PsiFile;
 import com.mulgasoft.emacsplus.handlers.CommentHandler;
 import com.mulgasoft.emacsplus.util.ActionUtil;
-import java.awt.*;
 
 public class CommentKill extends CommentAction
 {

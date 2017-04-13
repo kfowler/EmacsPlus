@@ -24,7 +24,6 @@ import com.intellij.psi.PsiFile;
 import com.mulgasoft.emacsplus.actions.ReversibleMultiCaretInsightAction;
 import com.mulgasoft.emacsplus.util.ActionUtil;
 import com.mulgasoft.emacsplus.util.EditorUtil;
-import java.awt.*;
 import org.jetbrains.annotations.NotNull;
 
 public class CommentHandler extends MultiCaretCodeInsightActionHandler
