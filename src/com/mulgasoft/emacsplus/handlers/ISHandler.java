@@ -6,6 +6,7 @@ package com.mulgasoft.emacsplus.handlers;
 
 import com.intellij.find.FindModel;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
@@ -20,6 +21,8 @@ import org.jetbrains.annotations.NonNls;
 
 public abstract class ISHandler extends YankHandler
 {
+    private static final Logger LOG = Logger.getInstance(ISHandler.class);
+
     private char[] regTokens;
     @NonNls
     private static String[] SearchMethods;
@@ -51,9 +54,9 @@ public abstract class ISHandler extends YankHandler
                         break;
                     }
                 }
-                catch (NoSuchMethodException e) {}
-                catch (InvocationTargetException e2) {}
-                catch (IllegalAccessException ex) {}
+                catch (NoSuchMethodException|InvocationTargetException|IllegalAccessException e) {
+                    LOG.error("invoke on header failed", e);
+                }
             }
         }
         return result;
