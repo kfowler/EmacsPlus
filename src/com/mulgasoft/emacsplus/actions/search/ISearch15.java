@@ -53,19 +53,18 @@ public class ISearch15 implements ISearchDelegate
         try {
             do {
                 final Field[] fields = c.getDeclaredFields();
-                for (int i = 0; i < fields.length; ++i) {
-                    if (fieldName.equals(fields[i].getName())) {
-                        final boolean access = fields[i].isAccessible();
+                for (Field field : fields) {
+                    if (fieldName.equals(field.getName())) {
+                        final boolean access = field.isAccessible();
                         Object obj;
                         try {
                             if (!access) {
-                                fields[i].setAccessible(true);
+                                field.setAccessible(true);
                             }
-                            obj = fields[i].get(o);
-                        }
-                        finally {
+                            obj = field.get(o);
+                        } finally {
                             if (!access) {
-                                fields[i].setAccessible(false);
+                                field.setAccessible(false);
                             }
                         }
                         return obj;
