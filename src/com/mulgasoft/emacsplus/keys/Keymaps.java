@@ -5,7 +5,6 @@
 package com.mulgasoft.emacsplus.keys;
 
 import com.intellij.openapi.keymap.Keymap;
-import com.intellij.openapi.keymap.KeymapManagerListener;
 import com.intellij.openapi.keymap.ex.KeymapManagerEx;
 import com.intellij.openapi.util.JDOMUtil;
 import java.io.File;
