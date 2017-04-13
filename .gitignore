@@ -2,3 +2,4 @@
 /EmacsPlus.iml
 out/
 .gradle/
+build/
