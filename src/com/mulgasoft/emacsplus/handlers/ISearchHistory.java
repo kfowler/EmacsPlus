@@ -1,25 +1,24 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.handlers;
 
+import com.intellij.find.FindSettings;
 import com.intellij.ide.IdeBundle;
-import java.util.Arrays;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
-import com.intellij.ui.LightColors;
-import com.intellij.find.FindSettings;
-import javax.swing.JComponent;
-import org.jetbrains.annotations.NotNull;
-import com.mulgasoft.emacsplus.EmacsPlus;
-import javax.swing.JTextField;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.ui.LightColors;
+import com.mulgasoft.emacsplus.EmacsPlus;
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
-import java.util.List;
-import java.awt.Color;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class ISearchHistory extends ISHandler
 {
@@ -34,7 +33,7 @@ public abstract class ISearchHistory extends ISHandler
     private static List<String> iskeys;
     private JTextComponent myReplaceField;
     private DocumentListener myReplaceListener;
-    
+
     public ISearchHistory() {
         this.isSearchField = false;
         this.isReplaceField = false;
@@ -46,19 +45,19 @@ public abstract class ISearchHistory extends ISHandler
             public void insertUpdate(final DocumentEvent documentEvent) {
                 ISearchHistory.this.restoreBackground();
             }
-            
+
             @Override
             public void removeUpdate(final DocumentEvent documentEvent) {
                 ISearchHistory.this.restoreBackground();
             }
-            
+
             @Override
             public void changedUpdate(final DocumentEvent documentEvent) {
                 ISearchHistory.this.restoreBackground();
             }
         };
     }
-    
+
     private void checkReset(final Editor isEditor) {
         if (!this.wasPreviousHistory(isEditor) && !this.wasPreviousSearch(isEditor)) {
             this.isReset = true;
@@ -72,11 +71,11 @@ public abstract class ISearchHistory extends ISHandler
             this.isReset = false;
         }
     }
-    
+
     private boolean wasPreviousHistory(final Editor isEditor) {
         return ISearchHistory.keys.contains(EmacsPlus.getUltCommand());
     }
-    
+
     private boolean wasPreviousSearch(final Editor isEditor) {
         boolean result = false;
         if (ISearchHistory.iskeys.contains(EmacsPlus.getUltCommand())) {
@@ -97,11 +96,11 @@ public abstract class ISearchHistory extends ISHandler
         }
         return result;
     }
-    
+
     protected boolean isReset() {
         return this.isReset;
     }
-    
+
     protected void setText(@NotNull final Editor isEditor, final String[] vals, final int index) {
         if (isEditor == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "isEditor", "com/mulgasoft/emacsplus/handlers/ISearchHistory", "setText"));
@@ -118,7 +117,7 @@ public abstract class ISearchHistory extends ISHandler
             this.beep(isEditor);
         }
     }
-    
+
     protected void setText(@NotNull final Editor isEditor, final String text) {
         if (isEditor == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "isEditor", "com/mulgasoft/emacsplus/handlers/ISearchHistory", "setText"));
@@ -132,7 +131,7 @@ public abstract class ISearchHistory extends ISHandler
             this.beep(isEditor);
         }
     }
-    
+
     protected String getText(@NotNull final Editor isEditor) {
         if (isEditor == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "isEditor", "com/mulgasoft/emacsplus/handlers/ISearchHistory", "getText"));
@@ -144,11 +143,11 @@ public abstract class ISearchHistory extends ISHandler
         }
         return result;
     }
-    
+
     protected int getIndex() {
         return this.isSearchField ? ISearchHistory.ourSearchIndex : ISearchHistory.ourReplaceIndex;
     }
-    
+
     protected void setIndex(final int index) {
         if (this.isSearchField) {
             ISearchHistory.ourSearchIndex = index;
@@ -157,24 +156,24 @@ public abstract class ISearchHistory extends ISHandler
             ISearchHistory.ourReplaceIndex = index;
         }
     }
-    
+
     protected String[] getHistory(final Editor isEditor) {
         this.checkReset(isEditor);
         return this.getRecents();
     }
-    
+
     private String[] getRecents() {
         final FindSettings settings = FindSettings.getInstance();
         return this.isSearchField ? settings.getRecentFindStrings() : settings.getRecentReplaceStrings();
     }
-    
+
     protected void beep(final Editor isEditor) {
         final JComponent field = isEditor.getComponent();
         final Color back = field.getBackground();
         field.setBackground(LightColors.CYAN);
         EmacsPlus.beep();
     }
-    
+
     @Override
     protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
         this.isSearchField = ISHandler.isISearchField(editor);
@@ -188,11 +187,11 @@ public abstract class ISearchHistory extends ISHandler
         }
         return this.isSearchField || this.isReplaceField;
     }
-    
+
     private void restoreBackground() {
         this.myReplaceField.setBackground(this.myReplaceBackground);
     }
-    
+
     static {
         ISearchHistory.ourSearchIndex = 0;
         ISearchHistory.ourReplaceIndex = 0;

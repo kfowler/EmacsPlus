@@ -1,21 +1,21 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.handlers;
 
+import com.intellij.find.FindModel;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
-import com.intellij.openapi.project.Project;
+import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
-import javax.swing.text.JTextComponent;
-import java.lang.reflect.Method;
-import javax.swing.JComponent;
-import java.lang.reflect.InvocationTargetException;
+import com.intellij.openapi.project.Project;
 import com.mulgasoft.emacsplus.actions.search.ISearchDelegate;
 import com.mulgasoft.emacsplus.actions.search.ISearchFactory;
-import com.intellij.find.FindModel;
-import com.intellij.openapi.editor.Editor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import javax.swing.*;
+import javax.swing.text.JTextComponent;
 import org.jetbrains.annotations.NonNls;
 
 public abstract class ISHandler extends YankHandler
@@ -25,11 +25,11 @@ public abstract class ISHandler extends YankHandler
     private static String[] SearchMethods;
     @NonNls
     private static String[] ReplaceMethods;
-    
+
     public ISHandler() {
         this.regTokens = new char[] { '{', '}', '(', ')', '[', ']', '\\', '^', '$', '.', '|', '?', '*', '+' };
     }
-    
+
     public static FindModel getFindModel(final Editor editor) {
         FindModel findModel = null;
         final ISearchDelegate searcher = ISearchFactory.getISearchObject(editor);
@@ -38,7 +38,7 @@ public abstract class ISHandler extends YankHandler
         }
         return findModel;
     }
-    
+
     public static Object invokeOnHeader(final Editor editor, final String[] methods) {
         Object result = null;
         final JComponent hc = editor.getHeaderComponent();
@@ -58,42 +58,42 @@ public abstract class ISHandler extends YankHandler
         }
         return result;
     }
-    
+
     public static JTextComponent getSearchField(final Editor editor) {
         return (JTextComponent)invokeOnHeader(getTextEditor(editor), ISHandler.SearchMethods);
     }
-    
+
     public static JTextComponent getReplaceField(final Editor editor) {
         return (JTextComponent)invokeOnHeader(getTextEditor(editor), ISHandler.ReplaceMethods);
     }
-    
+
     public static Editor getTextEditor(final Editor isEditor) {
         return FileEditorManager.getInstance(isEditor.getProject()).getSelectedTextEditor();
     }
-    
+
     public static Editor getTextEditor(final Project project) {
         return FileEditorManager.getInstance(project).getSelectedTextEditor();
     }
-    
+
     public static boolean isISearchField(final Editor isEditor) {
         final JTextComponent field = getSearchField(isEditor);
         return field != null && field == isEditor.getComponent();
     }
-    
+
     public static boolean isISReplaceField(final Editor isEditor) {
         final JTextComponent field = getReplaceField(isEditor);
         return field != null && field == isEditor.getComponent();
     }
-    
+
     public static boolean isInISearch(final Editor isEditor) {
         return isISearchField(isEditor) || isISReplaceField(isEditor);
     }
-    
+
     protected boolean isRegexp(final Editor isEditor) {
         final FindModel findModel = getFindModel(getTextEditor(isEditor));
         return findModel != null && findModel.isRegularExpressions();
     }
-    
+
     protected String fixYank(final Editor isEditor, final String text) {
         String result = text;
         if (this.isRegexp(isEditor)) {
@@ -117,12 +117,12 @@ public abstract class ISHandler extends YankHandler
         }
         return result;
     }
-    
+
     @Override
     protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
         return isISearchField(editor);
     }
-    
+
     static {
         ISHandler.SearchMethods = new String[] { "getSearchField", "getSearchTextComponent" };
         ISHandler.ReplaceMethods = new String[] { "getReplaceField", "getReplaceTextComponent" };

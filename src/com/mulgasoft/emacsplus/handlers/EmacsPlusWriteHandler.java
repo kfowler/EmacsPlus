@@ -1,33 +1,33 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.handlers;
 
 import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.actions.EditorActionUtil;
-import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorWriteActionHandler;
+import com.intellij.openapi.editor.actions.EditorActionUtil;
+import com.intellij.openapi.util.TextRange;
 
 public abstract class EmacsPlusWriteHandler extends EditorWriteActionHandler
 {
     protected EmacsPlusWriteHandler() {
         super(true);
     }
-    
+
     protected String getNextWord(final Editor editor, final boolean isLine, final boolean isWord) {
         return editor.getDocument().getText(this.getNextWordRange(editor, isLine, isWord));
     }
-    
+
     protected TextRange getNextWordRange(final Editor editor, final boolean isLine, final boolean isWord) {
         return this.getWordRange(editor, isLine, isWord, 1);
     }
-    
+
     protected TextRange getPreviousWordRange(final Editor editor, final boolean isLine, final boolean isWord, final int dir) {
         return this.getWordRange(editor, isLine, isWord, (dir > 0) ? (-dir) : dir);
     }
-    
+
     private TextRange getWordRange(final Editor editor, final boolean isLine, final boolean isWord, int dir) {
         final Document doc = editor.getDocument();
         int offset = editor.getCaretModel().getOffset();

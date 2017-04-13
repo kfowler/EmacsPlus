@@ -1,39 +1,38 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.util;
 
-import java.util.Iterator;
-import java.util.List;
-import com.intellij.openapi.util.text.StringUtil;
-import java.awt.datatransfer.DataFlavor;
-import com.intellij.openapi.editor.ClipboardTextPerCaretSplitter;
-import com.intellij.openapi.editor.CaretStateTransferableData;
-import com.intellij.openapi.editor.EditorModificationUtil;
-import org.jetbrains.annotations.NotNull;
 import com.intellij.ide.CopyPasteManagerEx;
-import java.awt.datatransfer.Transferable;
-import com.intellij.openapi.ide.KillRingTransferable;
-import com.intellij.openapi.ide.CopyPasteManager;
-import com.mulgasoft.emacsplus.EmacsPlus;
-import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.editor.CaretStateTransferableData;
+import com.intellij.openapi.editor.ClipboardTextPerCaretSplitter;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.EditorModificationUtil;
+import com.intellij.openapi.ide.CopyPasteManager;
+import com.intellij.openapi.ide.KillRingTransferable;
+import com.intellij.openapi.util.text.StringUtil;
+import com.mulgasoft.emacsplus.EmacsPlus;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class KillCmdUtil
 {
     public static void killWrapper(final String cmdId, final DataContext data, final Document doc) {
         killWrapper(cmdId, data, doc, false);
     }
-    
+
     public static boolean wasNextKill() {
         return "append-next-kill".equals(EmacsPlus.getPenultCommand());
     }
-    
+
     public static boolean isNextKill() {
         return "append-next-kill".equals(EmacsPlus.getUltCommand());
     }
-    
+
     public static KillRingInfo beforeKill() {
         int killLen = 0;
         Transferable prevContent = null;
@@ -49,7 +48,7 @@ public class KillCmdUtil
         }
         return new KillRingInfo(killLen, prevContent);
     }
-    
+
     public static void afterKill(final KillRingInfo info, final Document doc, final boolean isCut) {
         if (info != null && info.topContent != null) {
             Transferable[] contents = CopyPasteManager.getInstance().getAllContents();
@@ -74,7 +73,7 @@ public class KillCmdUtil
             }
         }
     }
-    
+
     public static void killWrapper(final String cmdId, final DataContext data, final Document doc, final boolean isCut) {
         int killLen = 0;
         Transferable prevContent = null;
@@ -97,7 +96,7 @@ public class KillCmdUtil
             afterKill(info, doc, isCut);
         }
     }
-    
+
     @NotNull
     public static String getTransferableText(@NotNull final Transferable data) {
         if (data == null) {
@@ -109,7 +108,7 @@ public class KillCmdUtil
         }
         return transferableText;
     }
-    
+
     public static String getTransferableText(@NotNull final Transferable data, @NotNull final String lineSepr) {
         if (data == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "data", "com/mulgasoft/emacsplus/util/KillCmdUtil", "getTransferableText"));
@@ -141,12 +140,12 @@ public class KillCmdUtil
         }
         return (text == null) ? "" : text;
     }
-    
+
     public static class KillRingInfo
     {
         int killRingLen;
         Transferable topContent;
-        
+
         KillRingInfo(final int killRingLen, final Transferable topContent) {
             this.killRingLen = 0;
             this.topContent = null;

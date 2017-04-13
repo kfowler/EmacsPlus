@@ -1,35 +1,35 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.edit.comment;
 
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.psi.PsiElement;
-import com.intellij.lang.injection.InjectedLanguageManager;
+import com.intellij.codeInsight.actions.MultiCaretCodeInsightActionHandler;
 import com.intellij.lang.LanguageCommenters;
-import com.intellij.openapi.fileTypes.impl.AbstractFileType;
-import com.mulgasoft.emacsplus.handlers.ISHandler;
-import com.intellij.psi.PsiFile;
+import com.intellij.lang.injection.InjectedLanguageManager;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.fileTypes.impl.AbstractFileType;
 import com.intellij.openapi.project.Project;
-import com.intellij.codeInsight.actions.MultiCaretCodeInsightActionHandler;
-import com.mulgasoft.emacsplus.handlers.CommentHandler;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.mulgasoft.emacsplus.actions.ReversibleMultiCaretInsightAction;
+import com.mulgasoft.emacsplus.handlers.CommentHandler;
+import com.mulgasoft.emacsplus.handlers.ISHandler;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class CommentAction extends ReversibleMultiCaretInsightAction
 {
     protected abstract CommentHandler getMyHandler();
-    
+
     @Override
     protected MultiCaretCodeInsightActionHandler getHandler(final ReversibleMultiCaretInsightAction action) {
         final CommentHandler mine = this.getMyHandler();
         mine.preInvoke(action);
         return mine;
     }
-    
+
     protected boolean isValidFor(@NotNull final Project project, @NotNull final Editor editor, @NotNull final Caret caret, @NotNull final PsiFile file) {
         if (project == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "project", "com/mulgasoft/emacsplus/actions/edit/comment/CommentAction", "isValidFor"));

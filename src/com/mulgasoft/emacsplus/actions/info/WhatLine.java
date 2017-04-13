@@ -1,25 +1,25 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.info;
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.wm.StatusBar;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
-import com.mulgasoft.emacsplus.handlers.EmacsPlusCaretHandler;
-import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
+import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.wm.StatusBar;
+import com.mulgasoft.emacsplus.handlers.EmacsPlusCaretHandler;
 
 public class WhatLine extends EditorAction
 {
     protected WhatLine() {
         super((EditorActionHandler)new myHandler());
     }
-    
+
     private static final class myHandler extends EmacsPlusCaretHandler
     {
         @Override

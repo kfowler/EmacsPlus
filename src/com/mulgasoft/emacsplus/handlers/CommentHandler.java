@@ -1,31 +1,31 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.handlers;
 
-import com.intellij.openapi.editor.EditorModificationUtil;
-import java.awt.Component;
-import com.intellij.ide.DataManager;
-import com.mulgasoft.emacsplus.util.ActionUtil;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiComment;
-import com.intellij.openapi.util.TextRange;
-import com.mulgasoft.emacsplus.util.EditorUtil;
-import com.intellij.lang.Language;
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.lang.LanguageCommenters;
-import com.intellij.lang.Commenter;
-import com.intellij.openapi.fileTypes.impl.AbstractFileType;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.psi.PsiFile;
-import com.intellij.openapi.editor.Caret;
-import com.intellij.openapi.editor.Editor;
-import org.jetbrains.annotations.NotNull;
-import com.intellij.openapi.project.Project;
-import com.mulgasoft.emacsplus.actions.ReversibleMultiCaretInsightAction;
 import com.intellij.codeInsight.actions.MultiCaretCodeInsightActionHandler;
+import com.intellij.ide.DataManager;
+import com.intellij.lang.Commenter;
+import com.intellij.lang.Language;
+import com.intellij.lang.LanguageCommenters;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.editor.Caret;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.EditorModificationUtil;
+import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.fileTypes.impl.AbstractFileType;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.TextRange;
+import com.intellij.psi.PsiComment;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.mulgasoft.emacsplus.actions.ReversibleMultiCaretInsightAction;
+import com.mulgasoft.emacsplus.util.ActionUtil;
+import com.mulgasoft.emacsplus.util.EditorUtil;
+import java.awt.*;
+import org.jetbrains.annotations.NotNull;
 
 public class CommentHandler extends MultiCaretCodeInsightActionHandler
 {
@@ -35,7 +35,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
     private String myBlockStart;
     private String myBlockEnd;
     private ReversibleMultiCaretInsightAction myAction;
-    
+
     public CommentHandler() {
         this.myLangId = null;
         this.myLineC = null;
@@ -43,15 +43,15 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
         this.myBlockEnd = null;
         this.myAction = null;
     }
-    
+
     public void preInvoke(final ReversibleMultiCaretInsightAction action) {
         this.myAction = action;
     }
-    
+
     public void postInvoke() {
         this.myAction = null;
     }
-    
+
     public void invoke(@NotNull final Project project, @NotNull final Editor editor, @NotNull final Caret caret, @NotNull final PsiFile file) {
         if (project == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "project", "com/mulgasoft/emacsplus/handlers/CommentHandler", "invoke"));
@@ -69,43 +69,43 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
             this.invokeAction(editor, caret, this.myAction.getDataContext(), file);
         }
     }
-    
+
     protected void invokeAction(final Editor editor, final Caret caret, final DataContext dataContext, final PsiFile file) {
         this.commentLine(editor, caret, dataContext);
     }
-    
+
     protected int getCommentColumn() {
         return CommentHandler.ourCommentColumn;
     }
-    
+
     protected String getLineComment() {
         return this.myLineC;
     }
-    
+
     protected String getBlockStart() {
         return this.myBlockStart;
     }
-    
+
     protected boolean hasBlockComments() {
         return this.myBlockStart != null && this.myBlockEnd != null;
     }
-    
+
     protected String getEmptyBlockComment() {
         return " " + this.myBlockStart + " " + " " + this.myBlockEnd;
     }
-    
+
     protected String getEmptyLineComment() {
         return " " + this.myLineC + " ";
     }
-    
+
     protected int getLineStartOffset(final Document document, final int offset) {
         return document.getLineStartOffset(document.getLineNumber(offset));
     }
-    
+
     protected int getLineEndOffset(final Document document, final int offset) {
         return document.getLineEndOffset(document.getLineNumber(offset));
     }
-    
+
     protected boolean checkLanguage(final Project project, final Caret caret, final PsiFile file) {
         boolean result = false;
         Commenter commenter = null;
@@ -122,7 +122,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
         }
         return result;
     }
-    
+
     private boolean checkFill(final String id, final Commenter commenter) {
         boolean result = true;
         if ((this.myLangId == null || !this.myLangId.equals(id)) && (result = (commenter != null))) {
@@ -133,11 +133,11 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
         }
         return result;
     }
-    
+
     protected CommentRange findCommentRange(final Editor editor, final Caret caret, final DataContext dataContext) {
         return this.findCommentRange(EditorUtil.getPsiFile(editor, caret), editor, caret, dataContext);
     }
-    
+
     protected CommentRange findCommentRange(final PsiFile psi, final Editor editor, final Caret caret, final DataContext dataContext) {
         CommentRange result = null;
         final Document document = editor.getDocument();
@@ -152,7 +152,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
         }
         return result;
     }
-    
+
     protected CommentRange findCommentRange(final PsiFile psi, final int filePos, final String text, final String prefix) {
         CommentRange crange = null;
         int index = 0;
@@ -177,7 +177,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
         }
         return crange;
     }
-    
+
     private CommentRange commentRange(final PsiElement ele, final String prefix) {
         TextRange range = ele.getTextRange();
         if (range == null) {
@@ -186,11 +186,11 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
         }
         return new CommentRange(range, prefix);
     }
-    
+
     protected PsiElement inComment(final Editor editor, final Caret caret) {
         return this.inComment(EditorUtil.getPsiFile(editor, caret), caret.getOffset());
     }
-    
+
     protected PsiElement inComment(final PsiFile psi, final int offset) {
         PsiElement result = null;
         PsiElement ele = psi.findElementAt(offset);
@@ -199,7 +199,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
         }
         return result;
     }
-    
+
     protected void commentLine(final Editor editor, final Caret caret, final DataContext dataContext) {
         boolean tabit = false;
         final Document document = editor.getDocument();
@@ -226,7 +226,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
         }
         EditorModificationUtil.scrollToCaret(editor);
     }
-    
+
     private boolean addComment(final Editor editor, final Caret caret, final int bol, final int eol) {
         final Document document = editor.getDocument();
         boolean tabit = false;
@@ -266,37 +266,37 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
         }
         return tabit;
     }
-    
+
     static {
         CommentHandler.ourCommentColumn = 32;
     }
-    
+
     public class CommentRange
     {
         TextRange range;
         String prefix;
-        
+
         private CommentRange(final TextRange range, final String prefix) {
             this.range = ((range != null) ? range : new TextRange(0, 0));
             this.prefix = prefix;
         }
-        
+
         public TextRange getRange() {
             return this.range;
         }
-        
+
         public String getPrefix() {
             return this.prefix;
         }
-        
+
         public int getStartOffset() {
             return this.range.getStartOffset();
         }
-        
+
         public int getEndOffset() {
             return this.range.getEndOffset();
         }
-        
+
         public int getLength() {
             return this.range.getLength();
         }

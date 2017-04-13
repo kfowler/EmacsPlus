@@ -4,13 +4,13 @@
 
 package com.mulgasoft.emacsplus.actions.wrapper;
 
-import com.intellij.openapi.editor.Document;
+import com.intellij.codeInsight.editorActions.JoinLinesHandler;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.codeInsight.editorActions.JoinLinesHandler;
-import com.intellij.openapi.editor.actionSystem.EditorWriteActionHandler;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
+import com.intellij.openapi.editor.actionSystem.EditorWriteActionHandler;
 
 public class DeleteIndentation extends EmacsPlusWrapper
 {

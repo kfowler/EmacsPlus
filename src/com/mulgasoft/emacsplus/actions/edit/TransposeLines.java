@@ -1,25 +1,25 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.edit;
 
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.EditorModificationUtil;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.mulgasoft.emacsplus.handlers.EmacsPlusWriteHandler;
+import com.intellij.openapi.editor.EditorModificationUtil;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
+import com.intellij.openapi.util.TextRange;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
+import com.mulgasoft.emacsplus.handlers.EmacsPlusWriteHandler;
 
 public class TransposeLines extends EmacsPlusAction
 {
     public TransposeLines() {
         super((EditorActionHandler)new myHandler());
     }
-    
+
     private static final class myHandler extends EmacsPlusWriteHandler
     {
         public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
@@ -37,7 +37,7 @@ public class TransposeLines extends EmacsPlusAction
                 EditorModificationUtil.scrollToCaret(editor);
             }
         }
-        
+
         private void swapLines(final Document document, final int line1, final int line2) {
             final TextRange t1 = new TextRange(document.getLineStartOffset(line1), document.getLineEndOffset(line1));
             final TextRange t2 = new TextRange(document.getLineStartOffset(line2), document.getLineEndOffset(line2));

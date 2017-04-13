@@ -1,26 +1,25 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.edit;
 
-import com.intellij.openapi.application.ApplicationManager;
-import java.awt.datatransfer.Transferable;
-import com.mulgasoft.emacsplus.util.ActionUtil;
-import com.intellij.openapi.editor.ex.EditorEx;
-import com.intellij.openapi.ide.CopyPasteManager;
-import com.intellij.openapi.editor.textarea.TextComponentEditor;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.command.CommandEvent;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
-import com.mulgasoft.emacsplus.handlers.YankHandler;
-import java.util.Arrays;
-import com.mulgasoft.emacsplus.EmacsPlus;
-import com.intellij.openapi.command.CommandEvent;
-import com.mulgasoft.emacsplus.actions.EmacsPlusBA;
-import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
+import com.intellij.openapi.editor.ex.EditorEx;
+import com.intellij.openapi.editor.textarea.TextComponentEditor;
+import com.intellij.openapi.ide.CopyPasteManager;
 import com.intellij.openapi.util.TextRange;
+import com.mulgasoft.emacsplus.EmacsPlus;
+import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
+import com.mulgasoft.emacsplus.handlers.YankHandler;
+import com.mulgasoft.emacsplus.util.ActionUtil;
+import java.awt.datatransfer.Transferable;
+import java.util.Arrays;
 import java.util.List;
 
 public class YankPop extends Yanking
@@ -29,17 +28,17 @@ public class YankPop extends Yanking
     private static TextRange dest;
     private static boolean yanker;
     private static boolean dispatched;
-    
+
     public YankPop() {
         super((EditorActionHandler)new myHandler());
         EmacsPlusAction.addCommandListener(this, "yank-pop");
     }
-    
+
     @Override
     public void before(final CommandEvent e) {
         YankPop.yanker = YankPop.yanks.contains(EmacsPlus.getUltCommand());
     }
-    
+
     @Override
     public void after(final CommandEvent e) {
         YankPop.dispatched = false;
@@ -48,14 +47,14 @@ public class YankPop extends Yanking
             YankPop.yanker = false;
         }
     }
-    
+
     static {
         YankPop.yanks = Arrays.asList("yank", "yank-pop");
         YankPop.dest = null;
         YankPop.yanker = false;
         YankPop.dispatched = false;
     }
-    
+
     private static final class myHandler extends YankHandler
     {
         public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
@@ -80,7 +79,7 @@ public class YankPop extends Yanking
                 }
             }
         }
-        
+
         private void beep() {
             ApplicationManager.getApplication().invokeLater((Runnable)new Runnable() {
                 @Override

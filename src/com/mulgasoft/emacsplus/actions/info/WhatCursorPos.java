@@ -1,18 +1,18 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.info;
 
-import com.intellij.openapi.editor.Document;
-import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.mulgasoft.emacsplus.handlers.EmacsPlusCaretHandler;
-import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
-import org.jetbrains.annotations.NonNls;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
+import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
+import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
+import com.mulgasoft.emacsplus.handlers.EmacsPlusCaretHandler;
+import org.jetbrains.annotations.NonNls;
 
 public class WhatCursorPos extends EditorAction
 {
@@ -32,11 +32,11 @@ public class WhatCursorPos extends EditorAction
     private static final String N_SPC = "SPC";
     private static final String CURSOR_POSITION = "Char: %s  (%d, #o%o, #x%x)  point=%d of %d (%d%%)";
     private static final String EOB_POSITION = "point=%d of %d (EOB)";
-    
+
     protected WhatCursorPos() {
         super((EditorActionHandler)new myHandler());
     }
-    
+
     private static final class myHandler extends EmacsPlusCaretHandler
     {
         @Override
@@ -47,11 +47,11 @@ public class WhatCursorPos extends EditorAction
             final String msg = (offset >= docLen) ? this.getEob(offset, docLen) : this.getCurPos(offset, docLen, doc);
             EmacsPlusAction.infoMessage(msg);
         }
-        
+
         private String getEob(final int offset, final int docLen) {
             return String.format("point=%d of %d (EOB)", offset, docLen);
         }
-        
+
         private String getCurPos(final int offset, final int docLen, final Document doc) {
             final char curChar = doc.getCharsSequence().charAt(offset);
             final int percent = (int)(Object)new Float(offset * 100 / docLen + 0.5);
@@ -59,7 +59,7 @@ public class WhatCursorPos extends EditorAction
             final String sChar = (curChar <= ' ') ? this.normalizeChar(curChar) : String.valueOf(curChar);
             return String.format("Char: %s  (%d, #o%o, #x%x)  point=%d of %d (%d%%)", sChar, curCode, curCode, curCode, offset, docLen, percent);
         }
-        
+
         private String normalizeChar(final char cc) {
             String result = null;
             switch (cc) {

@@ -1,29 +1,29 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.edit;
 
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.EditorModificationUtil;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.mulgasoft.emacsplus.handlers.WhiteSpaceHandler;
+import com.intellij.openapi.editor.EditorModificationUtil;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
+import com.mulgasoft.emacsplus.handlers.WhiteSpaceHandler;
+import org.jetbrains.annotations.NotNull;
 
 public class DeleteBlankLines extends EmacsPlusAction
 {
     public DeleteBlankLines() {
         this((EditorActionHandler)new myHandler());
     }
-    
+
     protected DeleteBlankLines(final EditorActionHandler defaultHandler) {
         super(defaultHandler);
     }
-    
+
     private static class myHandler extends WhiteSpaceHandler
     {
         public boolean isEnabledForCaret(@NotNull final Editor editor, @NotNull final Caret caret, final DataContext dataContext) {
@@ -35,7 +35,7 @@ public class DeleteBlankLines extends EmacsPlusAction
             }
             return !editor.isOneLineMode();
         }
-        
+
         public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
             final Document document = editor.getDocument();
             int offset = caret.getOffset();

@@ -1,16 +1,16 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.tool;
 
-import com.intellij.openapi.wm.ToolWindowManager;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.wm.ToolWindow;
-import com.mulgasoft.emacsplus.util.EditorUtil;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.PlatformDataKeys;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.openapi.wm.ToolWindowManager;
+import com.mulgasoft.emacsplus.util.EditorUtil;
 
 public class TWInterrupt extends TWAction
 {
@@ -21,7 +21,7 @@ public class TWInterrupt extends TWAction
         EditorUtil.closeEditorPopups();
         EditorUtil.activateCurrentEditor(project);
     }
-    
+
     private void checkTW(final AnActionEvent e, final Project project) {
         final ToolWindow toolWindow = (ToolWindow)e.getData(PlatformDataKeys.TOOL_WINDOW);
         if (toolWindow != null) {
@@ -31,7 +31,7 @@ public class TWInterrupt extends TWAction
             }
         }
     }
-    
+
     @Override
     protected boolean isValid(final AnActionEvent e) {
         return this.getComponent(e.getDataContext()) != null;

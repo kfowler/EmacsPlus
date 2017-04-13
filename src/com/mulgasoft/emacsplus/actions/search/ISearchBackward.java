@@ -1,22 +1,22 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.search;
 
-import com.intellij.openapi.editor.Editor;
 import com.intellij.find.FindUtil;
-import com.mulgasoft.emacsplus.util.ActionUtil;
-import com.intellij.openapi.fileEditor.FileEditorManager;
-import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.ide.actions.SearchBackAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.mulgasoft.emacsplus.util.ActionUtil;
 
 public class ISearchBackward extends SearchBackAction
 {
     public void actionPerformed(final AnActionEvent e) {
         this.delegateAction(e);
     }
-    
+
     protected ISearchDelegate delegateAction(final AnActionEvent e) {
         final Editor editor = FileEditorManager.getInstance(e.getProject()).getSelectedTextEditor();
         ISearchDelegate searcher = ISearchFactory.getISearchObject(editor);

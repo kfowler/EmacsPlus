@@ -1,17 +1,13 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.handlers;
 
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Caret;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.util.TextRange;
 
 public class CaseHandler extends EmacsPlusWriteHandler
 {
@@ -23,13 +19,13 @@ public class CaseHandler extends EmacsPlusWriteHandler
             caret.moveToVisualPosition(editor.offsetToVisualPosition(range.getEndOffset()));
         }
     }
-    
+
     private TextRange getSelectionRange(final Caret caret) {
         final TextRange result = new TextRange(caret.getSelectionStart(), caret.getSelectionEnd());
         caret.removeSelection();
         return result;
     }
-    
+
     private String toCase(final String text, final Cases cases) {
         final StringBuilder builder = new StringBuilder(text.length());
         boolean prevIsSlash = false;
@@ -45,11 +41,11 @@ public class CaseHandler extends EmacsPlusWriteHandler
         }
         return builder.toString();
     }
-    
+
     protected enum Cases
     {
-        UPPER, 
-        LOWER, 
+        UPPER,
+        LOWER,
         CAP;
     }
 }

@@ -4,11 +4,11 @@
 
 package com.mulgasoft.emacsplus.handlers;
 
-import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import org.jetbrains.annotations.NotNull;
 
 public class WhiteSpaceHandler extends EmacsPlusWriteHandler
 {

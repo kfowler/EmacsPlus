@@ -1,14 +1,14 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.search;
 
-import java.lang.reflect.Method;
-import javax.swing.JComponent;
-import java.lang.reflect.InvocationTargetException;
-import com.intellij.util.ObjectUtils;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.util.ObjectUtils;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import javax.swing.*;
 import org.jetbrains.annotations.NonNls;
 
 public class ISearchFactory
@@ -19,7 +19,7 @@ public class ISearchFactory
     private static final String OBJ_15 = "com.intellij.find.EditorSearchSession";
     @NonNls
     private static final String GET_15 = "get";
-    
+
     public static ISearchDelegate getISearchObject(final Editor editor) {
         ISearchDelegate result = null;
         Class<?> clazz = null;

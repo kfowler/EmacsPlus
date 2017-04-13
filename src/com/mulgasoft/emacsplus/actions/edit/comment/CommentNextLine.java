@@ -1,16 +1,16 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.edit.comment;
 
-import com.intellij.psi.PsiElement;
-import com.intellij.openapi.editor.LogicalPosition;
-import com.intellij.openapi.editor.Document;
-import com.intellij.psi.PsiFile;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.LogicalPosition;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
 import com.mulgasoft.emacsplus.handlers.CommentHandler;
 
 public class CommentNextLine extends CommentAction
@@ -19,7 +19,7 @@ public class CommentNextLine extends CommentAction
     protected CommentHandler getMyHandler() {
         return new myHandler();
     }
-    
+
     private static class myHandler extends CommentHandler
     {
         @Override

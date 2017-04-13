@@ -1,17 +1,17 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.edit.comment;
 
-import com.mulgasoft.emacsplus.util.ActionUtil;
-import java.awt.Component;
 import com.intellij.ide.DataManager;
-import com.intellij.psi.PsiFile;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.psi.PsiFile;
 import com.mulgasoft.emacsplus.handlers.CommentHandler;
+import com.mulgasoft.emacsplus.util.ActionUtil;
+import java.awt.*;
 
 public class CommentKill extends CommentAction
 {
@@ -19,7 +19,7 @@ public class CommentKill extends CommentAction
     protected CommentHandler getMyHandler() {
         return new myHandler();
     }
-    
+
     private static class myHandler extends CommentHandler
     {
         @Override

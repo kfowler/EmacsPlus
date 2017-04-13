@@ -1,31 +1,30 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.tool;
 
-import java.util.HashMap;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
-import com.intellij.openapi.editor.actions.TextComponentEditorAction;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.actionSystem.DataContext;
-import java.awt.event.ActionListener;
-import javax.swing.JComponent;
+import com.intellij.openapi.editor.actions.TextComponentEditorAction;
 import java.awt.event.ActionEvent;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import javax.swing.KeyStroke;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Map;
-import com.intellij.openapi.actionSystem.AnAction;
+import javax.swing.*;
 
 public class TWAction extends AnAction
 {
     private static Map<String, KeyStroke> keys;
-    
+
     protected KeyStroke getKey(final AnActionEvent e) {
         return TWAction.keys.get(e.getActionManager().getId((AnAction)this));
     }
-    
+
     public void actionPerformed(final AnActionEvent e) {
         final JComponent component = this.getComponent(e.getDataContext());
         final ActionListener act = component.getActionForKeyStroke(this.getKey(e));
@@ -33,11 +32,11 @@ public class TWAction extends AnAction
             act.actionPerformed(new ActionEvent(this.getComponent(e.getDataContext()), 0, null));
         }
     }
-    
+
     protected Editor getEditor(final DataContext dc) {
         return TextComponentEditorAction.getEditorFromContext(dc);
     }
-    
+
     public void update(final AnActionEvent e) {
         final Presentation presentation = e.getPresentation();
         final DataContext dataContext = e.getDataContext();
@@ -49,7 +48,7 @@ public class TWAction extends AnAction
             presentation.setEnabled(this.isValid(e));
         }
     }
-    
+
     protected JComponent getComponent(final DataContext dc) {
         JComponent result = null;
         final Object cc = PlatformDataKeys.CONTEXT_COMPONENT.getData(dc);
@@ -58,13 +57,13 @@ public class TWAction extends AnAction
         }
         return result;
     }
-    
+
     protected boolean isValid(final AnActionEvent e) {
         final JComponent component = this.getComponent(e.getDataContext());
         final KeyStroke key = this.getKey(e);
         return component != null && key != null && component.getActionForKeyStroke(key) != null;
     }
-    
+
     static {
         TWAction.keys = new HashMap<String, KeyStroke>() {
             {

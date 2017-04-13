@@ -4,21 +4,19 @@
 
 package com.mulgasoft.emacsplus.keys;
 
-import java.util.ArrayList;
-import javax.swing.KeyStroke;
 import com.intellij.openapi.keymap.Keymap;
 import com.intellij.openapi.keymap.KeymapManagerListener;
-import org.jdom.Document;
-import com.intellij.openapi.options.Scheme;
-import com.intellij.openapi.keymap.impl.KeymapImpl;
 import com.intellij.openapi.keymap.ex.KeymapManagerEx;
 import com.intellij.openapi.util.JDOMUtil;
-import java.util.Locale;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import javax.swing.*;
+import org.jdom.Document;
 import org.jetbrains.annotations.NonNls;
 
 public abstract class Keymaps

@@ -1,16 +1,16 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.search;
 
 import com.intellij.find.FindModel;
-import javax.swing.text.JTextComponent;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import javax.swing.JComponent;
 import com.intellij.openapi.editor.Editor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import javax.swing.*;
+import javax.swing.text.JTextComponent;
 import org.jetbrains.annotations.NonNls;
 
 public class ISearch15 implements ISearchDelegate
@@ -24,7 +24,7 @@ public class ISearch15 implements ISearchDelegate
     private Editor editor;
     private JComponent searchComp;
     private Object session;
-    
+
     public ISearch15(final Editor editor, final Object session, final JComponent component) {
         this.editor = null;
         this.searchComp = null;
@@ -33,7 +33,7 @@ public class ISearch15 implements ISearchDelegate
         this.session = session;
         this.searchComp = component;
     }
-    
+
     protected Object invoke(final Object element, final String method) {
         Object result = null;
         try {
@@ -47,7 +47,7 @@ public class ISearch15 implements ISearchDelegate
         catch (IllegalAccessException ex) {}
         return result;
     }
-    
+
     private Object getAF(final Object o, final String fieldName) {
         Class<?> c = o.getClass();
         try {
@@ -79,17 +79,17 @@ public class ISearch15 implements ISearchDelegate
         catch (IllegalAccessException ex) {}
         return null;
     }
-    
+
     @Override
     public JComponent getComponent() {
         return this.searchComp;
     }
-    
+
     @Override
     public JTextComponent getSearchField() {
         return (JTextComponent)this.invoke(this.searchComp, ISearch15.GET_SEARCH);
     }
-    
+
     private JTextComponent getSearchWrapper() {
         JTextComponent result = null;
         final Object wrap = this.getAF(this.getComponent(), "mySearchTextComponent");
@@ -98,51 +98,51 @@ public class ISearch15 implements ISearchDelegate
         }
         return result;
     }
-    
+
     @Override
     public JTextComponent getReplaceField() {
         return (JTextComponent)this.invoke(this.searchComp, ISearch15.GET_REPLACE);
     }
-    
+
     @Override
     public FindModel getFindModel() {
         return (FindModel)this.invoke(this.session, ISearch15.GET_FIND);
     }
-    
+
     @Override
     public boolean hasMatches() {
         return (boolean)this.invoke(this.session, "hasMatches");
     }
-    
+
     @Override
     public void searchForward() {
         this.invoke(this.session, "searchForward");
     }
-    
+
     @Override
     public void searchBackward() {
         this.invoke(this.session, "searchBackward");
     }
-    
+
     @Override
     public void replaceCurrent() {
         this.invoke(this.session, "replaceCurrent");
     }
-    
+
     @Override
     public void showHistory(final boolean byToolBar, final JTextComponent field) {
     }
-    
+
     @Override
     public void requestFocus() {
         this.invoke(this.searchComp, "requstFocus");
     }
-    
+
     @Override
     public void close() {
         this.invoke(this.session, "close");
     }
-    
+
     static {
         ISearch15.GET_SEARCH = "getSearchTextComponent";
         ISearch15.GET_REPLACE = "getReplaceTextComponent";

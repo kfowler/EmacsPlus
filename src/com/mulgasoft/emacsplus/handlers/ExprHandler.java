@@ -1,29 +1,29 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.handlers;
 
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.actions.EditorActionUtil;
-import com.intellij.openapi.editor.SelectionModel;
-import com.intellij.openapi.editor.FoldRegion;
-import com.intellij.openapi.editor.VisualPosition;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.openapi.editor.EditorModificationUtil;
-import com.mulgasoft.emacsplus.util.EditorUtil;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.editor.Caret;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.EditorModificationUtil;
+import com.intellij.openapi.editor.FoldRegion;
+import com.intellij.openapi.editor.SelectionModel;
+import com.intellij.openapi.editor.VisualPosition;
+import com.intellij.openapi.editor.actions.EditorActionUtil;
+import com.intellij.openapi.util.TextRange;
+import com.mulgasoft.emacsplus.util.EditorUtil;
 
 public abstract class ExprHandler extends EmacsPlusCaretHandler
 {
     static boolean isVisual;
-    
+
     protected boolean isVisual() {
         return ExprHandler.isVisual;
     }
-    
+
     protected void moveToWord(final Editor editor, final Caret caret, final DataContext dataContext, final int dir) {
         EditorUtil.checkMarkSelection(editor, caret);
         final TextRange range = this.getWordRange(editor, caret, false, true, dir);
@@ -42,13 +42,13 @@ public abstract class ExprHandler extends EmacsPlusCaretHandler
         }
         EditorModificationUtil.scrollToCaret(editor);
     }
-    
+
     protected void setSelection(final Editor editor, final Caret caret, final TextRange selection) {
         final int coffset = caret.getOffset();
         final int offset = (coffset <= selection.getStartOffset()) ? selection.getEndOffset() : selection.getStartOffset();
         this.setSelection(editor, caret, offset);
     }
-    
+
     protected void setSelection(final Editor editor, final Caret caret, final int offset) {
         final SelectionModel selectionModel = editor.getSelectionModel();
         if (editor.isColumnMode() && !editor.getCaretModel().supportsMultipleCarets()) {
@@ -58,7 +58,7 @@ public abstract class ExprHandler extends EmacsPlusCaretHandler
             selectionModel.setSelection(offset, caret.getVisualPosition(), caret.getOffset());
         }
     }
-    
+
     public TextRange getWordRange(final Editor editor, final Caret caret, final boolean isLine, final boolean isWord, int dir) {
         final Document doc = editor.getDocument();
         int offset = (caret == null) ? editor.getCaretModel().getOffset() : caret.getOffset();
@@ -98,7 +98,7 @@ public abstract class ExprHandler extends EmacsPlusCaretHandler
         }
         return (newOffset > maxOffset || newOffset < 0) ? new TextRange(offset, offset) : new TextRange((startOffset < 0) ? newOffset : startOffset, newOffset);
     }
-    
+
     static {
         ExprHandler.isVisual = true;
     }

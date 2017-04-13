@@ -1,37 +1,30 @@
-// 
+//
 // Decompiled by Procyon v0.5.30
-// 
+//
 
 package com.mulgasoft.emacsplus.actions.wrapper;
 
-import com.intellij.ide.IdeBundle;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.actionSystem.Shortcut;
-import com.intellij.openapi.actionSystem.KeyboardShortcut;
-import java.util.Iterator;
-import com.intellij.openapi.actionSystem.ShortcutSet;
-import com.intellij.openapi.actionSystem.AnAction;
-import java.util.List;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JList;
-import com.intellij.ui.ListScrollingUtil;
-import javax.swing.Action;
-import java.awt.event.ActionEvent;
-import javax.swing.text.TextAction;
-import com.intellij.openapi.actionSystem.CustomShortcutSet;
-import javax.swing.JComponent;
-import com.mulgasoft.emacsplus.keys.Keymaps;
-import javax.swing.KeyStroke;
-import java.lang.reflect.Method;
-import com.mulgasoft.emacsplus.util.ActionUtil;
-import com.intellij.ide.actions.Switcher;
-import javax.swing.JPanel;
 import com.intellij.featureStatistics.FeatureUsageTracker;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.ide.IdeBundle;
+import com.intellij.ide.actions.Switcher;
+import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.jetbrains.annotations.NonNls;
+import com.intellij.openapi.actionSystem.CustomShortcutSet;
+import com.intellij.openapi.actionSystem.KeyboardShortcut;
+import com.intellij.openapi.actionSystem.Shortcut;
+import com.intellij.openapi.actionSystem.ShortcutSet;
 import com.intellij.openapi.project.DumbAwareAction;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.ui.ListScrollingUtil;
+import com.mulgasoft.emacsplus.keys.Keymaps;
+import com.mulgasoft.emacsplus.util.ActionUtil;
+import java.awt.event.ActionEvent;
+import java.lang.reflect.Method;
+import java.util.List;
+import javax.swing.*;
+import javax.swing.text.TextAction;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 
 public class SwitchToBuffer extends DumbAwareAction
 {
@@ -53,7 +46,7 @@ public class SwitchToBuffer extends DumbAwareAction
     private static final String GOTOP_ACTION = "Emacs+.Top";
     @NonNls
     private static final String GOBOT_ACTION = "Emacs+.Bottom";
-    
+
     public void actionPerformed(@NotNull final AnActionEvent e) {
         if (e == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "e", "com/mulgasoft/emacsplus/actions/wrapper/SwitchToBuffer", "actionPerformed"));
@@ -64,7 +57,7 @@ public class SwitchToBuffer extends DumbAwareAction
             this.keySetup((JPanel)switcher);
         }
     }
-    
+
     private Switcher.SwitcherPanel getSwitcher(final AnActionEvent e) {
         final Switcher s = new Switcher();
         Switcher.SwitcherPanel result = null;
@@ -77,14 +70,14 @@ public class SwitchToBuffer extends DumbAwareAction
         }
         return result;
     }
-    
+
     public void update(@NotNull final AnActionEvent e) {
         if (e == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "e", "com/mulgasoft/emacsplus/actions/wrapper/SwitchToBuffer", "update"));
         }
         e.getPresentation().setEnabled(e.getProject() != null);
     }
-    
+
     private void keySetup(final JPanel field) {
         final KeyStroke ksG = KeyStroke.getKeyStroke(71, 128);
         final KeyStroke ksN = KeyStroke.getKeyStroke(78, 128);
@@ -156,7 +149,7 @@ public class SwitchToBuffer extends DumbAwareAction
         im.put(ksT, "Emacs+.Top");
         im.put(ksB, "Emacs+.Bottom");
     }
-    
+
     private void replaceOnActions(final JComponent field, final KeyStroke key1, final KeyStroke key2, final CustomShortcutSet customs) {
         final List<AnAction> actions = (List<AnAction>)field.getClientProperty("AnAction.shortcutSet");
         final ActionUtil au = ActionUtil.getInstance();
@@ -170,7 +163,7 @@ public class SwitchToBuffer extends DumbAwareAction
             }
         }
     }
-    
+
     private void removeFromActions(final JComponent field, final KeyStroke key1, final KeyStroke key2) {
         final List<AnAction> actions = (List<AnAction>)field.getClientProperty("AnAction.shortcutSet");
         final ActionUtil au = ActionUtil.getInstance();
@@ -195,7 +188,7 @@ public class SwitchToBuffer extends DumbAwareAction
             }
         }
     }
-    
+
     static {
         SwitchToBuffer.args14 = new Class[] { AnActionEvent.class, String.class, Boolean.TYPE };
         SwitchToBuffer.args15 = new Class[] { AnActionEvent.class, String.class, Boolean.TYPE, VirtualFile[].class };
