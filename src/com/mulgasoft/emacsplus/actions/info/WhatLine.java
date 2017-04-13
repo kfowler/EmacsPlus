@@ -23,12 +23,7 @@ public class WhatLine extends EditorAction
         @Override
         protected void doXecute(final Editor editor, final Caret caret, final DataContext dataContext) {
             final int cline = editor.getDocument().getLineNumber(caret.getOffset()) + 1;
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    StatusBar.Info.set("Line " + cline, null);
-                }
-            });
+            ApplicationManager.getApplication().invokeLater(() -> StatusBar.Info.set("Line " + cline, null));
         }
     }
 }

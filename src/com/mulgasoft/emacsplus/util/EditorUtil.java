@@ -28,23 +28,15 @@ public class EditorUtil
         final Editor editor = getCurrentEditor(project);
         if (editor != null) {
             final JComponent focusedComponent = editor.getContentComponent();
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    IdeFocusManager.getInstance(project).requestFocus(focusedComponent, true);
-                }
-            });
+            ApplicationManager.getApplication().invokeLater(
+                () -> IdeFocusManager.getInstance(project).requestFocus(focusedComponent, true));
         }
     }
 
     public static void closeEditorPopups() {
         if (JBPopupFactory.getInstance().isPopupActive()) {
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    IdeEventQueue.getInstance().getPopupManager().closeAllPopups();
-                }
-            });
+            ApplicationManager.getApplication().invokeLater(
+                () -> IdeEventQueue.getInstance().getPopupManager().closeAllPopups());
         }
     }
 

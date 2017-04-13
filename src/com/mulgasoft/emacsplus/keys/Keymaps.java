@@ -116,11 +116,7 @@ public abstract class Keymaps
 
     private static void setupKeymapListener() {
         final KeymapManagerEx mgr = KeymapManagerEx.getInstanceEx();
-        mgr.addKeymapManagerListener(new KeymapManagerListener() {
-            public void activeKeymapChanged(final Keymap keymap) {
-                activate(keymap);
-            }
-        });
+        mgr.addKeymapManagerListener(Keymaps::activate);
         activate(mgr.getActiveKeymap());
     }
 

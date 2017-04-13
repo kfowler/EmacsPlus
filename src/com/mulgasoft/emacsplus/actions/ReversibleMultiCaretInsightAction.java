@@ -69,24 +69,16 @@ public abstract class ReversibleMultiCaretInsightAction extends MultiCaretCodeIn
     }
 
     public void actionPerformedImpl(final Project project, final Editor hostEditor) {
-        CommandProcessor.getInstance().executeCommand(project, new Runnable() {
-            @Override
-            public void run() {
-                ApplicationManager.getApplication().runWriteAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        final MultiCaretCodeInsightActionHandler handler = ReversibleMultiCaretInsightAction.this.getHandler();
-                        try {
-                            ReversibleMultiCaretInsightAction.this.iterateCarets(project, hostEditor, handler);
-                        }
-                        finally {
-                            handler.postInvoke();
-                            ReversibleMultiCaretInsightAction.this.myDataContext = null;
-                        }
-                    }
-                });
+        CommandProcessor.getInstance().executeCommand(project, () -> ApplicationManager.getApplication().runWriteAction(() -> {
+            final MultiCaretCodeInsightActionHandler handler = ReversibleMultiCaretInsightAction.this.getHandler();
+            try {
+                ReversibleMultiCaretInsightAction.this.iterateCarets(project, hostEditor, handler);
             }
-        }, this.getCommandName(), DocCommandGroupId.noneGroupId(hostEditor.getDocument()));
+            finally {
+                handler.postInvoke();
+                ReversibleMultiCaretInsightAction.this.myDataContext = null;
+            }
+        }), this.getCommandName(), DocCommandGroupId.noneGroupId(hostEditor.getDocument()));
         hostEditor.getScrollingModel().scrollToCaret(ScrollType.RELATIVE);
     }
 
@@ -103,20 +95,18 @@ public abstract class ReversibleMultiCaretInsightAction extends MultiCaretCodeIn
         final PsiDocumentManager documentManager = PsiDocumentManager.getInstance(project);
         final PsiFile psiFile = documentManager.getCachedPsiFile(hostEditor.getDocument());
         documentManager.commitAllDocuments();
-        hostEditor.getCaretModel().runForEachCaret(new CaretAction() {
-            public void perform(Caret caret) {
-                Editor editor = hostEditor;
-                if (psiFile != null) {
-                    final Caret injectedCaret = InjectedLanguageUtil.getCaretForInjectedLanguageNoCommit(caret, psiFile);
-                    if (injectedCaret != null) {
-                        caret = injectedCaret;
-                        editor = caret.getEditor();
-                    }
+        hostEditor.getCaretModel().runForEachCaret(caret -> {
+            Editor editor = hostEditor;
+            if (psiFile != null) {
+                final Caret injectedCaret = InjectedLanguageUtil.getCaretForInjectedLanguageNoCommit(caret, psiFile);
+                if (injectedCaret != null) {
+                    caret = injectedCaret;
+                    editor = caret.getEditor();
                 }
-                final PsiFile file = PsiUtilBase.getPsiFileInEditor(caret, project);
-                if (file != null) {
-                    handler.invoke(project, editor, caret, file);
-                }
+            }
+            final PsiFile file = PsiUtilBase.getPsiFileInEditor(caret, project);
+            if (file != null) {
+                handler.invoke(project, editor, caret, file);
             }
         }, this.isReverse);
     }

@@ -84,14 +84,12 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         this.isReplace = false;
         this.oldSelection = null;
         this.mySearcher = null;
-        this.fmo = new FindModel.FindModelObserver() {
-            public void findModelChanged(final FindModel findModel) {
-                final boolean multi = findModel.isMultiline();
-                if (multi != ISearchForward.this.isMulti()) {
-                    ISearchForward.this.myIsMulti = multi;
-                    if (ISearchForward.this.mySearcher != null) {
-                        ISearchForward.this.changeFieldActions(ISearchForward.this.mySearcher, false);
-                    }
+        this.fmo = findModel -> {
+            final boolean multi = findModel.isMultiline();
+            if (multi != ISearchForward.this.isMulti()) {
+                ISearchForward.this.myIsMulti = multi;
+                if (ISearchForward.this.mySearcher != null) {
+                    ISearchForward.this.changeFieldActions(ISearchForward.this.mySearcher, false);
                 }
             }
         };

@@ -154,12 +154,7 @@ public class ActionUtil
         if (context == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "context", "com/mulgasoft/emacsplus/util/ActionUtil", "dispatchLater"));
         }
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ActionUtil.this.dispatch(id, context);
-            }
-        });
+        ApplicationManager.getApplication().invokeLater(() -> ActionUtil.this.dispatch(id, context));
         return true;
     }
 
@@ -170,12 +165,7 @@ public class ActionUtil
         if (context == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "context", "com/mulgasoft/emacsplus/util/ActionUtil", "dispatchLater"));
         }
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                ActionUtil.this.dispatch(dispatch, context);
-            }
-        });
+        ApplicationManager.getApplication().invokeLater(() -> ActionUtil.this.dispatch(dispatch, context));
         return true;
     }
 

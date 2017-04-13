@@ -80,12 +80,7 @@ public class YankPop extends Yanking
         }
 
         private void beep() {
-            ApplicationManager.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    EmacsPlus.beep(true);
-                }
-            });
+            ApplicationManager.getApplication().invokeLater(() -> EmacsPlus.beep(true));
         }
     }
 }

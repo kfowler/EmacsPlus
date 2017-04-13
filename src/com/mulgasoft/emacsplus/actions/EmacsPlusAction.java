@@ -36,12 +36,7 @@ public abstract class EmacsPlusAction extends TextComponentEditorAction implemen
     }
 
     public static void infoMessage(final String msg) {
-        ApplicationManager.getApplication().invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                StatusBar.Info.set(msg, null);
-            }
-        });
+        ApplicationManager.getApplication().invokeLater(() -> StatusBar.Info.set(msg, null));
     }
 
     public static void errorMessage(final String msg) {
