@@ -15,7 +15,7 @@ import com.mulgasoft.emacsplus.handlers.ISHandler;
 public class CapitalizeWord extends EmacsPlusAction
 {
     public CapitalizeWord() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static class myHandler extends CaseHandler

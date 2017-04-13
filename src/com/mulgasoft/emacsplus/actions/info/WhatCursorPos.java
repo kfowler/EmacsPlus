@@ -34,7 +34,7 @@ public class WhatCursorPos extends EditorAction
     private static final String EOB_POSITION = "point=%d of %d (EOB)";
 
     protected WhatCursorPos() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends EmacsPlusCaretHandler

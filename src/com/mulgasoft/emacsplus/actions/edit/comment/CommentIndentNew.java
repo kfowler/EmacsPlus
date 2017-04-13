@@ -26,7 +26,7 @@ public class CommentIndentNew extends CommentAction
             final Document document = editor.getDocument();
             final LogicalPosition pos = caret.getLogicalPosition();
             final int offset = document.getLineEndOffset(pos.line);
-            document.insertString(offset, (CharSequence)"\n");
+            document.insertString(offset, "\n");
             caret.moveToOffset(document.getLineStartOffset(pos.line + 1));
             super.invokeAction(editor, caret, dataContext, file);
         }

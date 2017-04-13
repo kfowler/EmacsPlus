@@ -32,10 +32,10 @@ public class EmacsPlus implements ApplicationComponent
 
     public void initComponent() {
         final PluginId pluginId = PluginManager.getPluginByClassName(EmacsPlus.class.getName());
-        EmacsPlus.ourPlugin = (PluginDescriptor)PluginManager.getPlugin(pluginId);
+        EmacsPlus.ourPlugin = PluginManager.getPlugin(pluginId);
         // Let BundledKeymapProvider do this
         // Keymaps.enableKeymaps();
-        CommandProcessor.getInstance().addCommandListener((CommandListener)new CommandListener() {
+        CommandProcessor.getInstance().addCommandListener(new CommandListener() {
             public void beforeCommandFinished(final CommandEvent event) {
             }
 

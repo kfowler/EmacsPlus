@@ -16,7 +16,7 @@ import com.mulgasoft.emacsplus.handlers.EmacsPlusWriteHandler;
 public class TransposeChars extends EmacsPlusAction
 {
     public TransposeChars() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends EmacsPlusWriteHandler
@@ -37,7 +37,7 @@ public class TransposeChars extends EmacsPlusAction
             final int b = coff - incr;
             final int e = Math.min(eoff, coff + incr);
             final String sub = document.getText(new TextRange(b, e));
-            document.replaceString(b, e, (CharSequence)(sub.substring(incr) + sub.substring(0, incr)));
+            document.replaceString(b, e, sub.substring(incr) + sub.substring(0, incr));
             caret.moveToOffset(e);
         }
     }

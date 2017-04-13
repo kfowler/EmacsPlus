@@ -17,7 +17,7 @@ import com.mulgasoft.emacsplus.handlers.EmacsPlusCaretHandler;
 public class WhatLine extends EditorAction
 {
     protected WhatLine() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends EmacsPlusCaretHandler
@@ -25,10 +25,10 @@ public class WhatLine extends EditorAction
         @Override
         protected void doXecute(final Editor editor, final Caret caret, final DataContext dataContext) {
             final int cline = editor.getDocument().getLineNumber(caret.getOffset()) + 1;
-            ApplicationManager.getApplication().invokeLater((Runnable)new Runnable() {
+            ApplicationManager.getApplication().invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    StatusBar.Info.set("Line " + cline, (Project)null);
+                    StatusBar.Info.set("Line " + cline, null);
                 }
             });
         }

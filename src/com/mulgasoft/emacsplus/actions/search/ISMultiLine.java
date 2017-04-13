@@ -16,7 +16,7 @@ import com.mulgasoft.emacsplus.handlers.ISHandler;
 public class ISMultiLine extends EmacsPlusAction
 {
     public ISMultiLine() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends ISHandler

@@ -33,7 +33,7 @@ public class WhiteSpaceHandler extends EmacsPlusWriteHandler
         if (ignoreCR) {
             replace = ((offset - left == 0 || offset + right == document.getTextLength()) ? replace : (replace + "\n"));
         }
-        document.replaceString(offset - left, offset + right, (CharSequence)replace);
+        document.replaceString(offset - left, offset + right, replace);
         return offset - left + replace.length();
     }
 

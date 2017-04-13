@@ -17,7 +17,7 @@ import com.mulgasoft.emacsplus.handlers.ISHandler;
 public class ISCase extends EmacsPlusAction
 {
     public ISCase() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends ISHandler

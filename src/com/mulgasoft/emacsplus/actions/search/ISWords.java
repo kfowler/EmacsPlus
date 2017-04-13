@@ -17,7 +17,7 @@ import com.mulgasoft.emacsplus.handlers.ISHandler;
 public class ISWords extends EmacsPlusAction
 {
     public ISWords() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends ISHandler

@@ -16,7 +16,7 @@ import com.mulgasoft.emacsplus.handlers.EmacsPlusWriteHandler;
 public class TransposeWords extends EmacsPlusAction
 {
     public TransposeWords() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends EmacsPlusWriteHandler
@@ -57,8 +57,8 @@ public class TransposeWords extends EmacsPlusAction
             if (right != null && !right.isEmpty() && left != null && !left.isEmpty()) {
                 final String rtext = doc.getText(right);
                 final String ltext = doc.getText(left);
-                doc.replaceString(right.getStartOffset(), right.getEndOffset(), (CharSequence)ltext);
-                doc.replaceString(left.getStartOffset(), left.getEndOffset(), (CharSequence)rtext);
+                doc.replaceString(right.getStartOffset(), right.getEndOffset(), ltext);
+                doc.replaceString(left.getStartOffset(), left.getEndOffset(), rtext);
                 caret.moveToOffset(right.getEndOffset());
             }
             else {

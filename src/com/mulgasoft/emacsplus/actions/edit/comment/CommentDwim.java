@@ -43,19 +43,19 @@ public class CommentDwim extends CommentAction
             String seq = this.getLineComment();
             final Project project = editor.getProject();
             if (seq != null && text.startsWith(seq)) {
-                this.invoke((MultiCaretCodeInsightActionHandler)new CommentByLineCommentHandler(), project, editor, caret, file);
+                this.invoke(new CommentByLineCommentHandler(), project, editor, caret, file);
             }
             else if ((seq = this.getBlockStart()) != null && text.startsWith(seq)) {
-                this.invoke((MultiCaretCodeInsightActionHandler)new CommentByBlockCommentHandler(), project, editor, caret, file);
+                this.invoke(new CommentByBlockCommentHandler(), project, editor, caret, file);
             }
             else {
                 final int ls = this.getLineStartOffset(document, start);
                 final int es = this.getLineEndOffset(document, end);
                 if ((start == ls && (end == es || end == this.getLineStartOffset(document, end))) || !this.hasBlockComments()) {
-                    this.invoke((MultiCaretCodeInsightActionHandler)new CommentByLineCommentHandler(), project, editor, caret, file);
+                    this.invoke(new CommentByLineCommentHandler(), project, editor, caret, file);
                 }
                 else {
-                    this.invoke((MultiCaretCodeInsightActionHandler)new CommentByBlockCommentHandler(), project, editor, caret, file);
+                    this.invoke(new CommentByBlockCommentHandler(), project, editor, caret, file);
                 }
             }
         }

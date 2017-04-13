@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public class KillRegion extends KillWrapper
 {
     public KillRegion() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     @Override

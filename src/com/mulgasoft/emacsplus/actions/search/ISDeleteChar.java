@@ -16,7 +16,7 @@ import com.mulgasoft.emacsplus.handlers.ISHandler;
 public class ISDeleteChar extends EmacsPlusAction
 {
     public ISDeleteChar() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends ISHandler

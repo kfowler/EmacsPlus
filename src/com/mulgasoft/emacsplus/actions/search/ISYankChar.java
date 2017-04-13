@@ -16,7 +16,7 @@ import com.mulgasoft.emacsplus.handlers.ISHandler;
 public class ISYankChar extends EmacsPlusAction
 {
     public ISYankChar() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends ISHandler
@@ -26,7 +26,7 @@ public class ISYankChar extends EmacsPlusAction
             final int offset = editor.getCaretModel().getOffset();
             final String text = editor.getDocument().getText(new TextRange(offset, offset + 1));
             if (text != null) {
-                isEditor.getDocument().insertString(isCaret.getOffset(), (CharSequence)this.fixYank(isEditor, text));
+                isEditor.getDocument().insertString(isCaret.getOffset(), this.fixYank(isEditor, text));
             }
         }
     }

@@ -22,7 +22,7 @@ public class TWAction extends AnAction
     private static Map<String, KeyStroke> keys;
 
     protected KeyStroke getKey(final AnActionEvent e) {
-        return TWAction.keys.get(e.getActionManager().getId((AnAction)this));
+        return TWAction.keys.get(e.getActionManager().getId(this));
     }
 
     public void actionPerformed(final AnActionEvent e) {

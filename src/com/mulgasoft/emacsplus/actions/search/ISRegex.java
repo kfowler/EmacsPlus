@@ -18,7 +18,7 @@ import javax.swing.*;
 public class ISRegex extends EmacsPlusAction
 {
     public ISRegex() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends ISHandler

@@ -30,7 +30,7 @@ public class YankPop extends Yanking
     private static boolean dispatched;
 
     public YankPop() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
         EmacsPlusAction.addCommandListener(this, "yank-pop");
     }
 
@@ -81,7 +81,7 @@ public class YankPop extends Yanking
         }
 
         private void beep() {
-            ApplicationManager.getApplication().invokeLater((Runnable)new Runnable() {
+            ApplicationManager.getApplication().invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     EmacsPlus.beep(true);

@@ -14,7 +14,7 @@ import com.mulgasoft.emacsplus.handlers.WhiteSpaceHandler;
 public class JustOneSpace extends EmacsPlusAction
 {
     public JustOneSpace() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static class myHandler extends WhiteSpaceHandler

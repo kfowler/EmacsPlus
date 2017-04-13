@@ -16,7 +16,7 @@ import java.awt.*;
 public class Recenter extends EditorAction
 {
     public Recenter() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     public void setScrollMargin(final int sm) {

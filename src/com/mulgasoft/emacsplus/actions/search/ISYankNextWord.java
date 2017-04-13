@@ -15,7 +15,7 @@ import com.mulgasoft.emacsplus.handlers.ISHandler;
 public class ISYankNextWord extends EmacsPlusAction
 {
     public ISYankNextWord() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends ISHandler
@@ -25,7 +25,7 @@ public class ISYankNextWord extends EmacsPlusAction
             final Editor editor = ISHandler.getTextEditor(isEditor);
             final String text = this.getNextWord(editor, isEditor.isOneLineMode() && !this.isRegexp(isEditor), false);
             if (text != null && !text.isEmpty()) {
-                doc.insertString(isCaret.getOffset(), (CharSequence)this.fixYank(isEditor, text));
+                doc.insertString(isCaret.getOffset(), this.fixYank(isEditor, text));
             }
         }
     }

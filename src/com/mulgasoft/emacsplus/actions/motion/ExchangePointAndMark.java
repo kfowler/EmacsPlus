@@ -57,8 +57,8 @@ public class ExchangePointAndMark extends EmacsPlusAction
                 final VisualPosition vpos = selectionModel.getLeadSelectionPosition();
                 final VisualPosition epos = selectionModel.getSelectionEndPosition();
                 final VisualPosition spos = selectionModel.getSelectionStartPosition();
-                if (!pos.equals((Object)spos) && !pos.equals((Object)epos)) {
-                    caret.moveToVisualPosition(vpos.equals((Object)epos) ? spos : epos);
+                if (!pos.equals(spos) && !pos.equals(epos)) {
+                    caret.moveToVisualPosition(vpos.equals(epos) ? spos : epos);
                 }
                 ExchangePointAndMark.dc = dataContext;
             }

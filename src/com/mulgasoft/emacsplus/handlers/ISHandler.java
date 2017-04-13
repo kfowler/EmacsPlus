@@ -47,7 +47,7 @@ public abstract class ISHandler extends YankHandler
                 try {
                     final Method meth;
                     if ((meth = hc.getClass().getMethod(m, (Class<?>[])new Class[0])) != null) {
-                        result = meth.invoke(hc, new Object[0]);
+                        result = meth.invoke(hc);
                         break;
                     }
                 }

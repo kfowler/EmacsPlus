@@ -24,7 +24,7 @@ public class DeleteOtherWindows extends EmacsPlusAction
     {
         public void doExecute(final Editor editor, final Caret caret, final DataContext dataContext) {
             final FileEditorManagerEx fileEditorManager = FileEditorManagerEx.getInstanceEx(editor.getProject());
-            final DataContext d = DataManager.getInstance().getDataContext((Component)editor.getComponent());
+            final DataContext d = DataManager.getInstance().getDataContext(editor.getComponent());
             ActionUtil.getInstance().dispatchLater(fileEditorManager.isInSplitter() ? "UnsplitAll" : "HideAllWindows", d);
         }
     }

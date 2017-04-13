@@ -14,7 +14,7 @@ import com.mulgasoft.emacsplus.handlers.ISHandler;
 public class ISYankLast extends EmacsPlusAction
 {
     public ISYankLast() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends ISHandler

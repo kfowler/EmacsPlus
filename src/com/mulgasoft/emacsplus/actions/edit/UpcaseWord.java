@@ -14,7 +14,7 @@ import com.mulgasoft.emacsplus.handlers.CaseHandler;
 public class UpcaseWord extends EmacsPlusAction
 {
     public UpcaseWord() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static class myHandler extends CaseHandler

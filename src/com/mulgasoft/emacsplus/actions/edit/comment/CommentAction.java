@@ -53,7 +53,7 @@ public abstract class CommentAction extends ReversibleMultiCaretInsightAction
                 result = true;
             }
             else {
-                final PsiElement host = (PsiElement)InjectedLanguageManager.getInstance(project).getInjectionHost((PsiElement)file);
+                final PsiElement host = InjectedLanguageManager.getInstance(project).getInjectionHost(file);
                 result = (host != null && LanguageCommenters.INSTANCE.forLanguage(host.getLanguage()) != null);
             }
         }

@@ -15,7 +15,7 @@ import com.intellij.openapi.editor.actionSystem.EditorWriteActionHandler;
 public class DeleteIndentation extends EmacsPlusWrapper
 {
     public DeleteIndentation() {
-        super((EditorActionHandler)new Handler());
+        super(new Handler());
     }
 
     private static class Handler extends EditorWriteActionHandler

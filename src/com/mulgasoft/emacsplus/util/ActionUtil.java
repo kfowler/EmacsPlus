@@ -155,7 +155,7 @@ public class ActionUtil
         if (context == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "context", "com/mulgasoft/emacsplus/util/ActionUtil", "dispatchLater"));
         }
-        ApplicationManager.getApplication().invokeLater((Runnable)new Runnable() {
+        ApplicationManager.getApplication().invokeLater(new Runnable() {
             @Override
             public void run() {
                 ActionUtil.this.dispatch(id, context);
@@ -171,7 +171,7 @@ public class ActionUtil
         if (context == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "context", "com/mulgasoft/emacsplus/util/ActionUtil", "dispatchLater"));
         }
-        ApplicationManager.getApplication().invokeLater((Runnable)new Runnable() {
+        ApplicationManager.getApplication().invokeLater(new Runnable() {
             @Override
             public void run() {
                 ActionUtil.this.dispatch(dispatch, context);
@@ -187,7 +187,7 @@ public class ActionUtil
         if (context == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "context", "com/mulgasoft/emacsplus/util/ActionUtil", "dispatch"));
         }
-        final AnActionEvent event = AnActionEvent.createFromAnAction(dispatch, (InputEvent)null, "MainMenu", context);
+        final AnActionEvent event = AnActionEvent.createFromAnAction(dispatch, null, "MainMenu", context);
         dispatch.update(event);
         if (event.getPresentation().isEnabled()) {
             dispatch.actionPerformed(event);

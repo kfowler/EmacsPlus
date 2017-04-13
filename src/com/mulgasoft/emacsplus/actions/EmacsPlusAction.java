@@ -33,14 +33,14 @@ public abstract class EmacsPlusAction extends TextComponentEditorAction implemen
     }
 
     public static CommandListener getCommandListener() {
-        return (CommandListener)StaticCommandListener.ourCommandListener;
+        return StaticCommandListener.ourCommandListener;
     }
 
     public static void infoMessage(final String msg) {
-        ApplicationManager.getApplication().invokeLater((Runnable)new Runnable() {
+        ApplicationManager.getApplication().invokeLater(new Runnable() {
             @Override
             public void run() {
-                StatusBar.Info.set(msg, (Project)null);
+                StatusBar.Info.set(msg, null);
             }
         });
     }

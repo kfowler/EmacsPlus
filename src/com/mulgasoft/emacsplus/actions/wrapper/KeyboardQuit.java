@@ -50,7 +50,7 @@ public class KeyboardQuit extends EmacsPlusWrapper
                 this.wrappedHandler.execute(editor, dataContext);
             }
             EditorUtil.closeEditorPopups();
-            EditorUtil.activateCurrentEditor((Project)CommonDataKeys.PROJECT.getData(dataContext));
+            EditorUtil.activateCurrentEditor(CommonDataKeys.PROJECT.getData(dataContext));
         }
 
         public boolean isEnabled(final Editor editor, final DataContext dataContext) {

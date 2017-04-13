@@ -24,7 +24,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler
     private static boolean ourYankReplace;
 
     protected Transferable getData() {
-        return EditorModificationUtil.getContentsToPasteToEditor((Producer)null);
+        return EditorModificationUtil.getContentsToPasteToEditor(null);
     }
 
     private String getText(final Transferable data, final Editor editor) {
@@ -52,7 +52,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler
         TextRange result = null;
         if (newOff >= 0) {
             result = new TextRange(newOff, newOff + text.length());
-            editor.getDocument().replaceString(caretOffset - length, caretOffset, (CharSequence)text);
+            editor.getDocument().replaceString(caretOffset - length, caretOffset, text);
         }
         return result;
     }
@@ -69,7 +69,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler
         }
         final String text = this.getText(data, editor);
         final TextRange result = new TextRange(range.getStartOffset(), range.getStartOffset() + text.length());
-        editor.getDocument().replaceString(range.getStartOffset(), range.getEndOffset(), (CharSequence)text);
+        editor.getDocument().replaceString(range.getStartOffset(), range.getEndOffset(), text);
         return result;
     }
 
@@ -88,7 +88,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler
         final TextRange result = new TextRange(caretOffset, caretOffset + text.length());
         if (editor instanceof TextComponentEditor) {
             final Document doc = editor.getDocument();
-            doc.insertString(caret.getOffset(), (CharSequence)text);
+            doc.insertString(caret.getOffset(), text);
         }
         else {
             EditorModificationUtil.insertStringAtCaret(editor, text, false, true);

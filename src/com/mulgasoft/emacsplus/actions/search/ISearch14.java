@@ -28,7 +28,7 @@ public class ISearch14 implements ISearchDelegate
         try {
             final Method meth;
             if (element != null && (meth = element.getClass().getMethod(method, (Class<?>[])new Class[0])) != null) {
-                result = meth.invoke(element, new Object[0]);
+                result = meth.invoke(element);
             }
         }
         catch (NoSuchMethodException e) {}

@@ -14,7 +14,7 @@ import com.mulgasoft.emacsplus.handlers.WhiteSpaceHandler;
 public class DeleteHorizSpace extends EmacsPlusAction
 {
     public DeleteHorizSpace() {
-        this((EditorActionHandler)new myHandler());
+        this(new myHandler());
     }
 
     protected DeleteHorizSpace(final EditorActionHandler defaultHandler) {

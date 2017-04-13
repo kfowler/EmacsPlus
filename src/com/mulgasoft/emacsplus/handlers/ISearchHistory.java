@@ -197,6 +197,6 @@ public abstract class ISearchHistory extends ISHandler
         ISearchHistory.ourReplaceIndex = 0;
         ISearchHistory.ourStartOffset = 0;
         ISearchHistory.keys = Arrays.asList("isearch-history-previous", "isearch-history-next");
-        ISearchHistory.iskeys = Arrays.asList("isearch-forward", "isearch-forward-regexp", "isearch-backward", "isearch-backward-regexp", "query-replace", "query-replace-regexp", IdeBundle.message("command.find.next", new Object[0]));
+        ISearchHistory.iskeys = Arrays.asList("isearch-forward", "isearch-forward-regexp", "isearch-backward", "isearch-backward-regexp", "query-replace", "query-replace-regexp", IdeBundle.message("command.find.next"));
     }
 }

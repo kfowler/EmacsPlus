@@ -27,7 +27,7 @@ public class ISearchFactory
         if (editor != null && (hc = editor.getHeaderComponent()) != null) {
             try {
                 clazz = Class.forName("com.intellij.find.EditorSearchComponent");
-                if (ObjectUtils.tryCast((Object)hc, (Class)clazz) != null) {
+                if (ObjectUtils.tryCast(hc, (Class)clazz) != null) {
                     result = new ISearch14(editor, hc);
                 }
             }

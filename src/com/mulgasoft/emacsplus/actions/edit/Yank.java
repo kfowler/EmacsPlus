@@ -15,7 +15,7 @@ import com.mulgasoft.emacsplus.handlers.YankHandler;
 public class Yank extends Yanking
 {
     public Yank() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
         EmacsPlusAction.addCommandListener(this, "yank");
     }
 

@@ -16,14 +16,14 @@ public class TWInterrupt extends TWAction
 {
     @Override
     public void actionPerformed(final AnActionEvent e) {
-        final Project project = (Project)CommonDataKeys.PROJECT.getData(e.getDataContext());
+        final Project project = CommonDataKeys.PROJECT.getData(e.getDataContext());
         this.checkTW(e, project);
         EditorUtil.closeEditorPopups();
         EditorUtil.activateCurrentEditor(project);
     }
 
     private void checkTW(final AnActionEvent e, final Project project) {
-        final ToolWindow toolWindow = (ToolWindow)e.getData(PlatformDataKeys.TOOL_WINDOW);
+        final ToolWindow toolWindow = e.getData(PlatformDataKeys.TOOL_WINDOW);
         if (toolWindow != null) {
             final ToolWindowManager manager = ToolWindowManager.getInstance(project);
             if (manager.isMaximized(toolWindow)) {

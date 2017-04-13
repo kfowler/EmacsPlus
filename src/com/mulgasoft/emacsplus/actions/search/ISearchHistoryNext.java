@@ -14,7 +14,7 @@ import com.mulgasoft.emacsplus.handlers.ISearchHistory;
 public class ISearchHistoryNext extends EmacsPlusAction
 {
     public ISearchHistoryNext() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends ISearchHistory

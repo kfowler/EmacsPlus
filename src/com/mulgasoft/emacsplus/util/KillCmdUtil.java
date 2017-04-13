@@ -67,7 +67,7 @@ public class KillCmdUtil
                     final CopyPasteManagerEx cpm = (CopyPasteManagerEx)CopyPasteManager.getInstance();
                     cpm.removeContent(contents[1]);
                     cpm.removeContent(contents[0]);
-                    cpm.setContents((Transferable)newT);
+                    cpm.setContents(newT);
                     newT.setReadyToCombine(true);
                 }
             }
@@ -122,7 +122,8 @@ public class KillCmdUtil
                 CaretStateTransferableData caretData = null;
                 caretData = (data.isDataFlavorSupported(CaretStateTransferableData.FLAVOR) ? ((CaretStateTransferableData)data.getTransferData(CaretStateTransferableData.FLAVOR)) : null);
                 if (caretData != null) {
-                    final List<String> segments = (List<String>)new ClipboardTextPerCaretSplitter().split(text, caretData, caretData.startOffsets.length);
+                    final List<String> segments =
+                        new ClipboardTextPerCaretSplitter().split(text, caretData, caretData.startOffsets.length);
                     final StringBuffer buf = new StringBuffer();
                     for (final String s : segments) {
                         buf.append(s);

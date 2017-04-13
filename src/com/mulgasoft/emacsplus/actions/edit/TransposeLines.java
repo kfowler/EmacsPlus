@@ -17,7 +17,7 @@ import com.mulgasoft.emacsplus.handlers.EmacsPlusWriteHandler;
 public class TransposeLines extends EmacsPlusAction
 {
     public TransposeLines() {
-        super((EditorActionHandler)new myHandler());
+        super(new myHandler());
     }
 
     private static final class myHandler extends EmacsPlusWriteHandler
@@ -43,8 +43,8 @@ public class TransposeLines extends EmacsPlusAction
             final TextRange t2 = new TextRange(document.getLineStartOffset(line2), document.getLineEndOffset(line2));
             final String line1Text = document.getText(t1);
             final String line2Text = document.getText(t2);
-            document.replaceString(t2.getStartOffset(), t2.getEndOffset(), (CharSequence)line1Text);
-            document.replaceString(t1.getStartOffset(), t1.getEndOffset(), (CharSequence)line2Text);
+            document.replaceString(t2.getStartOffset(), t2.getEndOffset(), line1Text);
+            document.replaceString(t1.getStartOffset(), t1.getEndOffset(), line2Text);
         }
     }
 }

@@ -80,7 +80,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
     }
 
     protected ISearchForward(final boolean isReplace) {
-        super((EditorActionHandler)new IncrementalFindAction.Handler(isReplace));
+        super(new IncrementalFindAction.Handler(isReplace));
         this.GEN_MSG = "Emacs+ %s behavior not supported in this version of IDEA";
         this.myStartOffset = 0;
         this.myIsMulti = false;
@@ -88,7 +88,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         this.isReplace = false;
         this.oldSelection = null;
         this.mySearcher = null;
-        this.fmo = (FindModel.FindModelObserver)new FindModel.FindModelObserver() {
+        this.fmo = new FindModel.FindModelObserver() {
             public void findModelChanged(final FindModel findModel) {
                 final boolean multi = findModel.isMultiline();
                 if (multi != ISearchForward.this.isMulti()) {
@@ -143,7 +143,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
             if (!this.isReplace && !this.oldSelection.isEmpty()) {
                 this.myEditor.getSelectionModel().setSelection(this.oldSelection.vpstart, this.oldSelection.start, this.oldSelection.vpend, this.oldSelection.end);
                 if (this.oldSelection.isSticky) {
-                    ((EditorEx)this.myEditor).setStickySelection(true);
+                    this.myEditor.setStickySelection(true);
                 }
             }
         }
@@ -154,8 +154,8 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
 
     protected void changeFieldActions(final ISearchDelegate searcher, final boolean isReplace) {
         final JTextComponent field = isReplace ? searcher.getReplaceField() : searcher.getSearchField();
-        final KeyboardShortcut kbS = new KeyboardShortcut(KeyStroke.getKeyStroke(9, 512), (KeyStroke)null);
-        if (!this.addToAction("com.intellij.find.editorHeaderActions.ShowHistoryAction", (Shortcut)kbS, field) && this.findAction(field, InnerShowHistory.class) == null) {
+        final KeyboardShortcut kbS = new KeyboardShortcut(KeyStroke.getKeyStroke(9, 512), null);
+        if (!this.addToAction("com.intellij.find.editorHeaderActions.ShowHistoryAction", kbS, field) && this.findAction(field, InnerShowHistory.class) == null) {
             new InnerShowHistory(searcher, field, kbS);
         }
         final KeyStroke ksG = KeyStroke.getKeyStroke(71, 128);
@@ -171,7 +171,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         im.put(KeyStroke.getKeyStroke(86, Keymaps.getMeta()), "IS.Up");
         im.put(Keymaps.getIntlKeyStroke(47), "undoKeystroke");
         final KeyStroke ksE = KeyStroke.getKeyStroke(10, 0);
-        this.removeFromAction(NextOccurrenceAction.class, (Shortcut)new KeyboardShortcut(ksE, (KeyStroke)null), field);
+        this.removeFromAction(NextOccurrenceAction.class, new KeyboardShortcut(ksE, null), field);
         if (isReplace) {
             this.replaceSpecifics(ksE, field);
         }
@@ -189,15 +189,15 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
     }
 
     private void searchSpecifics(final ISearchDelegate searcher, final KeyStroke ksE, final JComponent field) {
-        final KeyboardShortcut kbC = new KeyboardShortcut(KeyStroke.getKeyStroke(9, 128), (KeyStroke)null);
+        final KeyboardShortcut kbC = new KeyboardShortcut(KeyStroke.getKeyStroke(9, 128), null);
         if (field instanceof JTextComponent) {
-            this.addToAction(VariantsCompletionAction.class, (Shortcut)kbC, (JTextComponent)field);
+            this.addToAction(VariantsCompletionAction.class, kbC, (JTextComponent)field);
         }
         if (!this.isMulti() && !searcher.getFindModel().isReplaceState()) {
             field.getActionMap().put("IS.Enter", new ISearchReturn("IS.Enter"));
             field.getInputMap().put(ksE, "IS.Enter");
             if (this.findAction(field, InnerISearchReturn.class) == null) {
-                new InnerISearchReturn(searcher, field, new KeyboardShortcut(KeyStroke.getKeyStroke(10, 0), (KeyStroke)null));
+                new InnerISearchReturn(searcher, field, new KeyboardShortcut(KeyStroke.getKeyStroke(10, 0), null));
             }
         }
     }
@@ -266,8 +266,8 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
                 for (int i = 0; i < cuts.length; ++i) {
                     newcuts[i + 1] = cuts[i];
                 }
-                action.unregisterCustomShortcutSet((JComponent)field);
-                action.registerCustomShortcutSet((ShortcutSet)new CustomShortcutSet(newcuts), (JComponent)field);
+                action.unregisterCustomShortcutSet(field);
+                action.registerCustomShortcutSet(new CustomShortcutSet(newcuts), field);
             }
         }
         return result;
@@ -302,14 +302,14 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
                     }
                 }
                 action.unregisterCustomShortcutSet(field);
-                action.registerCustomShortcutSet((ShortcutSet)new CustomShortcutSet(newcuts), field);
+                action.registerCustomShortcutSet(new CustomShortcutSet(newcuts), field);
             }
         }
         return result;
     }
 
     private boolean removeFromAction(final String actionClass, final KeyStroke ks, final JComponent field) {
-        boolean result = this.removeFromAction(actionClass, (Shortcut)new KeyboardShortcut(ks, (KeyStroke)null), field);
+        boolean result = this.removeFromAction(actionClass, new KeyboardShortcut(ks, null), field);
         if (!result) {
             field.unregisterKeyboardAction(ks);
             result = true;
@@ -386,7 +386,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         protected InnerShowHistory(final ISearchDelegate searcher, final JTextComponent field, final KeyboardShortcut shortcut) {
             this.field = null;
             this.field = field;
-            this.registerCustomShortcutSet((ShortcutSet)new CustomShortcutSet(new Shortcut[] { shortcut }), (JComponent)field);
+            this.registerCustomShortcutSet(new CustomShortcutSet(shortcut), field);
         }
 
         public void actionPerformed(final AnActionEvent e) {
@@ -405,7 +405,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         protected InnerISearchReturn(final ISearchDelegate searcher, final JComponent field, final KeyboardShortcut shortcut) {
             this.field = null;
             this.field = field;
-            this.registerCustomShortcutSet((ShortcutSet)new CustomShortcutSet(new Shortcut[] { shortcut }), field);
+            this.registerCustomShortcutSet(new CustomShortcutSet(shortcut), field);
         }
 
         public void actionPerformed(final AnActionEvent e) {
@@ -446,7 +446,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
                 final List<CaretState> state = this.makeState(searcher);
                 searcher.replaceCurrent();
                 if (state != null && !searcher.hasMatches()) {
-                    ISearchForward.this.myEditor.getCaretModel().setCaretsAndSelections((List)state);
+                    ISearchForward.this.myEditor.getCaretModel().setCaretsAndSelections(state);
                 }
             }
         }
@@ -546,7 +546,8 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
         SwitchToISearchBack(final ISearchDelegate searcher) {
             final ArrayList<Shortcut> shortcuts = new ArrayList<Shortcut>();
             ContainerUtil.addAll((Collection)shortcuts, (Object[])ActionManager.getInstance().getAction("Emacs+.ISearchBackward").getShortcutSet().getShortcuts());
-            this.registerCustomShortcutSet((ShortcutSet)new CustomShortcutSet((Shortcut[])shortcuts.toArray(new Shortcut[shortcuts.size()])), searcher.getComponent());
+            this.registerCustomShortcutSet(
+                new CustomShortcutSet((Shortcut[])shortcuts.toArray(new Shortcut[shortcuts.size()])), searcher.getComponent());
         }
 
         private void setInitialText(final ISearchDelegate seacher, final JTextComponent field, final String itext) {
@@ -575,7 +576,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
                         }
                         try {
                             ISearchForward.this.myEditor.getCaretModel().moveToOffset(adj);
-                            FindUtil.searchBack(e.getProject(), ISearchForward.this.myEditor, (DataContext)null);
+                            FindUtil.searchBack(e.getProject(), ISearchForward.this.myEditor, null);
                         }
                         finally {
                             if (ISearchForward.this.myEditor.getCaretModel().getOffset() == adj) {

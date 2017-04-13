@@ -117,7 +117,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
         else {
             final Language language = file.getLanguage();
             if (language != null) {
-                result = this.checkFill(language.getID(), (Commenter)LanguageCommenters.INSTANCE.forLanguage(language));
+                result = this.checkFill(language.getID(), LanguageCommenters.INSTANCE.forLanguage(language));
             }
         }
         return result;
@@ -222,7 +222,8 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
             tabit = this.addComment(editor, caret, bol, eol);
         }
         if (tabit) {
-            ActionUtil.getInstance().dispatchLater("EmacsStyleIndent", DataManager.getInstance().getDataContext((Component)editor.getComponent()));
+            ActionUtil.getInstance().dispatchLater("EmacsStyleIndent", DataManager.getInstance().getDataContext(
+                editor.getComponent()));
         }
         EditorModificationUtil.scrollToCaret(editor);
     }
@@ -245,7 +246,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
             int end;
             for (text = document.getText(new TextRange(bol, eol)), end = text.length() - 1; end >= 0 && text.charAt(end) <= ' '; --end) {}
             if (++end == 0) {
-                document.replaceString(bol, eol, (CharSequence)comment);
+                document.replaceString(bol, eol, comment);
                 caret.moveToOffset(bol + length);
                 tabit = true;
             }
@@ -255,11 +256,11 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler
                 if (end < cc) {
                     caret.moveToOffset(newoff);
                     final String fill = EditorModificationUtil.calcStringToFillVirtualSpace(editor, cc - end);
-                    document.insertString(newoff, (CharSequence)(fill + comment));
+                    document.insertString(newoff, fill + comment);
                     caret.moveToOffset(newoff + fill.length() + length);
                 }
                 else {
-                    document.replaceString(newoff, eol, (CharSequence)comment);
+                    document.replaceString(newoff, eol, comment);
                     caret.moveToOffset(newoff + length);
                 }
             }

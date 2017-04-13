@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 public class DeleteBlankLines extends EmacsPlusAction
 {
     public DeleteBlankLines() {
-        this((EditorActionHandler)new myHandler());
+        this(new myHandler());
     }
 
     protected DeleteBlankLines(final EditorActionHandler defaultHandler) {
@@ -50,7 +50,7 @@ public class DeleteBlankLines extends EmacsPlusAction
             else {
                 if (nextBlank || (lineNum != 0 && this.isBlankLine(document, lineNum - 1))) {
                     offset = this.transformSpace(editor, offset, dataContext, "", true);
-                    document.insertString(offset, (CharSequence)"\n");
+                    document.insertString(offset, "\n");
                 }
                 else {
                     offset = this.transformSpace(editor, caret, dataContext, "", true);

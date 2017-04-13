@@ -29,10 +29,10 @@ public class EditorUtil
         final Editor editor = getCurrentEditor(project);
         if (editor != null) {
             final JComponent focusedComponent = editor.getContentComponent();
-            ApplicationManager.getApplication().invokeLater((Runnable)new Runnable() {
+            ApplicationManager.getApplication().invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    IdeFocusManager.getInstance(project).requestFocus((Component)focusedComponent, true);
+                    IdeFocusManager.getInstance(project).requestFocus(focusedComponent, true);
                 }
             });
         }
@@ -40,7 +40,7 @@ public class EditorUtil
 
     public static void closeEditorPopups() {
         if (JBPopupFactory.getInstance().isPopupActive()) {
-            ApplicationManager.getApplication().invokeLater((Runnable)new Runnable() {
+            ApplicationManager.getApplication().invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     IdeEventQueue.getInstance().getPopupManager().closeAllPopups();

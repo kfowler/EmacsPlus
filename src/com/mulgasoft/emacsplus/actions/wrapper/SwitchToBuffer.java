@@ -54,7 +54,7 @@ public class SwitchToBuffer extends DumbAwareAction
         FeatureUsageTracker.getInstance().triggerFeatureUsed("navigation.recent.files");
         final Switcher.SwitcherPanel switcher = this.getSwitcher(e);
         if (switcher != null) {
-            this.keySetup((JPanel)switcher);
+            this.keySetup(switcher);
         }
     }
 
@@ -90,7 +90,7 @@ public class SwitchToBuffer extends DumbAwareAction
         this.removeFromActions(field, ksN, null);
         this.removeFromActions(field, ksP, null);
         this.removeFromActions(field, ksD, null);
-        final CustomShortcutSet cuts = CustomShortcutSet.fromString(new String[] { "ESCAPE", "control G" });
+        final CustomShortcutSet cuts = CustomShortcutSet.fromString("ESCAPE", "control G");
         this.replaceOnActions(field, KeyStroke.getKeyStroke(27, 0), null, cuts);
         final InputMap im = field.getInputMap();
         final ActionMap am = field.getActionMap();
@@ -114,7 +114,7 @@ public class SwitchToBuffer extends DumbAwareAction
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (e.getSource() instanceof Switcher.SwitcherPanel) {
-                    ListScrollingUtil.movePageDown((JList)((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
+                    ListScrollingUtil.movePageDown(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
                 }
             }
         });
@@ -122,7 +122,7 @@ public class SwitchToBuffer extends DumbAwareAction
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (e.getSource() instanceof Switcher.SwitcherPanel) {
-                    ListScrollingUtil.movePageUp((JList)((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
+                    ListScrollingUtil.movePageUp(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
                 }
             }
         });
@@ -130,7 +130,7 @@ public class SwitchToBuffer extends DumbAwareAction
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (e.getSource() instanceof Switcher.SwitcherPanel) {
-                    ListScrollingUtil.moveHome((JList)((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
+                    ListScrollingUtil.moveHome(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
                 }
             }
         });
@@ -138,7 +138,7 @@ public class SwitchToBuffer extends DumbAwareAction
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (e.getSource() instanceof Switcher.SwitcherPanel) {
-                    ListScrollingUtil.moveEnd((JList)((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
+                    ListScrollingUtil.moveEnd(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
                 }
             }
         });
@@ -158,7 +158,7 @@ public class SwitchToBuffer extends DumbAwareAction
             final KeyboardShortcut kb = au.getShortcut(kbs, key1, key2);
             if (kb != null) {
                 act.unregisterCustomShortcutSet(field);
-                act.registerCustomShortcutSet((ShortcutSet)customs, field);
+                act.registerCustomShortcutSet(customs, field);
                 break;
             }
         }
@@ -183,7 +183,7 @@ public class SwitchToBuffer extends DumbAwareAction
                     }
                 }
                 act.unregisterCustomShortcutSet(field);
-                act.registerCustomShortcutSet((ShortcutSet)new CustomShortcutSet(newCuts), field);
+                act.registerCustomShortcutSet(new CustomShortcutSet(newCuts), field);
                 break;
             }
         }
@@ -193,6 +193,6 @@ public class SwitchToBuffer extends DumbAwareAction
         SwitchToBuffer.args14 = new Class[] { AnActionEvent.class, String.class, Boolean.TYPE };
         SwitchToBuffer.args15 = new Class[] { AnActionEvent.class, String.class, Boolean.TYPE, VirtualFile[].class };
         SwitchToBuffer.SWITCH_CREATE = "createAndShowSwitcher";
-        SwitchToBuffer.SWITCH_TITLE = IdeBundle.message("title.popup.recent.files", new Object[0]);
+        SwitchToBuffer.SWITCH_TITLE = IdeBundle.message("title.popup.recent.files");
     }
 }
