@@ -18,7 +18,7 @@
 <idea-plugin>
   <id>com.mulgasoft.emacsplus</id>
   <name>Emacs+</name>
-  <version>0.3.200</version>
+  <version>0.4.1</version>
   <vendor email="support@mulgasoft.com" url="http://www.mulgasoft.com/intellemacsplus">MulgaSoft</vendor>
 
   <description><![CDATA[
@@ -54,23 +54,29 @@
     ]]></description>
 
   <change-notes><![CDATA[
-     <i>&beta 0.3.200</i><br>
-     <ul>
-      <li>Restore isearch changes after IntelliJ's backward incompatible changes in IDEA 15</li>
-       <br>
-      <li>Add back-to-indentation <b><i>M-m</i></b></li>
-      <li>Add delete-indentation <b><i>M-^</i></b> (and <b><i>C-u M-^</i></b>)</li>
-     </ul>
-     <i>&beta 0.3.110</i><br>
-     <ul>
-      <li>Support multiple carets in comment commands</li>
-      <li>Support additional movement commands on <b><i>C-x b</i></b></li>
-     </ul>
+    <ul>
+      <li>0.4.1</li>
+      <ul>
+        <li>Use bundled keymap provider.</li>
+        <li>Decompiled sources built using gradle.</li>
+      </ul>
+      <li>&beta 0.3.200</li>
+      <ul>
+        <li>Restore isearch changes after IntelliJ's backward incompatible changes in IDEA 15</li>
+        <li>Add back-to-indentation <b><i>M-m</i></b></li>
+        <li>Add delete-indentation <b><i>M-^</i></b> (and <b><i>C-u M-^</i></b>)</li>
+      </ul>
+      <li>&beta 0.3.110</li>
+      <ul>
+        <li>Support multiple carets in comment commands</li>
+        <li>Support additional movement commands on <b><i>C-x b</i></b></li>
+      </ul>
+    </ul>
     ]]>
   </change-notes>
 
   <!-- please see https://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
-  <idea-version since-build="131"/>
+  <idea-version since-build="171"/>
 
   <!-- please see https://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
        on how to target different products -->
