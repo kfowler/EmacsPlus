@@ -5,6 +5,7 @@
 package com.mulgasoft.emacsplus.actions.search;
 
 import com.intellij.find.FindModel;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,28 +14,25 @@ import javax.swing.text.JTextComponent;
 
 public class ISearch14 implements ISearchDelegate
 {
-    private Editor editor;
+    private static final Logger LOG = Logger.getInstance(ISearch14.class);
+
     private JComponent searchComp;
 
     public ISearch14(final Editor editor, final JComponent component) {
-        this.editor = null;
-        this.searchComp = null;
-        this.editor = editor;
         this.searchComp = component;
     }
 
-    protected Object invoke(final Object element, final String method) {
-        Object result = null;
+    private Object invoke(final Object element, final String method) {
         try {
             final Method meth;
             if (element != null && (meth = element.getClass().getMethod(method, (Class<?>[])new Class[0])) != null) {
-                result = meth.invoke(element);
+                return meth.invoke(element);
             }
         }
-        catch (NoSuchMethodException e) {}
-        catch (InvocationTargetException e2) {}
-        catch (IllegalAccessException ex) {}
-        return result;
+        catch (NoSuchMethodException | InvocationTargetException |IllegalAccessException ex) {
+            LOG.error("Failed to invoke " + method, ex);
+        }
+        return null;
     }
 
     @Override
