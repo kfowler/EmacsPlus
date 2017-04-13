@@ -79,13 +79,13 @@ public class ISearch14 implements ISearchDelegate
     public void showHistory(final boolean byToolBar, final JTextComponent field) {
         try {
             final Method meth;
-            if (this.searchComp != null && (meth = this.searchComp.getClass().getMethod("showHistory", Boolean.class, JTextComponent.class)) != null) {
+            if (this.searchComp != null
+                && (meth = this.searchComp.getClass().getMethod("showHistory", Boolean.class, JTextComponent.class)) != null) {
                 meth.invoke(this.searchComp, byToolBar, field);
             }
+        } catch (NoSuchMethodException|InvocationTargetException|IllegalAccessException e) {
+            LOG.error("show history failed ", e);
         }
-        catch (NoSuchMethodException e) {}
-        catch (InvocationTargetException e2) {}
-        catch (IllegalAccessException ex) {}
     }
 
     @Override
