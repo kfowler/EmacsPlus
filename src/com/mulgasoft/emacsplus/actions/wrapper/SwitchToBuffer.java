@@ -12,9 +12,10 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CustomShortcutSet;
 import com.intellij.openapi.actionSystem.KeyboardShortcut;
 import com.intellij.openapi.actionSystem.Shortcut;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.ListScrollingUtil;
+import com.intellij.ui.ScrollingUtil;
 import com.mulgasoft.emacsplus.keys.Keymaps;
 import com.mulgasoft.emacsplus.util.ActionUtil;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class SwitchToBuffer extends DumbAwareAction
 {
+    private static final Logger LOG = Logger.getInstance(SwitchToBuffer.class);
+
     private static Class[] args14;
     private static Class[] args15;
     @NonNls
@@ -113,7 +116,7 @@ public class SwitchToBuffer extends DumbAwareAction
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (e.getSource() instanceof Switcher.SwitcherPanel) {
-                    ListScrollingUtil.movePageDown(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
+                    ScrollingUtil.movePageDown(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
                 }
             }
         });
@@ -121,7 +124,7 @@ public class SwitchToBuffer extends DumbAwareAction
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (e.getSource() instanceof Switcher.SwitcherPanel) {
-                    ListScrollingUtil.movePageUp(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
+                    ScrollingUtil.movePageUp(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
                 }
             }
         });
@@ -129,7 +132,7 @@ public class SwitchToBuffer extends DumbAwareAction
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (e.getSource() instanceof Switcher.SwitcherPanel) {
-                    ListScrollingUtil.moveHome(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
+                    ScrollingUtil.moveHome(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
                 }
             }
         });
@@ -137,7 +140,7 @@ public class SwitchToBuffer extends DumbAwareAction
             @Override
             public void actionPerformed(final ActionEvent e) {
                 if (e.getSource() instanceof Switcher.SwitcherPanel) {
-                    ListScrollingUtil.moveEnd(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
+                    ScrollingUtil.moveEnd(((Switcher.SwitcherPanel)e.getSource()).getSelectedList());
                 }
             }
         });
@@ -165,6 +168,10 @@ public class SwitchToBuffer extends DumbAwareAction
 
     private void removeFromActions(final JComponent field, final KeyStroke key1, final KeyStroke key2) {
         final List<AnAction> actions = (List<AnAction>)field.getClientProperty("AnAction.shortcutSet");
+        if (actions == null) {
+            LOG.error("Expected actions in " + field.getName());
+            return;
+        }
         final ActionUtil au = ActionUtil.getInstance();
         for (final AnAction act : actions) {
             final List<KeyboardShortcut> kbs = au.getKBShortCuts(act);
