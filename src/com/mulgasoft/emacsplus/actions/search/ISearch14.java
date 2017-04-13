@@ -18,7 +18,7 @@ public class ISearch14 implements ISearchDelegate
 
     private JComponent searchComp;
 
-    public ISearch14(final Editor editor, final JComponent component) {
+    ISearch14(final Editor editor, final JComponent component) {
         this.searchComp = component;
     }
 
@@ -29,8 +29,8 @@ public class ISearch14 implements ISearchDelegate
                 return meth.invoke(element);
             }
         }
-        catch (NoSuchMethodException | InvocationTargetException |IllegalAccessException ex) {
-            LOG.error("Failed to invoke " + method, ex);
+        catch (NoSuchMethodException | InvocationTargetException |IllegalAccessException e) {
+            LOG.error("Failed to invoke " + method, e);
         }
         return null;
     }

@@ -5,6 +5,7 @@
 package com.mulgasoft.emacsplus.actions.search;
 
 import com.intellij.find.FindModel;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -15,37 +16,33 @@ import org.jetbrains.annotations.NonNls;
 
 public class ISearch15 implements ISearchDelegate
 {
+    private static final Logger LOG = Logger.getInstance(ISearch15.class);
+
     @NonNls
     private static String GET_SEARCH;
     @NonNls
     private static String GET_REPLACE;
     @NonNls
     private static String GET_FIND;
-    private Editor editor;
     private JComponent searchComp;
     private Object session;
 
-    public ISearch15(final Editor editor, final Object session, final JComponent component) {
-        this.editor = null;
-        this.searchComp = null;
-        this.session = null;
-        this.editor = editor;
+    ISearch15(final Editor editor, final Object session, final JComponent component) {
         this.session = session;
         this.searchComp = component;
     }
 
-    protected Object invoke(final Object element, final String method) {
-        Object result = null;
+    private Object invoke(final Object element, final String method) {
         try {
             final Method meth;
             if (element != null && (meth = element.getClass().getMethod(method, (Class<?>[])new Class[0])) != null) {
-                result = meth.invoke(element);
+                return meth.invoke(element);
             }
         }
-        catch (NoSuchMethodException e) {}
-        catch (InvocationTargetException e2) {}
-        catch (IllegalAccessException ex) {}
-        return result;
+        catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            LOG.error("Failed to invoke " + method, e);
+        }
+        return null;
     }
 
     private Object getAF(final Object o, final String fieldName) {
@@ -73,9 +70,9 @@ public class ISearch15 implements ISearchDelegate
                 c = c.getSuperclass();
             } while (c != null);
         }
-        catch (SecurityException e) {}
-        catch (IllegalArgumentException e2) {}
-        catch (IllegalAccessException ex) {}
+        catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
+            LOG.error("Couldn't get field " + fieldName, e);
+        }
         return null;
     }
 
