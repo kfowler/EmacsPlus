@@ -49,7 +49,7 @@ public class ActionUtil
         if (action == null) {
             throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "action", "com/mulgasoft/emacsplus/util/ActionUtil", "getKBShortCuts"));
         }
-        final List<KeyboardShortcut> kbs = new ArrayList<KeyboardShortcut>();
+        final List<KeyboardShortcut> kbs = new ArrayList<>();
         if (action != null) {
             final Shortcut[] arr$;
             final Shortcut[] shortcuts = arr$ = action.getShortcutSet().getShortcuts();

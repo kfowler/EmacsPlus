@@ -457,7 +457,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
                     for (int i = 0; i < starts.length; ++i) {
                         if (starts[i] != ends[i]) {
                             if (result == null) {
-                                result = new ArrayList<CaretState>();
+                                result = new ArrayList<>();
                             }
                             result.add(new CaretState(ISearchForward.this.myEditor.offsetToLogicalPosition(off), ISearchForward.this.myEditor.offsetToLogicalPosition(starts[i]), ISearchForward.this.myEditor.offsetToLogicalPosition(ends[i])));
                         }
@@ -538,7 +538,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
     private class SwitchToISearchBack extends AnAction
     {
         SwitchToISearchBack(final ISearchDelegate searcher) {
-            final ArrayList<Shortcut> shortcuts = new ArrayList<Shortcut>();
+            final ArrayList<Shortcut> shortcuts = new ArrayList<>();
             ContainerUtil.addAll((Collection)shortcuts, (Object[])ActionManager.getInstance().getAction("Emacs+.ISearchBackward").getShortcutSet().getShortcuts());
             this.registerCustomShortcutSet(
                 new CustomShortcutSet((Shortcut[])shortcuts.toArray(new Shortcut[shortcuts.size()])), searcher.getComponent());

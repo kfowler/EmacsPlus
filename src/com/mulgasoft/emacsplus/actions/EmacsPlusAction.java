@@ -49,7 +49,7 @@ public abstract class EmacsPlusAction extends TextComponentEditorAction implemen
     }
 
     static {
-        EmacsPlusAction.ourCommandMap = new HashMap<String, EmacsPlusBA>();
+        EmacsPlusAction.ourCommandMap = new HashMap<>();
     }
 
     private static class EmacsPlusCommandListener implements CommandListener

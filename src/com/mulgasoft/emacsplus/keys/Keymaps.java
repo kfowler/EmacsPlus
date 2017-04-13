@@ -187,7 +187,7 @@ public abstract class Keymaps
 
     static {
         USER_KEYMAP = System.getProperty("user.home") + "/.emacs+keymap" + ".xml";
-        Keymaps.mapNames = new ArrayList<String>();
+        Keymaps.mapNames = new ArrayList<>();
         Keymaps.isAlt = true;
         Keymaps.isLocale = null;
     }
