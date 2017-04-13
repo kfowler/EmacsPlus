@@ -54,7 +54,7 @@ public class WhatCursorPos extends EditorAction
 
         private String getCurPos(final int offset, final int docLen, final Document doc) {
             final char curChar = doc.getCharsSequence().charAt(offset);
-            final int percent = (int)(Object)new Float(offset * 100 / docLen + 0.5);
+            final int percent = Math.round(offset * 100 / docLen + 0.5f);
             final int curCode = curChar;
             final String sChar = (curChar <= ' ') ? this.normalizeChar(curChar) : String.valueOf(curChar);
             return String.format("Char: %s  (%d, #o%o, #x%x)  point=%d of %d (%d%%)", sChar, curCode, curCode, curCode, offset, docLen, percent);
