@@ -1,17 +1,23 @@
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-    }
+  repositories {
+    maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+  }
 }
 
 plugins {
-    id 'org.jetbrains.intellij' version '0.2.0'
+  id "org.jetbrains.intellij" version "0.2.7"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
 }
 
 apply plugin: 'java'
+apply plugin: 'org.jetbrains.intellij'
 
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
@@ -20,11 +26,17 @@ tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
 
 sourceSets {
     main {
-        java.srcDir 'src'
-        resources.srcDir 'resources'
+        java {
+            srcDirs = ['src']
+        }
+        resources {
+            srcDirs = ['resources']
+        }
     }
     test {
-        java.srcDir 'test'
+        java {
+            srcDirs = ['test']
+        }
     }
 }
 
@@ -34,16 +46,9 @@ intellij {
     updateSinceUntilBuild false
     downloadSources Boolean.valueOf(downloadIdeaSources)
 
-    publish {
+    publishPlugin {
         channels publishChannels.split(',')
         username publishUsername
         password publishPassword
     }
-}
-
-repositories {
-  mavenCentral()
-}
-
-dependencies {
 }
