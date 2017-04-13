@@ -72,8 +72,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA
     private FindModel.FindModelObserver fmo;
 
     String getNoActionMsg(final EditorAction action) {
-        final String msg = String.format(this.GEN_MSG, action.getTemplatePresentation().getText());
-        return msg;
+        return String.format(this.GEN_MSG, action.getTemplatePresentation().getText());
     }
 
     protected ISearchForward(final boolean isReplace) {
