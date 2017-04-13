@@ -4,20 +4,23 @@
 
 package com.mulgasoft.emacsplus;
 
-import org.jetbrains.annotations.NotNull;
-import java.awt.Toolkit;
-import com.intellij.openapi.extensions.PluginId;
-import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
+import com.intellij.ide.plugins.PluginManager;
 import com.intellij.openapi.command.CommandEvent;
 import com.intellij.openapi.command.CommandListener;
 import com.intellij.openapi.command.CommandProcessor;
-import com.mulgasoft.emacsplus.keys.Keymaps;
-import com.intellij.ide.plugins.PluginManager;
-import com.intellij.openapi.extensions.PluginDescriptor;
 import com.intellij.openapi.components.ApplicationComponent;
+import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.extensions.PluginDescriptor;
+import com.intellij.openapi.extensions.PluginId;
+import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
+import java.awt.*;
+import org.jetbrains.annotations.NotNull;
+
 
 public class EmacsPlus implements ApplicationComponent
 {
+    private static final Logger LOG = Logger.getInstance(EmacsPlus.class);
+
     private static PluginDescriptor ourPlugin;
     private static String ultCommand;
     private static String penultCommand;

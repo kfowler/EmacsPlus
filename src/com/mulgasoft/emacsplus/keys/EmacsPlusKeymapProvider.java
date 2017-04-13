@@ -38,7 +38,7 @@ public class EmacsPlusKeymapProvider implements BundledKeymapProvider {
     try (InputStream stream = this.getClass().getResourceAsStream(key)) {
       return consumer.apply(stream);
     } catch (Exception e) {
-      System.err.println(e);
+      LOG.error("Error loading keymap: " + key, e);
       return null;
     }
   }
