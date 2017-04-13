@@ -21,66 +21,63 @@ import java.awt.datatransfer.Transferable;
 import java.util.Arrays;
 import java.util.List;
 
-public class YankPop extends Yanking
-{
-    private static List<String> yanks;
-    private static TextRange dest;
-    private static boolean yanker;
-    private static boolean dispatched;
 
-    public YankPop() {
-        super(new myHandler());
-        EmacsPlusAction.addCommandListener(this, "yank-pop");
+public class YankPop extends Yanking {
+  private static List<String> yanks;
+  private static TextRange dest;
+  private static boolean yanker;
+  private static boolean dispatched;
+
+  public YankPop() {
+    super(new myHandler());
+    EmacsPlusAction.addCommandListener(this, "yank-pop");
+  }
+
+  @Override
+  public void before(final CommandEvent e) {
+    YankPop.yanker = YankPop.yanks.contains(EmacsPlus.getUltCommand());
+  }
+
+  @Override
+  public void after(final CommandEvent e) {
+    YankPop.dispatched = false;
+    if (YankPop.yanker) {
+      this.popped(YankPop.dest);
+      YankPop.yanker = false;
     }
+  }
 
-    @Override
-    public void before(final CommandEvent e) {
-        YankPop.yanker = YankPop.yanks.contains(EmacsPlus.getUltCommand());
-    }
+  static {
+    YankPop.yanks = Arrays.asList("yank", "yank-pop");
+    YankPop.dest = null;
+    YankPop.yanker = false;
+    YankPop.dispatched = false;
+  }
 
-    @Override
-    public void after(final CommandEvent e) {
-        YankPop.dispatched = false;
-        if (YankPop.yanker) {
-            this.popped(YankPop.dest);
-            YankPop.yanker = false;
+  private static final class myHandler extends YankHandler {
+    public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
+      if (YankPop.yanker && (!(editor instanceof TextComponentEditor) || caret.getOffset() == Yanking.getOffset())) {
+        int index = Yanking.getIndex();
+        final Transferable[] contents = CopyPasteManager.getInstance().getAllContents();
+        if (index >= contents.length) {
+          index = 0;
+          Yanking.setIndex(index);
         }
-    }
-
-    static {
-        YankPop.yanks = Arrays.asList("yank", "yank-pop");
-        YankPop.dest = null;
+        final Transferable content = contents[index];
+        YankPop.dest = this.paste(editor, caret, content, Yanking.getLength());
+      } else if (!YankPop.dispatched) {
+        YankPop.dispatched = true;
         YankPop.yanker = false;
-        YankPop.dispatched = false;
+        if (editor instanceof EditorEx) {
+          ActionUtil.getInstance().dispatchLater("PasteMultiple", dataContext);
+        } else {
+          this.beep();
+        }
+      }
     }
 
-    private static final class myHandler extends YankHandler
-    {
-        public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
-            if (YankPop.yanker && (!(editor instanceof TextComponentEditor) || caret.getOffset() == Yanking.getOffset())) {
-                int index = Yanking.getIndex();
-                final Transferable[] contents = CopyPasteManager.getInstance().getAllContents();
-                if (index >= contents.length) {
-                    index = 0;
-                    Yanking.setIndex(index);
-                }
-                final Transferable content = contents[index];
-                YankPop.dest = this.paste(editor, caret, content, Yanking.getLength());
-            }
-            else if (!YankPop.dispatched) {
-                YankPop.dispatched = true;
-                YankPop.yanker = false;
-                if (editor instanceof EditorEx) {
-                    ActionUtil.getInstance().dispatchLater("PasteMultiple", dataContext);
-                }
-                else {
-                    this.beep();
-                }
-            }
-        }
-
-        private void beep() {
-            ApplicationManager.getApplication().invokeLater(() -> EmacsPlus.beep(true));
-        }
+    private void beep() {
+      ApplicationManager.getApplication().invokeLater(() -> EmacsPlus.beep(true));
     }
+  }
 }

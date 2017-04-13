@@ -10,16 +10,15 @@ import com.intellij.openapi.editor.Editor;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.WhiteSpaceHandler;
 
-public class JustOneSpace extends EmacsPlusAction
-{
-    public JustOneSpace() {
-        super(new myHandler());
-    }
 
-    private static class myHandler extends WhiteSpaceHandler
-    {
-        public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
-            this.transformSpace(editor, caret, dataContext, " ", false);
-        }
+public class JustOneSpace extends EmacsPlusAction {
+  public JustOneSpace() {
+    super(new myHandler());
+  }
+
+  private static class myHandler extends WhiteSpaceHandler {
+    public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
+      this.transformSpace(editor, caret, dataContext, " ", false);
     }
+  }
 }

@@ -11,20 +11,19 @@ import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.WhiteSpaceHandler;
 
-public class DeleteHorizSpace extends EmacsPlusAction
-{
-    public DeleteHorizSpace() {
-        this(new myHandler());
-    }
 
-    protected DeleteHorizSpace(final EditorActionHandler defaultHandler) {
-        super(defaultHandler);
-    }
+public class DeleteHorizSpace extends EmacsPlusAction {
+  public DeleteHorizSpace() {
+    this(new myHandler());
+  }
 
-    private static class myHandler extends WhiteSpaceHandler
-    {
-        public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
-            this.transformSpace(editor, caret, dataContext, "", false);
-        }
+  protected DeleteHorizSpace(final EditorActionHandler defaultHandler) {
+    super(defaultHandler);
+  }
+
+  private static class myHandler extends WhiteSpaceHandler {
+    public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
+      this.transformSpace(editor, caret, dataContext, "", false);
     }
+  }
 }

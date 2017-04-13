@@ -12,28 +12,28 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.mulgasoft.emacsplus.util.EditorUtil;
 
-public class TWInterrupt extends TWAction
-{
-    @Override
-    public void actionPerformed(final AnActionEvent e) {
-        final Project project = CommonDataKeys.PROJECT.getData(e.getDataContext());
-        this.checkTW(e, project);
-        EditorUtil.closeEditorPopups();
-        EditorUtil.activateCurrentEditor(project);
-    }
 
-    private void checkTW(final AnActionEvent e, final Project project) {
-        final ToolWindow toolWindow = e.getData(PlatformDataKeys.TOOL_WINDOW);
-        if (toolWindow != null) {
-            final ToolWindowManager manager = ToolWindowManager.getInstance(project);
-            if (manager.isMaximized(toolWindow)) {
-                manager.setMaximized(toolWindow, false);
-            }
-        }
-    }
+public class TWInterrupt extends TWAction {
+  @Override
+  public void actionPerformed(final AnActionEvent e) {
+    final Project project = CommonDataKeys.PROJECT.getData(e.getDataContext());
+    this.checkTW(e, project);
+    EditorUtil.closeEditorPopups();
+    EditorUtil.activateCurrentEditor(project);
+  }
 
-    @Override
-    protected boolean isValid(final AnActionEvent e) {
-        return this.getComponent(e.getDataContext()) != null;
+  private void checkTW(final AnActionEvent e, final Project project) {
+    final ToolWindow toolWindow = e.getData(PlatformDataKeys.TOOL_WINDOW);
+    if (toolWindow != null) {
+      final ToolWindowManager manager = ToolWindowManager.getInstance(project);
+      if (manager.isMaximized(toolWindow)) {
+        manager.setMaximized(toolWindow, false);
+      }
     }
+  }
+
+  @Override
+  protected boolean isValid(final AnActionEvent e) {
+    return this.getComponent(e.getDataContext()) != null;
+  }
 }

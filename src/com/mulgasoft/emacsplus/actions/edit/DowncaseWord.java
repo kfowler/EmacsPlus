@@ -10,16 +10,15 @@ import com.intellij.openapi.editor.Editor;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.CaseHandler;
 
-public class DowncaseWord extends EmacsPlusAction
-{
-    public DowncaseWord() {
-        super(new myHandler());
-    }
 
-    private static class myHandler extends CaseHandler
-    {
-        public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
-            this.caseAction(editor, caret, Cases.LOWER);
-        }
+public class DowncaseWord extends EmacsPlusAction {
+  public DowncaseWord() {
+    super(new myHandler());
+  }
+
+  private static class myHandler extends CaseHandler {
+    public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
+      this.caseAction(editor, caret, Cases.LOWER);
     }
+  }
 }

@@ -12,31 +12,30 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.ISHandler;
 
-public class ISDeleteChar extends EmacsPlusAction
-{
-    public ISDeleteChar() {
-        super(new myHandler());
+
+public class ISDeleteChar extends EmacsPlusAction {
+  public ISDeleteChar() {
+    super(new myHandler());
+  }
+
+  private static final class myHandler extends ISHandler {
+    public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
+      final Editor editor = FileEditorManager.getInstance(isEditor.getProject()).getSelectedTextEditor();
+      final int offset = editor.getCaretModel().getOffset();
+      final int isOffset = isCaret.getOffset();
+      final Document isDoc = isEditor.getDocument();
+      if (isOffset > 0) {
+        isDoc.deleteString(isOffset - 1, isOffset);
+        if (isDoc.getTextLength() == 0) {
+          editor.getCaretModel().moveToOffset(offset - 1);
+          editor.getSelectionModel().removeSelection();
+        }
+      }
     }
 
-    private static final class myHandler extends ISHandler
-    {
-        public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
-            final Editor editor = FileEditorManager.getInstance(isEditor.getProject()).getSelectedTextEditor();
-            final int offset = editor.getCaretModel().getOffset();
-            final int isOffset = isCaret.getOffset();
-            final Document isDoc = isEditor.getDocument();
-            if (isOffset > 0) {
-                isDoc.deleteString(isOffset - 1, isOffset);
-                if (isDoc.getTextLength() == 0) {
-                    editor.getCaretModel().moveToOffset(offset - 1);
-                    editor.getSelectionModel().removeSelection();
-                }
-            }
-        }
-
-        @Override
-        protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
-            return ISHandler.isInISearch(editor);
-        }
+    @Override
+    protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
+      return ISHandler.isInISearch(editor);
     }
+  }
 }

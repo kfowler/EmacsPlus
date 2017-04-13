@@ -10,17 +10,16 @@ import com.intellij.openapi.editor.Editor;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.ExprHandler;
 
-public class BackwardWord extends EmacsPlusAction
-{
-    protected BackwardWord() {
-        super(new myHandler());
-    }
 
-    private static final class myHandler extends ExprHandler
-    {
-        @Override
-        protected void doXecute(final Editor editor, final Caret caret, final DataContext dataContext) {
-            this.moveToWord(editor, caret, dataContext, -1);
-        }
+public class BackwardWord extends EmacsPlusAction {
+  protected BackwardWord() {
+    super(new myHandler());
+  }
+
+  private static final class myHandler extends ExprHandler {
+    @Override
+    protected void doXecute(final Editor editor, final Caret caret, final DataContext dataContext) {
+      this.moveToWord(editor, caret, dataContext, -1);
     }
+  }
 }

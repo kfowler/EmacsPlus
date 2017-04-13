@@ -12,21 +12,20 @@ import com.intellij.openapi.util.TextRange;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.ISHandler;
 
-public class ISYankChar extends EmacsPlusAction
-{
-    public ISYankChar() {
-        super(new myHandler());
-    }
 
-    private static final class myHandler extends ISHandler
-    {
-        public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
-            final Editor editor = FileEditorManager.getInstance(isEditor.getProject()).getSelectedTextEditor();
-            final int offset = editor.getCaretModel().getOffset();
-            final String text = editor.getDocument().getText(new TextRange(offset, offset + 1));
-            if (text != null) {
-                isEditor.getDocument().insertString(isCaret.getOffset(), this.fixYank(isEditor, text));
-            }
-        }
+public class ISYankChar extends EmacsPlusAction {
+  public ISYankChar() {
+    super(new myHandler());
+  }
+
+  private static final class myHandler extends ISHandler {
+    public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
+      final Editor editor = FileEditorManager.getInstance(isEditor.getProject()).getSelectedTextEditor();
+      final int offset = editor.getCaretModel().getOffset();
+      final String text = editor.getDocument().getText(new TextRange(offset, offset + 1));
+      if (text != null) {
+        isEditor.getDocument().insertString(isCaret.getOffset(), this.fixYank(isEditor, text));
+      }
     }
+  }
 }

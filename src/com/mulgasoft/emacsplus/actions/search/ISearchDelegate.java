@@ -8,27 +8,27 @@ import com.intellij.find.FindModel;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
-public interface ISearchDelegate
-{
-    JTextComponent getSearchField();
 
-    JTextComponent getReplaceField();
+public interface ISearchDelegate {
+  JTextComponent getSearchField();
 
-    JComponent getComponent();
+  JTextComponent getReplaceField();
 
-    FindModel getFindModel();
+  JComponent getComponent();
 
-    boolean hasMatches();
+  FindModel getFindModel();
 
-    void searchForward();
+  boolean hasMatches();
 
-    void searchBackward();
+  void searchForward();
 
-    void replaceCurrent();
+  void searchBackward();
 
-    void showHistory(final boolean p0, final JTextComponent p1);
+  void replaceCurrent();
 
-    void close();
+  void showHistory(final boolean p0, final JTextComponent p1);
 
-    void requestFocus();
+  void close();
+
+  void requestFocus();
 }

@@ -12,25 +12,24 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.ISHandler;
 
-public class ISMultiLine extends EmacsPlusAction
-{
-    public ISMultiLine() {
-        super(new myHandler());
+
+public class ISMultiLine extends EmacsPlusAction {
+  public ISMultiLine() {
+    super(new myHandler());
+  }
+
+  private static final class myHandler extends ISHandler {
+    public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
+      final Editor editor = FileEditorManager.getInstance(isEditor.getProject()).getSelectedTextEditor();
+      final FindModel findModel = ISHandler.getFindModel(editor);
+      if (findModel != null) {
+        findModel.setMultiline(!findModel.isMultiline());
+      }
     }
 
-    private static final class myHandler extends ISHandler
-    {
-        public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
-            final Editor editor = FileEditorManager.getInstance(isEditor.getProject()).getSelectedTextEditor();
-            final FindModel findModel = ISHandler.getFindModel(editor);
-            if (findModel != null) {
-                findModel.setMultiline(!findModel.isMultiline());
-            }
-        }
-
-        @Override
-        protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
-            return ISHandler.isInISearch(editor);
-        }
+    @Override
+    protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
+      return ISHandler.isInISearch(editor);
     }
+  }
 }

@@ -10,21 +10,20 @@ import com.intellij.openapi.editor.Editor;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.EmacsPlusCaretHandler;
 
-public class AppendNextKill extends EmacsPlusAction
-{
-    public AppendNextKill() {
-        super(new myHandler(false));
-        EmacsPlusAction.addCommandListener(this, "append-next-kill");
+
+public class AppendNextKill extends EmacsPlusAction {
+  public AppendNextKill() {
+    super(new myHandler(false));
+    EmacsPlusAction.addCommandListener(this, "append-next-kill");
+  }
+
+  private static class myHandler extends EmacsPlusCaretHandler {
+    public myHandler(final boolean runForEachCaret) {
+      super(runForEachCaret);
     }
 
-    private static class myHandler extends EmacsPlusCaretHandler
-    {
-        public myHandler(final boolean runForEachCaret) {
-            super(runForEachCaret);
-        }
-
-        @Override
-        protected void doXecute(final Editor editor, final Caret caret, final DataContext dataContext) {
-        }
+    @Override
+    protected void doXecute(final Editor editor, final Caret caret, final DataContext dataContext) {
     }
+  }
 }

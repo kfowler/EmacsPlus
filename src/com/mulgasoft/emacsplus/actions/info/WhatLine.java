@@ -12,18 +12,17 @@ import com.intellij.openapi.editor.actionSystem.EditorAction;
 import com.intellij.openapi.wm.StatusBar;
 import com.mulgasoft.emacsplus.handlers.EmacsPlusCaretHandler;
 
-public class WhatLine extends EditorAction
-{
-    protected WhatLine() {
-        super(new myHandler());
-    }
 
-    private static final class myHandler extends EmacsPlusCaretHandler
-    {
-        @Override
-        protected void doXecute(final Editor editor, final Caret caret, final DataContext dataContext) {
-            final int cline = editor.getDocument().getLineNumber(caret.getOffset()) + 1;
-            ApplicationManager.getApplication().invokeLater(() -> StatusBar.Info.set("Line " + cline, null));
-        }
+public class WhatLine extends EditorAction {
+  protected WhatLine() {
+    super(new myHandler());
+  }
+
+  private static final class myHandler extends EmacsPlusCaretHandler {
+    @Override
+    protected void doXecute(final Editor editor, final Caret caret, final DataContext dataContext) {
+      final int cline = editor.getDocument().getLineNumber(caret.getOffset()) + 1;
+      ApplicationManager.getApplication().invokeLater(() -> StatusBar.Info.set("Line " + cline, null));
     }
+  }
 }

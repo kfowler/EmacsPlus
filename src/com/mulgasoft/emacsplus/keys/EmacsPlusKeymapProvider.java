@@ -9,20 +9,15 @@ import java.util.List;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
+
 public class EmacsPlusKeymapProvider implements BundledKeymapProvider {
 
   private static final Logger LOG = Logger.getInstance(EmacsPlusKeymapProvider.class);
 
-  private final ImmutableList<String> keymapFileNames = ImmutableList.of(
-      "Keymap_EmacsPlus.xml",
-      "Keymap_EmacsPlusMac.xml",
-      "de/Keymap_EmacsPlus.xml",
-      "de/Keymap_EmacsPlusMac.xml",
-      "es/Keymap_EmacsPlus.xml",
-      "es/Keymap_EmacsPlusMac.xml",
-      "fr/Keymap_EmacsPlus.xml",
-      "fr/Keymap_EmacsPlusMac.xml"
-  );
+  private final ImmutableList<String> keymapFileNames =
+      ImmutableList.of("Keymap_EmacsPlus.xml", "Keymap_EmacsPlusMac.xml", "de/Keymap_EmacsPlus.xml",
+          "de/Keymap_EmacsPlusMac.xml", "es/Keymap_EmacsPlus.xml", "es/Keymap_EmacsPlusMac.xml",
+          "fr/Keymap_EmacsPlus.xml", "fr/Keymap_EmacsPlusMac.xml");
 
   @NotNull
   @Override

@@ -10,48 +10,46 @@ import com.intellij.openapi.editor.actionSystem.EditorWriteActionHandler;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.util.KillCmdUtil;
 
-public abstract class KillWrapper extends EmacsPlusWrapper
-{
-    KillCmdUtil.KillRingInfo info;
 
-    protected KillWrapper(final EditorActionHandler defaultHandler) {
-        super(defaultHandler);
-        this.info = null;
-        EmacsPlusAction.addCommandListener(this, this.getName());
+public abstract class KillWrapper extends EmacsPlusWrapper {
+  KillCmdUtil.KillRingInfo info;
+
+  protected KillWrapper(final EditorActionHandler defaultHandler) {
+    super(defaultHandler);
+    this.info = null;
+    EmacsPlusAction.addCommandListener(this, this.getName());
+  }
+
+  protected abstract String getName();
+
+  @Override
+  public void before(final CommandEvent e) {
+    this.info = KillCmdUtil.beforeKill();
+  }
+
+  @Override
+  public void after(final CommandEvent e) {
+    try {
+      KillCmdUtil.afterKill(this.info, e.getDocument(), true);
+    } finally {
+      this.info = null;
+    }
+  }
+
+  public static class CutHandler extends EditorWriteActionHandler {
+    protected EditorWriteActionHandler myCutHandler;
+
+    public CutHandler() {
+      this.myCutHandler = this.getWrappedHandler("EditorCut");
     }
 
-    protected abstract String getName();
-
-    @Override
-    public void before(final CommandEvent e) {
-        this.info = KillCmdUtil.beforeKill();
+    private EditorWriteActionHandler getWrappedHandler(final String name) {
+      EditorWriteActionHandler result = null;
+      final EditorActionHandler handler = EmacsPlusWrapper.getWrappedHandler(name);
+      if (handler instanceof EditorWriteActionHandler) {
+        result = (EditorWriteActionHandler) handler;
+      }
+      return result;
     }
-
-    @Override
-    public void after(final CommandEvent e) {
-        try {
-            KillCmdUtil.afterKill(this.info, e.getDocument(), true);
-        }
-        finally {
-            this.info = null;
-        }
-    }
-
-    public static class CutHandler extends EditorWriteActionHandler
-    {
-        protected EditorWriteActionHandler myCutHandler;
-
-        public CutHandler() {
-            this.myCutHandler = this.getWrappedHandler("EditorCut");
-        }
-
-        private EditorWriteActionHandler getWrappedHandler(final String name) {
-            EditorWriteActionHandler result = null;
-            final EditorActionHandler handler = EmacsPlusWrapper.getWrappedHandler(name);
-            if (handler instanceof EditorWriteActionHandler) {
-                result = (EditorWriteActionHandler)handler;
-            }
-            return result;
-        }
-    }
+  }
 }

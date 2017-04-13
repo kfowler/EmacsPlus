@@ -13,27 +13,26 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.ISHandler;
 
-public class ISCase extends EmacsPlusAction
-{
-    public ISCase() {
-        super(new myHandler());
+
+public class ISCase extends EmacsPlusAction {
+  public ISCase() {
+    super(new myHandler());
+  }
+
+  private static final class myHandler extends ISHandler {
+    public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
+      final Editor editor = FileEditorManager.getInstance(isEditor.getProject()).getSelectedTextEditor();
+      final FindModel findModel = ISHandler.getFindModel(editor);
+      if (findModel != null) {
+        final boolean state = !findModel.isCaseSensitive();
+        findModel.setCaseSensitive(state);
+        FindSettings.getInstance().setLocalCaseSensitive(state);
+      }
     }
 
-    private static final class myHandler extends ISHandler
-    {
-        public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
-            final Editor editor = FileEditorManager.getInstance(isEditor.getProject()).getSelectedTextEditor();
-            final FindModel findModel = ISHandler.getFindModel(editor);
-            if (findModel != null) {
-                final boolean state = !findModel.isCaseSensitive();
-                findModel.setCaseSensitive(state);
-                FindSettings.getInstance().setLocalCaseSensitive(state);
-            }
-        }
-
-        @Override
-        protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
-            return ISHandler.isInISearch(editor);
-        }
+    @Override
+    protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
+      return ISHandler.isInISearch(editor);
     }
+  }
 }

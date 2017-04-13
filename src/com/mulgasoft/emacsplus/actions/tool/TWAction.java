@@ -17,63 +17,62 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
 
-public class TWAction extends AnAction
-{
-    private static Map<String, KeyStroke> keys;
 
-    protected KeyStroke getKey(final AnActionEvent e) {
-        return TWAction.keys.get(e.getActionManager().getId(this));
-    }
+public class TWAction extends AnAction {
+  private static Map<String, KeyStroke> keys;
 
-    public void actionPerformed(final AnActionEvent e) {
-        final JComponent component = this.getComponent(e.getDataContext());
-        final ActionListener act = component.getActionForKeyStroke(this.getKey(e));
-        if (act != null) {
-            act.actionPerformed(new ActionEvent(this.getComponent(e.getDataContext()), 0, null));
-        }
-    }
+  protected KeyStroke getKey(final AnActionEvent e) {
+    return TWAction.keys.get(e.getActionManager().getId(this));
+  }
 
-    protected Editor getEditor(final DataContext dc) {
-        return TextComponentEditorAction.getEditorFromContext(dc);
+  public void actionPerformed(final AnActionEvent e) {
+    final JComponent component = this.getComponent(e.getDataContext());
+    final ActionListener act = component.getActionForKeyStroke(this.getKey(e));
+    if (act != null) {
+      act.actionPerformed(new ActionEvent(this.getComponent(e.getDataContext()), 0, null));
     }
+  }
 
-    public void update(final AnActionEvent e) {
-        final Presentation presentation = e.getPresentation();
-        final DataContext dataContext = e.getDataContext();
-        final Editor editor = this.getEditor(dataContext);
-        if (editor != null) {
-            presentation.setEnabled(false);
-        }
-        else {
-            presentation.setEnabled(this.isValid(e));
-        }
-    }
+  protected Editor getEditor(final DataContext dc) {
+    return TextComponentEditorAction.getEditorFromContext(dc);
+  }
 
-    protected JComponent getComponent(final DataContext dc) {
-        JComponent result = null;
-        final Object cc = PlatformDataKeys.CONTEXT_COMPONENT.getData(dc);
-        if (cc instanceof JComponent) {
-            result = (JComponent)cc;
-        }
-        return result;
+  public void update(final AnActionEvent e) {
+    final Presentation presentation = e.getPresentation();
+    final DataContext dataContext = e.getDataContext();
+    final Editor editor = this.getEditor(dataContext);
+    if (editor != null) {
+      presentation.setEnabled(false);
+    } else {
+      presentation.setEnabled(this.isValid(e));
     }
+  }
 
-    protected boolean isValid(final AnActionEvent e) {
-        final JComponent component = this.getComponent(e.getDataContext());
-        final KeyStroke key = this.getKey(e);
-        return component != null && key != null && component.getActionForKeyStroke(key) != null;
+  protected JComponent getComponent(final DataContext dc) {
+    JComponent result = null;
+    final Object cc = PlatformDataKeys.CONTEXT_COMPONENT.getData(dc);
+    if (cc instanceof JComponent) {
+      result = (JComponent) cc;
     }
+    return result;
+  }
 
-    static {
-        TWAction.keys = new HashMap<String, KeyStroke>() {
-            {
-                this.put("Emacs+.TWSelectPrevious", KeyStroke.getKeyStroke(224, 0));
-                this.put("Emacs+.TWSelectNext", KeyStroke.getKeyStroke(225, 0));
-                this.put("Emacs+.TWScrollUp", KeyStroke.getKeyStroke(34, 0));
-                this.put("Emacs+.TWScrollDown", KeyStroke.getKeyStroke(33, 0));
-                this.put("Emacs+.TWBegin", KeyStroke.getKeyStroke(36, 0));
-                this.put("Emacs+.TWEnd", KeyStroke.getKeyStroke(35, 0));
-            }
-        };
-    }
+  protected boolean isValid(final AnActionEvent e) {
+    final JComponent component = this.getComponent(e.getDataContext());
+    final KeyStroke key = this.getKey(e);
+    return component != null && key != null && component.getActionForKeyStroke(key) != null;
+  }
+
+  static {
+    TWAction.keys = new HashMap<String, KeyStroke>() {
+      {
+        this.put("Emacs+.TWSelectPrevious", KeyStroke.getKeyStroke(224, 0));
+        this.put("Emacs+.TWSelectNext", KeyStroke.getKeyStroke(225, 0));
+        this.put("Emacs+.TWScrollUp", KeyStroke.getKeyStroke(34, 0));
+        this.put("Emacs+.TWScrollDown", KeyStroke.getKeyStroke(33, 0));
+        this.put("Emacs+.TWBegin", KeyStroke.getKeyStroke(36, 0));
+        this.put("Emacs+.TWEnd", KeyStroke.getKeyStroke(35, 0));
+      }
+    };
+  }
 }

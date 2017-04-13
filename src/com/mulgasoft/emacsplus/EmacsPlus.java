@@ -17,94 +17,97 @@ import java.awt.*;
 import org.jetbrains.annotations.NotNull;
 
 
-public class EmacsPlus implements ApplicationComponent
-{
-    private static final Logger LOG = Logger.getInstance(EmacsPlus.class);
+public class EmacsPlus implements ApplicationComponent {
+  private static final Logger LOG = Logger.getInstance(EmacsPlus.class);
 
-    private static PluginDescriptor ourPlugin;
-    private static String ultCommand;
-    private static String penultCommand;
-    private static boolean visualBeep;
+  private static PluginDescriptor ourPlugin;
+  private static String ultCommand;
+  private static String penultCommand;
+  private static boolean visualBeep;
 
-    public static PluginDescriptor getPlugin() {
-        return EmacsPlus.ourPlugin;
+  public static PluginDescriptor getPlugin() {
+    return EmacsPlus.ourPlugin;
+  }
+
+  public void initComponent() {
+    final PluginId pluginId = PluginManager.getPluginByClassName(EmacsPlus.class.getName());
+    EmacsPlus.ourPlugin = PluginManager.getPlugin(pluginId);
+    // Let BundledKeymapProvider do this
+    // Keymaps.enableKeymaps();
+    CommandProcessor.getInstance().addCommandListener(new CommandListener() {
+      public void beforeCommandFinished(final CommandEvent event) {
+      }
+
+      public void undoTransparentActionStarted() {
+      }
+
+      public void undoTransparentActionFinished() {
+      }
+
+      public void commandStarted(final CommandEvent event) {
+      }
+
+      public void commandFinished(final CommandEvent event) {
+        setUltCommand(event.getCommandName());
+      }
+    });
+    CommandProcessor.getInstance().addCommandListener(EmacsPlusAction.getCommandListener());
+  }
+
+  private static void setUltCommand(final String name) {
+    EmacsPlus.penultCommand = EmacsPlus.ultCommand;
+    EmacsPlus.ultCommand = name;
+  }
+
+  public static String getUltCommand() {
+    return EmacsPlus.ultCommand;
+  }
+
+  public static String getPenultCommand() {
+    return EmacsPlus.penultCommand;
+  }
+
+  public static void beep() {
+    beep(false);
+  }
+
+  public static void beep(final boolean reset) {
+    if (!EmacsPlus.visualBeep) {
+      Toolkit.getDefaultToolkit().beep();
     }
-
-    public void initComponent() {
-        final PluginId pluginId = PluginManager.getPluginByClassName(EmacsPlus.class.getName());
-        EmacsPlus.ourPlugin = PluginManager.getPlugin(pluginId);
-        // Let BundledKeymapProvider do this
-        // Keymaps.enableKeymaps();
-        CommandProcessor.getInstance().addCommandListener(new CommandListener() {
-            public void beforeCommandFinished(final CommandEvent event) {
-            }
-
-            public void undoTransparentActionStarted() {
-            }
-
-            public void undoTransparentActionFinished() {
-            }
-
-            public void commandStarted(final CommandEvent event) {
-            }
-
-            public void commandFinished(final CommandEvent event) {
-                setUltCommand(event.getCommandName());
-            }
-        });
-        CommandProcessor.getInstance().addCommandListener(EmacsPlusAction.getCommandListener());
+    if (reset) {
+      setUltCommand("");
     }
+  }
 
-    private static void setUltCommand(final String name) {
-        EmacsPlus.penultCommand = EmacsPlus.ultCommand;
-        EmacsPlus.ultCommand = name;
+  public static void resetCommand(@NotNull final String name) {
+    if (name == null) {
+      throw new IllegalArgumentException(
+          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "name",
+              "com/mulgasoft/emacsplus/EmacsPlus", "resetCommand"));
     }
+    setUltCommand(name);
+  }
 
-    public static String getUltCommand() {
-        return EmacsPlus.ultCommand;
-    }
+  public void disposeComponent() {
+    System.out.println("disposeComponent");
+  }
 
-    public static String getPenultCommand() {
-        return EmacsPlus.penultCommand;
+  @NotNull
+  public String getComponentName() {
+    final String s = "EmacsPlus";
+    if (s == null) {
+      throw new IllegalStateException(
+          String.format("@NotNull method %s.%s must not return null", "com/mulgasoft/emacsplus/EmacsPlus",
+              "getComponentName"));
     }
+    return s;
+  }
 
-    public static void beep() {
-        beep(false);
-    }
-
-    public static void beep(final boolean reset) {
-        if (!EmacsPlus.visualBeep) {
-            Toolkit.getDefaultToolkit().beep();
-        }
-        if (reset) {
-            setUltCommand("");
-        }
-    }
-
-    public static void resetCommand(@NotNull final String name) {
-        if (name == null) {
-            throw new IllegalArgumentException(String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "name", "com/mulgasoft/emacsplus/EmacsPlus", "resetCommand"));
-        }
-        setUltCommand(name);
-    }
-
-    public void disposeComponent() {
-        System.out.println("disposeComponent");
-    }
-
-    @NotNull
-    public String getComponentName() {
-        final String s = "EmacsPlus";
-        if (s == null) {
-            throw new IllegalStateException(String.format("@NotNull method %s.%s must not return null", "com/mulgasoft/emacsplus/EmacsPlus", "getComponentName"));
-        }
-        return s;
-    }
-
-    static {
-        EmacsPlus.ourPlugin = null;
-        EmacsPlus.ultCommand = null;
-        EmacsPlus.penultCommand = null;
-        EmacsPlus.visualBeep = false;
-    }
+  static {
+    EmacsPlus.ourPlugin = null;
+    EmacsPlus.ultCommand = null;
+    EmacsPlus.penultCommand = null;
+    EmacsPlus.visualBeep = false;
+  }
 }

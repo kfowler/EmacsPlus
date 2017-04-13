@@ -13,37 +13,36 @@ import com.intellij.openapi.util.TextRange;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.EmacsPlusWriteHandler;
 
-public class TransposeLines extends EmacsPlusAction
-{
-    public TransposeLines() {
-        super(new myHandler());
+
+public class TransposeLines extends EmacsPlusAction {
+  public TransposeLines() {
+    super(new myHandler());
+  }
+
+  private static final class myHandler extends EmacsPlusWriteHandler {
+    public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
+      final Document document = editor.getDocument();
+      int cline = document.getLineNumber(caret.getOffset());
+      if (cline == 0) {
+        ++cline;
+      }
+      int line2 = cline;
+      final int line3 = --cline;
+      final int len = document.getLineCount();
+      if (line2 < len) {
+        this.swapLines(document, line3, line2);
+        caret.moveToOffset(document.getLineStartOffset((++line2 < len) ? line2 : (len - 1)));
+        EditorModificationUtil.scrollToCaret(editor);
+      }
     }
 
-    private static final class myHandler extends EmacsPlusWriteHandler
-    {
-        public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
-            final Document document = editor.getDocument();
-            int cline = document.getLineNumber(caret.getOffset());
-            if (cline == 0) {
-                ++cline;
-            }
-            int line2 = cline;
-            final int line3 = --cline;
-            final int len = document.getLineCount();
-            if (line2 < len) {
-                this.swapLines(document, line3, line2);
-                caret.moveToOffset(document.getLineStartOffset((++line2 < len) ? line2 : (len - 1)));
-                EditorModificationUtil.scrollToCaret(editor);
-            }
-        }
-
-        private void swapLines(final Document document, final int line1, final int line2) {
-            final TextRange t1 = new TextRange(document.getLineStartOffset(line1), document.getLineEndOffset(line1));
-            final TextRange t2 = new TextRange(document.getLineStartOffset(line2), document.getLineEndOffset(line2));
-            final String line1Text = document.getText(t1);
-            final String line2Text = document.getText(t2);
-            document.replaceString(t2.getStartOffset(), t2.getEndOffset(), line1Text);
-            document.replaceString(t1.getStartOffset(), t1.getEndOffset(), line2Text);
-        }
+    private void swapLines(final Document document, final int line1, final int line2) {
+      final TextRange t1 = new TextRange(document.getLineStartOffset(line1), document.getLineEndOffset(line1));
+      final TextRange t2 = new TextRange(document.getLineStartOffset(line2), document.getLineEndOffset(line2));
+      final String line1Text = document.getText(t1);
+      final String line2Text = document.getText(t2);
+      document.replaceString(t2.getStartOffset(), t2.getEndOffset(), line1Text);
+      document.replaceString(t1.getStartOffset(), t1.getEndOffset(), line2Text);
     }
+  }
 }
