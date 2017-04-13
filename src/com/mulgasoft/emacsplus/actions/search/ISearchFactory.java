@@ -4,6 +4,7 @@
 
 package com.mulgasoft.emacsplus.actions.search;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.util.ObjectUtils;
 import java.lang.reflect.InvocationTargetException;
@@ -13,6 +14,8 @@ import org.jetbrains.annotations.NonNls;
 
 public class ISearchFactory
 {
+    private static final Logger LOG = Logger.getInstance(ISearch14.class);
+
     @NonNls
     private static final String OBJ_14 = "com.intellij.find.EditorSearchComponent";
     @NonNls
@@ -31,7 +34,9 @@ public class ISearchFactory
                     result = new ISearch14(editor, hc);
                 }
             }
-            catch (ClassNotFoundException ex) {}
+            catch (ClassNotFoundException e) {
+                LOG.error("Could not find EditorSearchComponent", e);
+            }
             if (clazz == null) {
                 try {
                     clazz = Class.forName("com.intellij.find.EditorSearchSession");
@@ -41,17 +46,8 @@ public class ISearchFactory
                         result = new ISearch15(editor, session, hc);
                     }
                 }
-                catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-                catch (InvocationTargetException e2) {
-                    e2.printStackTrace();
-                }
-                catch (NoSuchMethodException e3) {
-                    e3.printStackTrace();
-                }
-                catch (IllegalAccessException e4) {
-                    e4.printStackTrace();
+                catch (ClassNotFoundException|InvocationTargetException|NoSuchMethodException|IllegalAccessException e) {
+                 LOG.error("Could not find EditorSearchSession", e);
                 }
             }
         }
