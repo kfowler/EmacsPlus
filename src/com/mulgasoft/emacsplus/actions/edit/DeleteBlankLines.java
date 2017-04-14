@@ -10,11 +10,13 @@ import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.WhiteSpaceHandler;
 import org.jetbrains.annotations.NotNull;
 
+import static com.google.common.base.Preconditions.*;
+
 
 /**
  * On blank line, delete all surrounding blank lines, leaving just one.
  * On isolated blank line, delete that one.
- * On nonblank line, delete any immediately following blank lines.
+ * On non-blank line, delete any immediately following blank lines.
  */
 public class DeleteBlankLines extends EmacsPlusAction {
   public DeleteBlankLines() {
@@ -28,16 +30,8 @@ public class DeleteBlankLines extends EmacsPlusAction {
   private static class myHandler extends WhiteSpaceHandler {
     public boolean isEnabledForCaret(@NotNull final Editor editor, @NotNull final Caret caret,
         final DataContext dataContext) {
-      if (editor == null) {
-        throw new IllegalArgumentException(
-            String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "editor",
-                "com/mulgasoft/emacsplus/actions/edit/DeleteBlankLines$myHandler", "isEnabledForCaret"));
-      }
-      if (caret == null) {
-        throw new IllegalArgumentException(
-            String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "caret",
-                "com/mulgasoft/emacsplus/actions/edit/DeleteBlankLines$myHandler", "isEnabledForCaret"));
-      }
+      checkNotNull(editor);
+      checkNotNull(caret);
       return !editor.isOneLineMode();
     }
 
