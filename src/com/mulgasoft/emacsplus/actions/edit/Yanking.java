@@ -60,9 +60,4 @@ public abstract class Yanking extends EmacsPlusAction {
     ++Yanking.ourIndex;
   }
 
-  static {
-    Yanking.ourLength = 0;
-    Yanking.ourIndex = 0;
-    Yanking.ourOffset = 0;
-  }
 }

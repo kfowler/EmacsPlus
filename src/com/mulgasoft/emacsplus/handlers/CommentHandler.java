@@ -280,9 +280,9 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     CommentHandler.ourCommentColumn = 32;
   }
 
-  public class CommentRange {
-    TextRange range;
-    String prefix;
+  public static class CommentRange {
+    final TextRange range;
+    final String prefix;
 
     private CommentRange(final TextRange range, final String prefix) {
       this.range = ((range != null) ? range : new TextRange(0, 0));

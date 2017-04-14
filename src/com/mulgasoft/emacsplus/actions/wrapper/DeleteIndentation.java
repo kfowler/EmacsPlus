@@ -19,7 +19,7 @@ public class DeleteIndentation extends EmacsPlusWrapper {
   }
 
   private static class Handler extends EditorWriteActionHandler {
-    EditorActionHandler wrappedHandler;
+    final EditorActionHandler wrappedHandler;
 
     public Handler() {
       super(true);

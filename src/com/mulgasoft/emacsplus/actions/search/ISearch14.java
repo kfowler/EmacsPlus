@@ -16,7 +16,7 @@ import javax.swing.text.JTextComponent;
 public class ISearch14 implements ISearchDelegate {
   private static final Logger LOG = Logger.getInstance(ISearch14.class);
 
-  private JComponent searchComp;
+  private final JComponent searchComp;
 
   ISearch14(final Editor editor, final JComponent component) {
     this.searchComp = component;

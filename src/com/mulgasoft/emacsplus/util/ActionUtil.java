@@ -1,7 +1,3 @@
-//
-// Decompiled by Procyon v0.5.30
-//
-
 package com.mulgasoft.emacsplus.util;
 
 import com.intellij.openapi.actionSystem.ActionManager;
@@ -11,6 +7,7 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.KeyboardShortcut;
 import com.intellij.openapi.actionSystem.Shortcut;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import java.lang.reflect.Method;
@@ -21,8 +18,12 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static com.google.common.base.Preconditions.*;
+
 
 public class ActionUtil {
+  private static final Logger LOG = Logger.getInstance(ActionUtil.class);
+
   @NonNls
   public static final String CR = "\n";
   @NonNls
@@ -39,28 +40,18 @@ public class ActionUtil {
   }
 
   public List<KeyboardShortcut> getKBShortCuts(@NotNull final String actionId) {
-    if (actionId == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "actionId",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "getKBShortCuts"));
-    }
+    checkNotNull(actionId);
     return this.getKBShortCuts(this.getAction(actionId));
   }
 
   public List<KeyboardShortcut> getKBShortCuts(@NotNull final AnAction action) {
-    if (action == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "action",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "getKBShortCuts"));
-    }
+    checkNotNull(action);
     final List<KeyboardShortcut> kbs = new ArrayList<>();
-    if (action != null) {
-      final Shortcut[] arr$;
-      final Shortcut[] shortcuts = arr$ = action.getShortcutSet().getShortcuts();
-      for (final Shortcut shortcut : arr$) {
-        if (shortcut instanceof KeyboardShortcut) {
-          kbs.add((KeyboardShortcut) shortcut);
-        }
+    final Shortcut[] arr$;
+    final Shortcut[] shortcuts = arr$ = action.getShortcutSet().getShortcuts();
+    for (final Shortcut shortcut : arr$) {
+      if (shortcut instanceof KeyboardShortcut) {
+        kbs.add((KeyboardShortcut) shortcut);
       }
     }
     return kbs;
@@ -68,46 +59,22 @@ public class ActionUtil {
 
   public boolean hasKBShortCut(@NotNull final String actionId, @NotNull final KeyStroke key1,
       @Nullable final KeyStroke key2) {
-    if (actionId == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "actionId",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "hasKBShortCut"));
-    }
-    if (key1 == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "key1",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "hasKBShortCut"));
-    }
-    return this.getShortcut(this.getKBShortCuts(actionId), key1, key2) != null;
+    checkNotNull(actionId);
+    checkNotNull(key1);
+    return getShortcut(this.getKBShortCuts(actionId), key1, key2) != null;
   }
 
   public boolean hasKBShortCut(@NotNull final AnAction action, @NotNull final KeyStroke key1,
       @Nullable final KeyStroke key2) {
-    if (action == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "action",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "hasKBShortCut"));
-    }
-    if (key1 == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "key1",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "hasKBShortCut"));
-    }
-    return this.getShortcut(this.getKBShortCuts(action), key1, key2) != null;
+    checkNotNull(action);
+    checkNotNull(key1);
+    return getShortcut(this.getKBShortCuts(action), key1, key2) != null;
   }
 
   public KeyboardShortcut getShortcut(@NotNull final List<KeyboardShortcut> kbs, @NotNull final KeyStroke key1,
       @Nullable final KeyStroke key2) {
-    if (kbs == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "kbs",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "getShortcut"));
-    }
-    if (key1 == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "key1",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "getShortcut"));
-    }
+    checkNotNull(kbs);
+    checkNotNull(key1);
     KeyboardShortcut result = null;
     if (!kbs.isEmpty()) {
       for (final KeyboardShortcut kb : kbs) {
@@ -129,11 +96,7 @@ public class ActionUtil {
   }
 
   public boolean isOnceAction(@NotNull final String id) {
-    if (id == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "id",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "isOnceAction"));
-    }
+    checkNotNull(id);
     boolean result = true;
     final AnAction action = this.getAction(id);
     if (action instanceof EditorAction) {
@@ -157,61 +120,29 @@ public class ActionUtil {
   }
 
   public boolean dispatch(@NotNull final String id, @NotNull final DataContext context) {
-    if (id == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "id",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "dispatch"));
-    }
-    if (context == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "context",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "dispatch"));
-    }
+    checkNotNull(id);
+    checkNotNull(context);
     final AnAction dispatch = this.getAction(id);
     return dispatch != null && this.dispatch(dispatch, context);
   }
 
   public boolean dispatchLater(@NotNull final String id, @NotNull final DataContext context) {
-    if (id == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "id",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "dispatchLater"));
-    }
-    if (context == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "context",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "dispatchLater"));
-    }
+    checkNotNull(id);
+    checkNotNull(context);
     ApplicationManager.getApplication().invokeLater(() -> ActionUtil.this.dispatch(id, context));
     return true;
   }
 
   public boolean dispatchLater(@NotNull final AnAction dispatch, @NotNull final DataContext context) {
-    if (dispatch == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "dispatch",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "dispatchLater"));
-    }
-    if (context == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "context",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "dispatchLater"));
-    }
+    checkNotNull(dispatch);
+    checkNotNull(context);
     ApplicationManager.getApplication().invokeLater(() -> ActionUtil.this.dispatch(dispatch, context));
     return true;
   }
 
-  public boolean dispatch(@NotNull final AnAction dispatch, @NotNull final DataContext context) {
-    if (dispatch == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "dispatch",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "dispatch"));
-    }
-    if (context == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "context",
-              "com/mulgasoft/emacsplus/util/ActionUtil", "dispatch"));
-    }
+  private boolean dispatch(@NotNull final AnAction dispatch, @NotNull final DataContext context) {
+    checkNotNull(dispatch);
+    checkNotNull(context);
     final AnActionEvent event = AnActionEvent.createFromAnAction(dispatch, null, "MainMenu", context);
     dispatch.update(event);
     if (event.getPresentation().isEnabled()) {
@@ -222,34 +153,22 @@ public class ActionUtil {
   }
 
   public static Method hasMethod(final Object obj, final String method, final Class<?>... params) {
-    Method result = null;
     try {
-      result = obj.getClass().getMethod(method, params);
-    } catch (NoSuchMethodException ex) {
+      return obj.getClass().getMethod(method, params);
+    } catch (NoSuchMethodException e) {
+      LOG.error("Unknown method " + method, e);
+      return null;
     }
-    return result;
-  }
-
-  public static Method hasMethod(final Object obj, final String method) {
-    return hasMethod(obj, method, (Class<?>[]) null);
   }
 
   public static Object invokeMethod(final Object obj, final Method method, final Object... params) {
-    Object result = null;
     try {
       if (method != null) {
-        result = method.invoke(obj, params);
+        return method.invoke(obj, params);
       }
-    } catch (Exception ex) {
+    } catch (Exception e) {
+      LOG.error(e);
     }
-    return result;
-  }
-
-  public static Object invokeMethod(final Object obj, final Method method) {
-    return invokeMethod(obj, method, (Object[]) null);
-  }
-
-  static {
-    ActionUtil.ourInstance = null;
+    return null;
   }
 }

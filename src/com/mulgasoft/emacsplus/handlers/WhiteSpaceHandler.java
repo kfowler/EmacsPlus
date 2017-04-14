@@ -1,7 +1,3 @@
-//
-// Decompiled by Procyon v0.5.30
-//
-
 package com.mulgasoft.emacsplus.handlers;
 
 import com.intellij.openapi.actionSystem.DataContext;
@@ -10,30 +6,20 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import org.jetbrains.annotations.NotNull;
 
+import static com.google.common.base.Preconditions.*;
+
 
 public class WhiteSpaceHandler extends EmacsPlusWriteHandler {
   protected int transformSpace(@NotNull final Editor editor, @NotNull final Caret caret, final DataContext dataContext,
       final String replace, final boolean ignoreCR) {
-    if (editor == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "editor",
-              "com/mulgasoft/emacsplus/handlers/WhiteSpaceHandler", "transformSpace"));
-    }
-    if (caret == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "caret",
-              "com/mulgasoft/emacsplus/handlers/WhiteSpaceHandler", "transformSpace"));
-    }
+    checkNotNull(editor);
+    checkNotNull(caret);
     return this.transformSpace(editor, caret.getOffset(), dataContext, replace, ignoreCR);
   }
 
   protected int transformSpace(@NotNull final Editor editor, final int offset, final DataContext dataContext,
       String replace, final boolean ignoreCR) {
-    if (editor == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "editor",
-              "com/mulgasoft/emacsplus/handlers/WhiteSpaceHandler", "transformSpace"));
-    }
+    checkNotNull(editor);
     final Document document = editor.getDocument();
     final int lastOff = document.getTextLength();
     final int left = this.countWS(document, lastOff, offset - 1, -1, ignoreCR);

@@ -18,6 +18,7 @@ import com.intellij.openapi.actionSystem.CustomShortcutSet;
 import com.intellij.openapi.actionSystem.KeyboardShortcut;
 import com.intellij.openapi.actionSystem.Shortcut;
 import com.intellij.openapi.command.CommandEvent;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.CaretState;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.ScrollType;
@@ -44,7 +45,9 @@ import org.jetbrains.annotations.NonNls;
 
 
 public class ISearchForward extends EditorAction implements EmacsPlusBA {
-  String GEN_MSG;
+  private static final Logger LOG = Logger.getInstance(ISearchForward.class);
+
+  final String GEN_MSG = "Emacs+ %s behavior not supported in this version of IDEA";
   @NonNls
   private static final String REPLACE_CLASS = "com.intellij.find.editorHeaderActions.ReplaceOnEnterAction";
   @NonNls
@@ -63,27 +66,20 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   private static final String INTERRUPT_ACTION = "IS.Interrupt";
   @NonNls
   private static final String UNDO_ACTION = "undoKeystroke";
-  private int myStartOffset;
-  private boolean myIsMulti;
-  protected EditorEx myEditor;
-  private boolean isReplace;
-  private theSelection oldSelection;
-  private ISearchDelegate mySearcher;
-  private FindModel.FindModelObserver fmo;
+  private int myStartOffset = 0;
+  private boolean myIsMulti = false;
+  private EditorEx myEditor = null;
+  private boolean isReplace = false;
+  private theSelection oldSelection = null;
+  private ISearchDelegate mySearcher = null;
+  private final FindModel.FindModelObserver fmo;
 
-  String getNoActionMsg(final EditorAction action) {
+  private String getNoActionMsg(final EditorAction action) {
     return String.format(this.GEN_MSG, action.getTemplatePresentation().getText());
   }
 
   protected ISearchForward(final boolean isReplace) {
     super(new IncrementalFindAction.Handler(isReplace));
-    this.GEN_MSG = "Emacs+ %s behavior not supported in this version of IDEA";
-    this.myStartOffset = 0;
-    this.myIsMulti = false;
-    this.myEditor = null;
-    this.isReplace = false;
-    this.oldSelection = null;
-    this.mySearcher = null;
     this.fmo = findModel -> {
       final boolean multi = findModel.isMultiline();
       if (multi != ISearchForward.this.isMulti()) {
@@ -272,7 +268,8 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     try {
       final Class clazz = Class.forName(actionClass);
       result = this.addToAction(clazz, cut, field);
-    } catch (ClassNotFoundException ex) {
+    } catch (ClassNotFoundException e) {
+      LOG.error(e);
     }
     return result;
   }
@@ -315,7 +312,8 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     try {
       final Class clazz = Class.forName(actionClass);
       result = this.removeFromAction(clazz, cut, field);
-    } catch (ClassNotFoundException ex) {
+    } catch (ClassNotFoundException e) {
+      LOG.error(e);
     }
     return result;
   }

@@ -12,7 +12,6 @@ import com.intellij.openapi.command.CommandListener;
 import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.extensions.PluginDescriptor;
 import com.intellij.openapi.extensions.PluginId;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import java.awt.*;
@@ -28,7 +27,7 @@ public class EmacsPlus implements ApplicationComponent {
 
   private static String ultCommand = null;
   private static String penultCommand = null;
-  private static boolean visualBeep = false;
+  private static final boolean visualBeep = false;
 
   public void initComponent() {
     CommandProcessor.getInstance().addCommandListener(new CommandListener() {

@@ -37,7 +37,7 @@ public abstract class KillWrapper extends EmacsPlusWrapper {
   }
 
   public static class CutHandler extends EditorWriteActionHandler {
-    protected EditorWriteActionHandler myCutHandler;
+    final protected EditorWriteActionHandler myCutHandler;
 
     public CutHandler() {
       this.myCutHandler = this.getWrappedHandler("EditorCut");
