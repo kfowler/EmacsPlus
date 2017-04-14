@@ -18,9 +18,9 @@ import com.mulgasoft.emacsplus.util.EditorUtil;
 
 
 public abstract class ExprHandler extends EmacsPlusCaretHandler {
-  static boolean isVisual;
+  private static boolean isVisual;
 
-  protected boolean isVisual() {
+  private boolean isVisual() {
     return ExprHandler.isVisual;
   }
 
@@ -49,7 +49,7 @@ public abstract class ExprHandler extends EmacsPlusCaretHandler {
     this.setSelection(editor, caret, offset);
   }
 
-  protected void setSelection(final Editor editor, final Caret caret, final int offset) {
+  private void setSelection(final Editor editor, final Caret caret, final int offset) {
     final SelectionModel selectionModel = editor.getSelectionModel();
     if (editor.isColumnMode() && !editor.getCaretModel().supportsMultipleCarets()) {
       selectionModel.setBlockSelection(editor.offsetToLogicalPosition(offset), caret.getLogicalPosition());
@@ -58,7 +58,7 @@ public abstract class ExprHandler extends EmacsPlusCaretHandler {
     }
   }
 
-  public TextRange getWordRange(final Editor editor, final Caret caret, final boolean isLine, final boolean isWord,
+  private TextRange getWordRange(final Editor editor, final Caret caret, final boolean isLine, final boolean isWord,
       int dir) {
     final Document doc = editor.getDocument();
     int offset = (caret == null) ? editor.getCaretModel().getOffset() : caret.getOffset();

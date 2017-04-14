@@ -27,7 +27,7 @@ public class KeyboardQuit extends EmacsPlusWrapper {
     private boolean isTextComponent;
     EditorActionHandler wrappedHandler;
 
-    protected myHandler(@NotNull final EditorActionHandler wrappedHandler) {
+    myHandler(@NotNull final EditorActionHandler wrappedHandler) {
       if (wrappedHandler == null) {
         throw new IllegalArgumentException(
             String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "wrappedHandler",

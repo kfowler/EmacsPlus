@@ -11,13 +11,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 
-public class QueryReplace extends ISearchForward implements FocusListener, KeyListener {
-  public QueryReplace() {
+class QueryReplace extends ISearchForward implements FocusListener, KeyListener {
+  QueryReplace() {
     super(true);
   }
 
   @Override
-  protected String getName() {
+  String getName() {
     return "query-replace";
   }
 

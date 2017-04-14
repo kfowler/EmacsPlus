@@ -18,10 +18,10 @@ import java.util.Map;
 import javax.swing.*;
 
 
-public class TWAction extends AnAction {
+class TWAction extends AnAction {
   private static Map<String, KeyStroke> keys;
 
-  protected KeyStroke getKey(final AnActionEvent e) {
+  private KeyStroke getKey(final AnActionEvent e) {
     return TWAction.keys.get(e.getActionManager().getId(this));
   }
 
@@ -33,7 +33,7 @@ public class TWAction extends AnAction {
     }
   }
 
-  protected Editor getEditor(final DataContext dc) {
+  private Editor getEditor(final DataContext dc) {
     return TextComponentEditorAction.getEditorFromContext(dc);
   }
 
@@ -48,7 +48,7 @@ public class TWAction extends AnAction {
     }
   }
 
-  protected JComponent getComponent(final DataContext dc) {
+  JComponent getComponent(final DataContext dc) {
     JComponent result = null;
     final Object cc = PlatformDataKeys.CONTEXT_COMPONENT.getData(dc);
     if (cc instanceof JComponent) {
@@ -57,7 +57,7 @@ public class TWAction extends AnAction {
     return result;
   }
 
-  protected boolean isValid(final AnActionEvent e) {
+  boolean isValid(final AnActionEvent e) {
     final JComponent component = this.getComponent(e.getDataContext());
     final KeyStroke key = this.getKey(e);
     return component != null && key != null && component.getActionForKeyStroke(key) != null;

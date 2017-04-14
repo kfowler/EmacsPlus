@@ -24,7 +24,7 @@ public class ExchangePointAndMark extends EmacsPlusAction {
     EmacsPlusAction.addCommandListener(this, this.getName());
   }
 
-  protected String getName() {
+  private String getName() {
     return "exchange-point-and-mark";
   }
 

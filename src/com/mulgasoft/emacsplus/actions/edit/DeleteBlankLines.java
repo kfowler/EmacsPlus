@@ -18,12 +18,12 @@ import static com.google.common.base.Preconditions.*;
  * On isolated blank line, delete that one.
  * On non-blank line, delete any immediately following blank lines.
  */
-public class DeleteBlankLines extends EmacsPlusAction {
+class DeleteBlankLines extends EmacsPlusAction {
   public DeleteBlankLines() {
     this(new myHandler());
   }
 
-  protected DeleteBlankLines(final EditorActionHandler defaultHandler) {
+  private DeleteBlankLines(final EditorActionHandler defaultHandler) {
     super(defaultHandler);
   }
 

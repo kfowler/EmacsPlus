@@ -20,7 +20,7 @@ import javax.swing.*;
 
 
 public class EditorUtil {
-  public static Editor getCurrentEditor(final Project project) {
+  private static Editor getCurrentEditor(final Project project) {
     return FileEditorManager.getInstance(project).getSelectedTextEditor();
   }
 
@@ -48,7 +48,7 @@ public class EditorUtil {
     return PsiUtilBase.getPsiFileInEditor(caret, editor.getProject());
   }
 
-  public static boolean checkMarkSelection(final Editor editor, final Caret caret) {
+  public static void checkMarkSelection(final Editor editor, final Caret caret) {
     boolean result = false;
     if (editor instanceof EditorEx) {
       result = true;
@@ -69,10 +69,9 @@ public class EditorUtil {
         }
       }
     }
-    return result;
   }
 
-  public static boolean hasSelection(final Editor editor, final Caret caret) {
+  private static boolean hasSelection(final Editor editor, final Caret caret) {
     checkMarkSelection(editor, caret);
     return caret.hasSelection() || (editor instanceof EditorEx && ((EditorEx) editor).isStickySelection());
   }

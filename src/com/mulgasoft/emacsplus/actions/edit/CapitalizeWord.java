@@ -11,7 +11,7 @@ import com.mulgasoft.emacsplus.handlers.ISHandler;
  * Action to capitalize the first letter of a selected word.
  * E.g., "example" -> "Example"
  */
-public class CapitalizeWord extends EmacsPlusAction {
+class CapitalizeWord extends EmacsPlusAction {
   public CapitalizeWord() {
     super(new myHandler());
   }

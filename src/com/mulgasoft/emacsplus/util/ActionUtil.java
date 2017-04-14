@@ -24,12 +24,6 @@ import static com.google.common.base.Preconditions.*;
 public class ActionUtil {
   private static final Logger LOG = Logger.getInstance(ActionUtil.class);
 
-  @NonNls
-  public static final String CR = "\n";
-  @NonNls
-  public static final String SPACE = " ";
-  @NonNls
-  public static final String EMPTY_STR = "";
   private static ActionUtil ourInstance;
 
   public static ActionUtil getInstance() {
@@ -39,7 +33,7 @@ public class ActionUtil {
     return ActionUtil.ourInstance;
   }
 
-  public List<KeyboardShortcut> getKBShortCuts(@NotNull final String actionId) {
+  private List<KeyboardShortcut> getKBShortCuts(@NotNull final String actionId) {
     checkNotNull(actionId);
     return this.getKBShortCuts(this.getAction(actionId));
   }
@@ -47,9 +41,8 @@ public class ActionUtil {
   public List<KeyboardShortcut> getKBShortCuts(@NotNull final AnAction action) {
     checkNotNull(action);
     final List<KeyboardShortcut> kbs = new ArrayList<>();
-    final Shortcut[] arr$;
-    final Shortcut[] shortcuts = arr$ = action.getShortcutSet().getShortcuts();
-    for (final Shortcut shortcut : arr$) {
+    final Shortcut[] shortcuts = action.getShortcutSet().getShortcuts();
+    for (final Shortcut shortcut : shortcuts) {
       if (shortcut instanceof KeyboardShortcut) {
         kbs.add((KeyboardShortcut) shortcut);
       }
@@ -126,11 +119,10 @@ public class ActionUtil {
     return dispatch != null && this.dispatch(dispatch, context);
   }
 
-  public boolean dispatchLater(@NotNull final String id, @NotNull final DataContext context) {
+  public void dispatchLater(@NotNull final String id, @NotNull final DataContext context) {
     checkNotNull(id);
     checkNotNull(context);
     ApplicationManager.getApplication().invokeLater(() -> ActionUtil.this.dispatch(id, context));
-    return true;
   }
 
   public boolean dispatchLater(@NotNull final AnAction dispatch, @NotNull final DataContext context) {

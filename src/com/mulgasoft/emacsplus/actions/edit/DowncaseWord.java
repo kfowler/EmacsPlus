@@ -13,7 +13,7 @@ import com.mulgasoft.emacsplus.handlers.CaseHandler;
  * If point is in the middle of a word, the part of that word before point
  * is ignored when moving forward.
  */
-public class DowncaseWord extends EmacsPlusAction {
+class DowncaseWord extends EmacsPlusAction {
   public DowncaseWord() {
     super(new myHandler());
   }

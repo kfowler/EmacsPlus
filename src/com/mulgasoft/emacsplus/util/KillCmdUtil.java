@@ -25,11 +25,11 @@ public class KillCmdUtil {
     killWrapper(cmdId, data, doc, false);
   }
 
-  public static boolean wasNextKill() {
+  private static boolean wasNextKill() {
     return "append-next-kill".equals(EmacsPlus.getPenultCommand());
   }
 
-  public static boolean isNextKill() {
+  private static boolean isNextKill() {
     return "append-next-kill".equals(EmacsPlus.getUltCommand());
   }
 
@@ -74,7 +74,7 @@ public class KillCmdUtil {
     }
   }
 
-  public static void killWrapper(final String cmdId, final DataContext data, final Document doc, final boolean isCut) {
+  private static void killWrapper(final String cmdId, final DataContext data, final Document doc, final boolean isCut) {
     int killLen = 0;
     Transferable prevContent = null;
     KillRingInfo info = null;
@@ -97,7 +97,7 @@ public class KillCmdUtil {
   }
 
   @NotNull
-  public static String getTransferableText(@NotNull final Transferable data) {
+  private static String getTransferableText(@NotNull final Transferable data) {
     if (data == null) {
       throw new IllegalArgumentException(
           String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "data",

@@ -19,7 +19,7 @@ import com.mulgasoft.emacsplus.handlers.WhiteSpaceHandler;
  * See also ‘cycle-spacing’.
  *
  */
-public class JustOneSpace extends EmacsPlusAction {
+class JustOneSpace extends EmacsPlusAction {
   public JustOneSpace() {
     super(new myHandler());
   }

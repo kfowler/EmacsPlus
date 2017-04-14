@@ -30,6 +30,7 @@ public class EmacsPlus implements ApplicationComponent {
   private static final boolean visualBeep = false;
 
   public void initComponent() {
+    LOG.debug("Initing EmacsPlus");
     CommandProcessor.getInstance().addCommandListener(new CommandListener() {
       public void beforeCommandFinished(final CommandEvent event) {
       }
@@ -91,7 +92,7 @@ public class EmacsPlus implements ApplicationComponent {
   }
 
   @NotNull
-  public static PluginId getPluginId() {
+  private static PluginId getPluginId() {
     return PluginId.getId(EMACS_PLUS);
   }
 

@@ -47,25 +47,7 @@ import org.jetbrains.annotations.NonNls;
 public class ISearchForward extends EditorAction implements EmacsPlusBA {
   private static final Logger LOG = Logger.getInstance(ISearchForward.class);
 
-  final String GEN_MSG = "Emacs+ %s behavior not supported in this version of IDEA";
-  @NonNls
-  private static final String REPLACE_CLASS = "com.intellij.find.editorHeaderActions.ReplaceOnEnterAction";
-  @NonNls
-  private static final String CLOSE_CLASS = "com.intellij.find.editorHeaderActions.CloseOnESCAction";
-  @NonNls
-  private static final String HISTORY_CLASS = "com.intellij.find.editorHeaderActions.ShowHistoryAction";
-  @NonNls
-  private static final String UP_ACTION = "IS.Up";
-  @NonNls
-  private static final String DOWN_ACTION = "IS.Down";
-  @NonNls
-  private static final String ENTER_ACTION = "IS.Enter";
-  @NonNls
-  private static final String REPLACE_ACTION = "IS.Replace";
-  @NonNls
-  private static final String INTERRUPT_ACTION = "IS.Interrupt";
-  @NonNls
-  private static final String UNDO_ACTION = "undoKeystroke";
+  private final String GEN_MSG = "Emacs+ %s behavior not supported in this version of IDEA";
   private int myStartOffset = 0;
   private boolean myIsMulti = false;
   private EditorEx myEditor = null;
@@ -78,7 +60,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     return String.format(this.GEN_MSG, action.getTemplatePresentation().getText());
   }
 
-  protected ISearchForward(final boolean isReplace) {
+  ISearchForward(final boolean isReplace) {
     super(new IncrementalFindAction.Handler(isReplace));
     this.fmo = findModel -> {
       final boolean multi = findModel.isMultiline();
@@ -93,19 +75,15 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     this.isReplace = isReplace;
   }
 
-  protected ISearchForward() {
+  ISearchForward() {
     this(false);
   }
 
-  protected String getName() {
+  String getName() {
     return "isearch-forward";
   }
 
-  protected Editor getEditor() {
-    return this.myEditor;
-  }
-
-  protected ISearchDelegate getSearcher() {
+  ISearchDelegate getSearcher() {
     return this.mySearcher;
   }
 
@@ -144,7 +122,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     }
   }
 
-  protected void changeFieldActions(final ISearchDelegate searcher, final boolean isReplace) {
+  void changeFieldActions(final ISearchDelegate searcher, final boolean isReplace) {
     final JTextComponent field = isReplace ? searcher.getReplaceField() : searcher.getSearchField();
     final KeyboardShortcut kbS = new KeyboardShortcut(KeyStroke.getKeyStroke(9, 512), null);
     if (!this.addToAction("com.intellij.find.editorHeaderActions.ShowHistoryAction", kbS, field)
@@ -198,7 +176,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     model.addObserver(this.fmo);
   }
 
-  protected void setSwitchAction(final ISearchDelegate searcher) {
+  private void setSwitchAction(final ISearchDelegate searcher) {
     new SwitchToISearch(searcher);
     new SwitchToISearchBack(searcher);
   }
@@ -298,13 +276,12 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     return result;
   }
 
-  private boolean removeFromAction(final String actionClass, final KeyStroke ks, final JComponent field) {
+  private void removeFromAction(final String actionClass, final KeyStroke ks, final JComponent field) {
     boolean result = this.removeFromAction(actionClass, new KeyboardShortcut(ks, null), field);
     if (!result) {
       field.unregisterKeyboardAction(ks);
       result = true;
     }
-    return result;
   }
 
   private boolean removeFromAction(final String actionClass, final Shortcut cut, final JComponent field) {
@@ -370,8 +347,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   private class InnerShowHistory extends AnAction implements DumbAware {
     JTextComponent field;
 
-    protected InnerShowHistory(final ISearchDelegate searcher, final JTextComponent field,
-        final KeyboardShortcut shortcut) {
+    InnerShowHistory(final ISearchDelegate searcher, final JTextComponent field, final KeyboardShortcut shortcut) {
       this.field = null;
       this.field = field;
       this.registerCustomShortcutSet(new CustomShortcutSet(shortcut), field);
@@ -389,8 +365,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   private class InnerISearchReturn extends AnAction implements DumbAware {
     JComponent field;
 
-    protected InnerISearchReturn(final ISearchDelegate searcher, final JComponent field,
-        final KeyboardShortcut shortcut) {
+    InnerISearchReturn(final ISearchDelegate searcher, final JComponent field, final KeyboardShortcut shortcut) {
       this.field = null;
       this.field = field;
       this.registerCustomShortcutSet(new CustomShortcutSet(shortcut), field);
@@ -530,11 +505,11 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
 
   private class SwitchToISearchBack extends AnAction {
     SwitchToISearchBack(final ISearchDelegate searcher) {
-      final ArrayList<Shortcut> shortcuts = new ArrayList<>();
-      ContainerUtil.addAll((Collection) shortcuts,
-          (Object[]) ActionManager.getInstance().getAction("Emacs+.ISearchBackward").getShortcutSet().getShortcuts());
+      final Collection<Shortcut> shortcuts = new ArrayList<>();
+      ContainerUtil.addAll(shortcuts,
+          ActionManager.getInstance().getAction("Emacs+.ISearchBackward").getShortcutSet().getShortcuts());
       this.registerCustomShortcutSet(
-          new CustomShortcutSet((Shortcut[]) shortcuts.toArray(new Shortcut[shortcuts.size()])),
+          new CustomShortcutSet(shortcuts.<Shortcut>toArray(new Shortcut[shortcuts.size()])),
           searcher.getComponent());
     }
 

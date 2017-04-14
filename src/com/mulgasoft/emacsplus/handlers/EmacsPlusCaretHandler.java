@@ -20,7 +20,7 @@ public abstract class EmacsPlusCaretHandler extends EditorActionHandler {
     super(runForEachCaret);
   }
 
-  protected Caret checkCaret(@NotNull final Editor editor, final Caret caret) {
+  private Caret checkCaret(@NotNull final Editor editor, final Caret caret) {
     if (editor == null) {
       throw new IllegalArgumentException(
           String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "editor",

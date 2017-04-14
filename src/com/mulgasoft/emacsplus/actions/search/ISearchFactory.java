@@ -16,13 +16,6 @@ import org.jetbrains.annotations.NonNls;
 public class ISearchFactory {
   private static final Logger LOG = Logger.getInstance(ISearch14.class);
 
-  @NonNls
-  private static final String OBJ_14 = "com.intellij.find.EditorSearchComponent";
-  @NonNls
-  private static final String OBJ_15 = "com.intellij.find.EditorSearchSession";
-  @NonNls
-  private static final String GET_15 = "get";
-
   public static ISearchDelegate getISearchObject(final Editor editor) {
     ISearchDelegate result = null;
     Class<?> clazz = null;
@@ -30,7 +23,7 @@ public class ISearchFactory {
     if (editor != null && (hc = editor.getHeaderComponent()) != null) {
       try {
         clazz = Class.forName("com.intellij.find.EditorSearchComponent");
-        if (ObjectUtils.tryCast(hc, (Class) clazz) != null) {
+        if (ObjectUtils.tryCast(hc, clazz) != null) {
           result = new ISearch14(editor, hc);
         }
       } catch (ClassNotFoundException e) {

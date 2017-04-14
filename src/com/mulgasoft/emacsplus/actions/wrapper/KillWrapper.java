@@ -12,9 +12,9 @@ import com.mulgasoft.emacsplus.util.KillCmdUtil;
 
 
 public abstract class KillWrapper extends EmacsPlusWrapper {
-  KillCmdUtil.KillRingInfo info;
+  private KillCmdUtil.KillRingInfo info;
 
-  protected KillWrapper(final EditorActionHandler defaultHandler) {
+  KillWrapper(final EditorActionHandler defaultHandler) {
     super(defaultHandler);
     this.info = null;
     EmacsPlusAction.addCommandListener(this, this.getName());
@@ -37,7 +37,7 @@ public abstract class KillWrapper extends EmacsPlusWrapper {
   }
 
   public static class CutHandler extends EditorWriteActionHandler {
-    final protected EditorWriteActionHandler myCutHandler;
+    final EditorWriteActionHandler myCutHandler;
 
     public CutHandler() {
       this.myCutHandler = this.getWrappedHandler("EditorCut");

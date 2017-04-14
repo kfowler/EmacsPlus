@@ -11,8 +11,8 @@ import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.util.ActionUtil;
 
 
-public abstract class EmacsPlusWrapper extends EmacsPlusAction {
-  protected EmacsPlusWrapper(final EditorActionHandler defaultHandler) {
+abstract class EmacsPlusWrapper extends EmacsPlusAction {
+  EmacsPlusWrapper(final EditorActionHandler defaultHandler) {
     super(defaultHandler);
   }
 

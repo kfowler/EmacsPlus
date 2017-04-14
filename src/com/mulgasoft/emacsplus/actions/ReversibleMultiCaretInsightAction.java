@@ -25,14 +25,14 @@ import org.jetbrains.annotations.NotNull;
 
 
 public abstract class ReversibleMultiCaretInsightAction extends MultiCaretCodeInsightAction implements DumbAware {
-  boolean isReverse;
+  private boolean isReverse;
   private DataContext myDataContext;
 
   protected ReversibleMultiCaretInsightAction() {
     this(true);
   }
 
-  protected ReversibleMultiCaretInsightAction(final boolean reverse) {
+  private ReversibleMultiCaretInsightAction(final boolean reverse) {
     this.isReverse = true;
     this.myDataContext = null;
     this.isReverse = reverse;

@@ -42,7 +42,7 @@ public abstract class ISHandler extends YankHandler {
     return findModel;
   }
 
-  public static Object invokeOnHeader(final Editor editor, final String[] methods) {
+  private static Object invokeOnHeader(final Editor editor, final String[] methods) {
     Object result = null;
     final JComponent hc = editor.getHeaderComponent();
     if (hc != null) {
@@ -61,11 +61,11 @@ public abstract class ISHandler extends YankHandler {
     return result;
   }
 
-  public static JTextComponent getSearchField(final Editor editor) {
+  private static JTextComponent getSearchField(final Editor editor) {
     return (JTextComponent) invokeOnHeader(getTextEditor(editor), ISHandler.SearchMethods);
   }
 
-  public static JTextComponent getReplaceField(final Editor editor) {
+  private static JTextComponent getReplaceField(final Editor editor) {
     return (JTextComponent) invokeOnHeader(getTextEditor(editor), ISHandler.ReplaceMethods);
   }
 
@@ -82,7 +82,7 @@ public abstract class ISHandler extends YankHandler {
     return field != null && field == isEditor.getComponent();
   }
 
-  public static boolean isISReplaceField(final Editor isEditor) {
+  static boolean isISReplaceField(final Editor isEditor) {
     final JTextComponent field = getReplaceField(isEditor);
     return field != null && field == isEditor.getComponent();
   }

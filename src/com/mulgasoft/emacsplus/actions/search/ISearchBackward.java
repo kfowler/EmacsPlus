@@ -12,12 +12,12 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.mulgasoft.emacsplus.util.ActionUtil;
 
 
-public class ISearchBackward extends SearchBackAction {
+class ISearchBackward extends SearchBackAction {
   public void actionPerformed(final AnActionEvent e) {
     this.delegateAction(e);
   }
 
-  protected ISearchDelegate delegateAction(final AnActionEvent e) {
+  ISearchDelegate delegateAction(final AnActionEvent e) {
     final Editor editor = FileEditorManager.getInstance(e.getProject()).getSelectedTextEditor();
     ISearchDelegate searcher = ISearchFactory.getISearchObject(editor);
     if (searcher == null) {

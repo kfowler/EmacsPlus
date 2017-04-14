@@ -83,7 +83,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     this.commentLine(editor, caret, dataContext);
   }
 
-  protected int getCommentColumn() {
+  private int getCommentColumn() {
     return CommentHandler.ourCommentColumn;
   }
 
@@ -99,11 +99,11 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     return this.myBlockStart != null && this.myBlockEnd != null;
   }
 
-  protected String getEmptyBlockComment() {
+  private String getEmptyBlockComment() {
     return " " + this.myBlockStart + " " + " " + this.myBlockEnd;
   }
 
-  protected String getEmptyLineComment() {
+  private String getEmptyLineComment() {
     return " " + this.myLineC + " ";
   }
 
@@ -115,7 +115,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     return document.getLineEndOffset(document.getLineNumber(offset));
   }
 
-  protected boolean checkLanguage(final Project project, final Caret caret, final PsiFile file) {
+  private boolean checkLanguage(final Project project, final Caret caret, final PsiFile file) {
     boolean result = false;
     Commenter commenter = null;
     final FileType fileType = file.getFileType();
@@ -146,7 +146,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     return this.findCommentRange(EditorUtil.getPsiFile(editor, caret), editor, caret, dataContext);
   }
 
-  protected CommentRange findCommentRange(final PsiFile psi, final Editor editor, final Caret caret,
+  private CommentRange findCommentRange(final PsiFile psi, final Editor editor, final Caret caret,
       final DataContext dataContext) {
     CommentRange result = null;
     final Document document = editor.getDocument();
@@ -162,8 +162,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     return result;
   }
 
-  protected CommentRange findCommentRange(final PsiFile psi, final int filePos, final String text,
-      final String prefix) {
+  private CommentRange findCommentRange(final PsiFile psi, final int filePos, final String text, final String prefix) {
     CommentRange crange = null;
     int index = 0;
     if (prefix != null && psi != null) {
@@ -201,7 +200,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     return this.inComment(EditorUtil.getPsiFile(editor, caret), caret.getOffset());
   }
 
-  protected PsiElement inComment(final PsiFile psi, final int offset) {
+  private PsiElement inComment(final PsiFile psi, final int offset) {
     PsiElement result = null;
     PsiElement ele = psi.findElementAt(offset);
     if (ele != null && (ele instanceof PsiComment || (ele = ele.getParent()) instanceof PsiComment)) {

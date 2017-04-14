@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class YankHandler extends EmacsPlusWriteHandler {
   private static boolean ourYankReplace;
 
-  protected Transferable getData() {
+  private Transferable getData() {
     return EditorModificationUtil.getContentsToPasteToEditor(null);
   }
 
@@ -63,7 +63,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler {
     return result;
   }
 
-  public TextRange paste(@NotNull final Editor editor, @NotNull final TextRange range,
+  private TextRange paste(@NotNull final Editor editor, @NotNull final TextRange range,
       @NotNull final Transferable data) {
     if (editor == null) {
       throw new IllegalArgumentException(
@@ -86,7 +86,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler {
     return result;
   }
 
-  public TextRange paste(@NotNull final Editor editor, @NotNull final Caret caret, @NotNull final Transferable data) {
+  private TextRange paste(@NotNull final Editor editor, @NotNull final Caret caret, @NotNull final Transferable data) {
     if (editor == null) {
       throw new IllegalArgumentException(
           String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "editor",

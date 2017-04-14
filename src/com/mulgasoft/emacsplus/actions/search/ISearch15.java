@@ -1,7 +1,3 @@
-//
-// Decompiled by Procyon v0.5.30
-//
-
 package com.mulgasoft.emacsplus.actions.search;
 
 import com.intellij.find.FindModel;
@@ -19,13 +15,13 @@ public class ISearch15 implements ISearchDelegate {
   private static final Logger LOG = Logger.getInstance(ISearch15.class);
 
   @NonNls
-  private static String GET_SEARCH;
+  private final static String GET_SEARCH = "getSearchTextComponent";
   @NonNls
-  private static String GET_REPLACE;
+  private final static String GET_REPLACE = "getReplaceTextComponent";
   @NonNls
-  private static String GET_FIND;
-  private JComponent searchComp;
-  private Object session;
+  private final static String GET_FIND = "getFindModel";
+  private final JComponent searchComp;
+  private final Object session;
 
   ISearch15(final Editor editor, final Object session, final JComponent component) {
     this.session = session;
@@ -135,11 +131,5 @@ public class ISearch15 implements ISearchDelegate {
   @Override
   public void close() {
     this.invoke(this.session, "close");
-  }
-
-  static {
-    ISearch15.GET_SEARCH = "getSearchTextComponent";
-    ISearch15.GET_REPLACE = "getReplaceTextComponent";
-    ISearch15.GET_FIND = "getFindModel";
   }
 }

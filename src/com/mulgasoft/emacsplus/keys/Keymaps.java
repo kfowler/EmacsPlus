@@ -21,27 +21,7 @@ import org.jetbrains.annotations.NonNls;
 
 public abstract class Keymaps {
   @NonNls
-  private static final String PREFIX = "lang/";
-  @NonNls
-  private static final String SUFFIX = ".xml";
-  @NonNls
-  private static final String DIR_SEPR = "/";
-  @NonNls
-  private static final String LOCALE_SEPR = "_";
-  @NonNls
-  private static final String STD_KEYMAP = "Keymap_EmacsPlus";
-  @NonNls
-  private static final String MAC_KEYMAP = "Keymap_EmacsPlusMac";
-  @NonNls
   private static final String USER_KEYMAP;
-  @NonNls
-  private static final String EMACS = "Emacs+";
-  @NonNls
-  private static final String DE = "de";
-  @NonNls
-  private static final String ES = "es";
-  @NonNls
-  private static final String FR = "fr";
   private static List<String> mapNames;
   private static boolean isAlt;
   private static String isLocale;
@@ -102,7 +82,7 @@ public abstract class Keymaps {
     return result;
   }
 
-  public static boolean isAlt() {
+  private static boolean isAlt() {
     return Keymaps.isAlt;
   }
 

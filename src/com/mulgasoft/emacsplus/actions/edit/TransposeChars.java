@@ -22,7 +22,7 @@ import com.mulgasoft.emacsplus.handlers.EmacsPlusWriteHandler;
  If no argument and at end of line, the previous two chars are exchanged.
 
  */
-public class TransposeChars extends EmacsPlusAction {
+class TransposeChars extends EmacsPlusAction {
   public TransposeChars() {
     super(new myHandler());
   }

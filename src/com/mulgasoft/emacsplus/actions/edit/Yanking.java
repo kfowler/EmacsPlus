@@ -9,12 +9,12 @@ import com.intellij.openapi.util.TextRange;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 
 
-public abstract class Yanking extends EmacsPlusAction {
+abstract class Yanking extends EmacsPlusAction {
   private static int ourLength;
   private static int ourIndex;
   private static int ourOffset;
 
-  public Yanking(final EditorActionHandler defaultHandler) {
+  Yanking(final EditorActionHandler defaultHandler) {
     super(defaultHandler);
   }
 
@@ -22,15 +22,15 @@ public abstract class Yanking extends EmacsPlusAction {
     Yanking.ourLength = length;
   }
 
-  protected static int getLength() {
+  static int getLength() {
     return Yanking.ourLength;
   }
 
-  protected static void setIndex(final int index) {
+  static void setIndex(final int index) {
     Yanking.ourIndex = index;
   }
 
-  protected static int getIndex() {
+  static int getIndex() {
     return Yanking.ourIndex;
   }
 
@@ -38,24 +38,24 @@ public abstract class Yanking extends EmacsPlusAction {
     Yanking.ourOffset = offset;
   }
 
-  protected static int getOffset() {
+  static int getOffset() {
     return Yanking.ourOffset;
   }
 
-  protected void reset() {
+  void reset() {
     setLength(0);
     setOffset(0);
     setIndex(1);
   }
 
-  protected static void yanked(final TextRange location) {
+  static void yanked(final TextRange location) {
     if (location != null) {
       setLength(location.getEndOffset() - location.getStartOffset());
       setOffset(location.getEndOffset());
     }
   }
 
-  protected void popped(final TextRange location) {
+  void popped(final TextRange location) {
     yanked(location);
     ++Yanking.ourIndex;
   }

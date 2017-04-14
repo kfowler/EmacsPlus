@@ -12,12 +12,12 @@ import com.mulgasoft.emacsplus.handlers.WhiteSpaceHandler;
  * From Emacs docs: Delete all spaces and tabs around point.
  *                  If BACKWARD-ONLY is non-nil, only delete them before point.
  */
-public class DeleteHorizSpace extends EmacsPlusAction {
+class DeleteHorizSpace extends EmacsPlusAction {
   public DeleteHorizSpace() {
     this(new myHandler());
   }
 
-  protected DeleteHorizSpace(final EditorActionHandler defaultHandler) {
+  private DeleteHorizSpace(final EditorActionHandler defaultHandler) {
     super(defaultHandler);
   }
 
