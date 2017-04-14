@@ -19,10 +19,8 @@ dependencies {
 apply plugin: 'java'
 apply plugin: 'org.jetbrains.intellij'
 
-java {
-  sourceCompatibility = javaVersion
-  targetCompatibility = javaVersion
-}
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
 
