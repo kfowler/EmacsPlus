@@ -18,6 +18,7 @@ import java.lang.reflect.Method;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 
 
 public abstract class ISHandler extends YankHandler {
@@ -120,7 +121,7 @@ public abstract class ISHandler extends YankHandler {
   }
 
   @Override
-  protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
+  protected boolean isEnabledForCaret(@NotNull final Editor editor, @NotNull final Caret caret, final DataContext dataContext) {
     return isISearchField(editor);
   }
 

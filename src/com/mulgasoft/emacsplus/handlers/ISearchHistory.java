@@ -176,7 +176,7 @@ public abstract class ISearchHistory extends ISHandler {
   }
 
   @Override
-  protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
+  protected boolean isEnabledForCaret(@NotNull final Editor editor, @NotNull final Caret caret, final DataContext dataContext) {
     this.isSearchField = ISHandler.isISearchField(editor);
     this.isReplaceField = ISHandler.isISReplaceField(editor);
     if (this.isReplaceField && this.myReplaceField == null) {

@@ -10,7 +10,6 @@ import com.intellij.util.ObjectUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import javax.swing.*;
-import org.jetbrains.annotations.NonNls;
 
 
 public class ISearchFactory {

@@ -12,7 +12,7 @@ import java.awt.event.KeyListener;
 
 
 class QueryReplace extends ISearchForward implements FocusListener, KeyListener {
-  QueryReplace() {
+  public QueryReplace() {
     super(true);
   }
 

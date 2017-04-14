@@ -29,7 +29,6 @@ public class DeleteIndentation extends EmacsPlusWrapper {
     public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
       if (caret != null) {
         final Document document = editor.getDocument();
-        final int cl = caret.getLogicalPosition().line;
         int currentLine = document.getLineNumber(caret.getOffset());
         if (currentLine > 0) {
           caret.moveToOffset(document.getLineEndOffset(--currentLine));

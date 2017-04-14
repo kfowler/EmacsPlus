@@ -138,7 +138,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler {
     return location;
   }
 
-  protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
+  protected boolean isEnabledForCaret(@NotNull final Editor editor, @NotNull final Caret caret, final DataContext dataContext) {
     return !ISHandler.isISearchField(editor) && super.isEnabledForCaret(editor, caret, dataContext);
   }
 

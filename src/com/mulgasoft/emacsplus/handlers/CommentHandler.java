@@ -116,28 +116,26 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
   }
 
   private boolean checkLanguage(final Project project, final Caret caret, final PsiFile file) {
-    boolean result = false;
-    Commenter commenter = null;
     final FileType fileType = file.getFileType();
     if (fileType instanceof AbstractFileType) {
-      commenter = ((AbstractFileType) fileType).getCommenter();
-      result = this.checkFill(String.valueOf(commenter), commenter);
-    } else {
-      final Language language = file.getLanguage();
-      if (language != null) {
-        result = this.checkFill(language.getID(), LanguageCommenters.INSTANCE.forLanguage(language));
-      }
+      final Commenter commenter = ((AbstractFileType) fileType).getCommenter();
+      return checkFill(String.valueOf(commenter), commenter);
     }
-    return result;
+
+    final Language language = file.getLanguage();
+    if (language != null) {
+      return checkFill(language.getID(), LanguageCommenters.INSTANCE.forLanguage(language));
+    }
+    return false;
   }
 
   private boolean checkFill(final String id, final Commenter commenter) {
     boolean result = true;
-    if ((this.myLangId == null || !this.myLangId.equals(id)) && (result = (commenter != null))) {
-      this.myLangId = id;
-      this.myLineC = commenter.getLineCommentPrefix();
-      this.myBlockStart = commenter.getBlockCommentPrefix();
-      this.myBlockEnd = commenter.getBlockCommentSuffix();
+    if ((myLangId == null || !myLangId.equals(id)) && (result = (commenter != null))) {
+      myLangId = id;
+      myLineC = commenter.getLineCommentPrefix();
+      myBlockStart = commenter.getBlockCommentPrefix();
+      myBlockEnd = commenter.getBlockCommentSuffix();
     }
     return result;
   }
@@ -148,16 +146,15 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
 
   private CommentRange findCommentRange(final PsiFile psi, final Editor editor, final Caret caret,
       final DataContext dataContext) {
-    CommentRange result = null;
     final Document document = editor.getDocument();
     final int current = caret.getOffset();
     final int line = document.getLineNumber(current);
     final int bol = document.getLineStartOffset(line);
     final int eol = document.getLineEndOffset(line);
     final String text = document.getText(new TextRange(bol, eol));
-    result = this.findCommentRange(psi, bol, text, this.myLineC);
+    CommentRange result = this.findCommentRange(psi, bol, text, this.myLineC);
     if (result == null) {
-      result = this.findCommentRange(psi, bol, text, this.myBlockStart);
+      return findCommentRange(psi, bol, text, this.myBlockStart);
     }
     return result;
   }
@@ -286,10 +283,6 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     private CommentRange(final TextRange range, final String prefix) {
       this.range = ((range != null) ? range : new TextRange(0, 0));
       this.prefix = prefix;
-    }
-
-    public TextRange getRange() {
-      return this.range;
     }
 
     public String getPrefix() {

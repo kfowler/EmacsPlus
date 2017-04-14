@@ -11,26 +11,9 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
 import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.EmacsPlusCaretHandler;
-import org.jetbrains.annotations.NonNls;
 
 
 public class WhatCursorPos extends EditorAction {
-  @NonNls
-  private static final String N_GEN = "\\c";
-  @NonNls
-  private static final String N_NEW = "\\n";
-  @NonNls
-  private static final String N_RET = "\\r";
-  @NonNls
-  private static final String N_TAB = "\\t";
-  @NonNls
-  private static final String N_BS = "\\b";
-  @NonNls
-  private static final String N_FF = "\\f";
-  @NonNls
-  private static final String N_SPC = "SPC";
-  private static final String CURSOR_POSITION = "Char: %s  (%d, #o%o, #x%x)  point=%d of %d (%d%%)";
-  private static final String EOB_POSITION = "point=%d of %d (EOB)";
 
   protected WhatCursorPos() {
     super(new myHandler());

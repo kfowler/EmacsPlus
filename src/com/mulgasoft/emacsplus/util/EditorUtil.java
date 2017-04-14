@@ -49,9 +49,7 @@ public class EditorUtil {
   }
 
   public static void checkMarkSelection(final Editor editor, final Caret caret) {
-    boolean result = false;
     if (editor instanceof EditorEx) {
-      result = true;
       final EditorEx ex = (EditorEx) editor;
       if (caret.hasSelection() && !ex.isStickySelection()) {
         final int offset = caret.getOffset();

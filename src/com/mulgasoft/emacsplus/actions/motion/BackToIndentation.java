@@ -14,6 +14,7 @@ import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.ExprHandler;
 import com.mulgasoft.emacsplus.handlers.ISHandler;
 import com.mulgasoft.emacsplus.util.EditorUtil;
+import org.jetbrains.annotations.NotNull;
 
 
 public class BackToIndentation extends EmacsPlusAction {
@@ -41,7 +42,7 @@ public class BackToIndentation extends EmacsPlusAction {
       return Math.min(caretPos.line, caretLineStart.line);
     }
 
-    protected boolean isEnabledForCaret(final Editor editor, final Caret caret, final DataContext dataContext) {
+    protected boolean isEnabledForCaret(@NotNull final Editor editor, @NotNull final Caret caret, final DataContext dataContext) {
       return super.isEnabledForCaret(editor, caret, dataContext) && !ISHandler.isInISearch(editor);
     }
   }

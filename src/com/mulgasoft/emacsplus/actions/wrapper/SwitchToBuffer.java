@@ -26,6 +26,8 @@ import javax.swing.text.TextAction;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
+import static com.google.common.base.Preconditions.*;
+
 
 public class SwitchToBuffer extends DumbAwareAction {
   private static final Logger LOG = Logger.getInstance(SwitchToBuffer.class);
@@ -36,27 +38,11 @@ public class SwitchToBuffer extends DumbAwareAction {
   private static String SWITCH_CREATE;
   @NonNls
   private static String SWITCH_TITLE;
-  @NonNls
-  private static final String GOFORWARD_ACTION = "Emacs+.Forward";
-  @NonNls
-  private static final String GOBACK_ACTION = "Emacs+.Back";
-  @NonNls
-  private static final String GOUP_ACTION = "Emacs+.Up";
-  @NonNls
-  private static final String GODOWN_ACTION = "Emacs+.Down";
-  @NonNls
-  private static final String GOTOP_ACTION = "Emacs+.Top";
-  @NonNls
-  private static final String GOBOT_ACTION = "Emacs+.Bottom";
 
-  public void actionPerformed(@NotNull final AnActionEvent e) {
-    if (e == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "e",
-              "com/mulgasoft/emacsplus/actions/wrapper/SwitchToBuffer", "actionPerformed"));
-    }
+  public void actionPerformed(@NotNull final AnActionEvent event) {
+    checkNotNull(event);
     FeatureUsageTracker.getInstance().triggerFeatureUsed("navigation.recent.files");
-    final Switcher.SwitcherPanel switcher = this.getSwitcher(e);
+    final Switcher.SwitcherPanel switcher = this.getSwitcher(event);
     if (switcher != null) {
       this.keySetup(switcher);
     }

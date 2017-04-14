@@ -20,7 +20,6 @@ import com.intellij.openapi.actionSystem.Shortcut;
 import com.intellij.openapi.command.CommandEvent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.CaretState;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.ScrollType;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.VisualPosition;
@@ -41,7 +40,6 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
-import org.jetbrains.annotations.NonNls;
 
 
 public class ISearchForward extends EditorAction implements EmacsPlusBA {
@@ -60,7 +58,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     return String.format(this.GEN_MSG, action.getTemplatePresentation().getText());
   }
 
-  ISearchForward(final boolean isReplace) {
+  public ISearchForward(final boolean isReplace) {
     super(new IncrementalFindAction.Handler(isReplace));
     this.fmo = findModel -> {
       final boolean multi = findModel.isMultiline();
@@ -75,7 +73,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     this.isReplace = isReplace;
   }
 
-  ISearchForward() {
+  public ISearchForward() {
     this(false);
   }
 
@@ -277,10 +275,8 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   }
 
   private void removeFromAction(final String actionClass, final KeyStroke ks, final JComponent field) {
-    boolean result = this.removeFromAction(actionClass, new KeyboardShortcut(ks, null), field);
-    if (!result) {
+    if (!this.removeFromAction(actionClass, new KeyboardShortcut(ks, null), field)) {
       field.unregisterKeyboardAction(ks);
-      result = true;
     }
   }
 
@@ -509,7 +505,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
       ContainerUtil.addAll(shortcuts,
           ActionManager.getInstance().getAction("Emacs+.ISearchBackward").getShortcutSet().getShortcuts());
       this.registerCustomShortcutSet(
-          new CustomShortcutSet(shortcuts.<Shortcut>toArray(new Shortcut[shortcuts.size()])),
+          new CustomShortcutSet(shortcuts.toArray(new Shortcut[shortcuts.size()])),
           searcher.getComponent());
     }
 
