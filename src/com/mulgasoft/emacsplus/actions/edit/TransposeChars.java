@@ -1,7 +1,3 @@
-//
-// Decompiled by Procyon v0.5.30
-//
-
 package com.mulgasoft.emacsplus.actions.edit;
 
 import com.intellij.openapi.actionSystem.DataContext;
@@ -13,6 +9,19 @@ import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.EmacsPlusWriteHandler;
 
 
+/**
+ * transpose-chars is an interactive compiled Lisp function in ‘simple.el’.
+
+ It is bound to C-t.
+
+ (transpose-chars ARG)
+
+ Interchange characters around point, moving forward one character.
+ With prefix arg ARG, effect is to take character before point
+ and drag it forward past ARG other characters (backward if ARG negative).
+ If no argument and at end of line, the previous two chars are exchanged.
+
+ */
 public class TransposeChars extends EmacsPlusAction {
   public TransposeChars() {
     super(new myHandler());
