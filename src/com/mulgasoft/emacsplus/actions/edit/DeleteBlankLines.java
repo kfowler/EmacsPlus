@@ -1,7 +1,3 @@
-//
-// Decompiled by Procyon v0.5.30
-//
-
 package com.mulgasoft.emacsplus.actions.edit;
 
 import com.intellij.openapi.actionSystem.DataContext;
@@ -15,6 +11,11 @@ import com.mulgasoft.emacsplus.handlers.WhiteSpaceHandler;
 import org.jetbrains.annotations.NotNull;
 
 
+/**
+ * On blank line, delete all surrounding blank lines, leaving just one.
+ * On isolated blank line, delete that one.
+ * On nonblank line, delete any immediately following blank lines.
+ */
 public class DeleteBlankLines extends EmacsPlusAction {
   public DeleteBlankLines() {
     this(new myHandler());
