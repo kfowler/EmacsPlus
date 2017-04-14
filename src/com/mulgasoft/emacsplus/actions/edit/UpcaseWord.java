@@ -18,7 +18,7 @@ public class UpcaseWord extends EmacsPlusAction {
 
   private static class myHandler extends CaseHandler {
     public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
-      this.caseAction(editor, caret, Cases.UPPER);
+      caseAction(editor, caret, Cases.UPPER);
     }
   }
 }

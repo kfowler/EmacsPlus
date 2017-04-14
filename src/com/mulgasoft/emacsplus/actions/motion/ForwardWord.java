@@ -19,7 +19,7 @@ public class ForwardWord extends EmacsPlusAction {
   private static final class myHandler extends ExprHandler {
     @Override
     protected void doXecute(final Editor editor, final Caret caret, final DataContext dataContext) {
-      this.moveToWord(editor, caret, dataContext, 1);
+      moveToWord(editor, caret, dataContext, 1);
     }
   }
 }

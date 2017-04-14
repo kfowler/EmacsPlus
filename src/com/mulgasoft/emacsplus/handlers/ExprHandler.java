@@ -26,11 +26,11 @@ public abstract class ExprHandler extends EmacsPlusCaretHandler {
 
   protected void moveToWord(final Editor editor, final Caret caret, final DataContext dataContext, final int dir) {
     EditorUtil.checkMarkSelection(editor, caret);
-    final TextRange range = this.getWordRange(editor, caret, false, true, dir);
+    final TextRange range = getWordRange(editor, caret, false, true, dir);
     int newpos =
         (dir > 0) ? range.getEndOffset() : ((range.getStartOffset() != caret.getOffset()) ? range.getStartOffset() : 0);
     VisualPosition pos = editor.offsetToVisualPosition(newpos);
-    if (this.isVisual()) {
+    if (isVisual()) {
       final FoldRegion currentFoldRegion = editor.getFoldingModel().getCollapsedRegionAtOffset(range.getEndOffset());
       if (currentFoldRegion != null) {
         newpos = ((dir > 0) ? currentFoldRegion.getEndOffset() : currentFoldRegion.getStartOffset());
@@ -46,7 +46,7 @@ public abstract class ExprHandler extends EmacsPlusCaretHandler {
   protected void setSelection(final Editor editor, final Caret caret, final TextRange selection) {
     final int coffset = caret.getOffset();
     final int offset = (coffset <= selection.getStartOffset()) ? selection.getEndOffset() : selection.getStartOffset();
-    this.setSelection(editor, caret, offset);
+    setSelection(editor, caret, offset);
   }
 
   private void setSelection(final Editor editor, final Caret caret, final int offset) {

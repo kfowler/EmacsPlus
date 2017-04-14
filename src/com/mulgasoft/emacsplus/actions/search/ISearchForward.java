@@ -45,7 +45,6 @@ import javax.swing.text.TextAction;
 public class ISearchForward extends EditorAction implements EmacsPlusBA {
   private static final Logger LOG = Logger.getInstance(ISearchForward.class);
 
-  private final String GEN_MSG = "Emacs+ %s behavior not supported in this version of IDEA";
   private int myStartOffset = 0;
   private boolean myIsMulti = false;
   private EditorEx myEditor = null;
@@ -55,21 +54,22 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   private final FindModel.FindModelObserver fmo;
 
   private String getNoActionMsg(final EditorAction action) {
-    return String.format(this.GEN_MSG, action.getTemplatePresentation().getText());
+    String GEN_MSG = "Emacs+ %s behavior not supported in this version of IDEA";
+    return String.format(GEN_MSG, action.getTemplatePresentation().getText());
   }
 
   public ISearchForward(final boolean isReplace) {
     super(new IncrementalFindAction.Handler(isReplace));
-    this.fmo = findModel -> {
+    fmo = findModel -> {
       final boolean multi = findModel.isMultiline();
-      if (multi != ISearchForward.this.isMulti()) {
-        ISearchForward.this.myIsMulti = multi;
-        if (ISearchForward.this.mySearcher != null) {
-          ISearchForward.this.changeFieldActions(ISearchForward.this.mySearcher, false);
+      if (multi != isMulti()) {
+        myIsMulti = multi;
+        if (mySearcher != null) {
+          changeFieldActions(mySearcher, false);
         }
       }
     };
-    EmacsPlusAction.addCommandListener(this, this.getName());
+    EmacsPlusAction.addCommandListener(this, getName());
     this.isReplace = isReplace;
   }
 
@@ -82,53 +82,52 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   }
 
   ISearchDelegate getSearcher() {
-    return this.mySearcher;
+    return mySearcher;
   }
 
   private boolean isMulti() {
-    return this.myIsMulti;
+    return myIsMulti;
   }
 
   public void before(final CommandEvent e) {
-    this.myEditor = (EditorEx) ISHandler.getTextEditor(e.getProject());
-    this.myStartOffset = this.myEditor.getCaretModel().getPrimaryCaret().getOffset();
-    if (!this.isReplace) {
-      this.oldSelection = new theSelection(this.myEditor.getSelectionModel(),
-          (this.myEditor instanceof EditorEx) ? this.myEditor : null);
+    myEditor = (EditorEx) ISHandler.getTextEditor(e.getProject());
+    myStartOffset = myEditor.getCaretModel().getPrimaryCaret().getOffset();
+    if (!isReplace) {
+      oldSelection = new theSelection(myEditor.getSelectionModel(),
+          (myEditor instanceof EditorEx) ? myEditor : null);
     }
   }
 
   public void after(final CommandEvent e) {
-    this.mySearcher = ISearchFactory.getISearchObject(this.myEditor);
-    if (this.mySearcher != null && this.mySearcher.getSearchField() != null) {
-      final FindModel fm = this.mySearcher.getFindModel();
+    mySearcher = ISearchFactory.getISearchObject(myEditor);
+    if (mySearcher != null && mySearcher.getSearchField() != null) {
+      final FindModel fm = mySearcher.getFindModel();
       fm.setRegularExpressions(false);
-      this.myIsMulti = fm.isMultiline();
-      this.changeFieldActions(this.mySearcher, false);
-      this.setSwitchAction(this.mySearcher);
-      this.watchModelChanges(fm);
-      if (!this.isReplace && !this.oldSelection.isEmpty()) {
-        this.myEditor.getSelectionModel()
-            .setSelection(this.oldSelection.vpstart, this.oldSelection.start, this.oldSelection.vpend,
-                this.oldSelection.end);
-        if (this.oldSelection.isSticky) {
-          this.myEditor.setStickySelection(true);
+      myIsMulti = fm.isMultiline();
+      changeFieldActions(mySearcher, false);
+      setSwitchAction(mySearcher);
+      watchModelChanges(fm);
+      if (!isReplace && !oldSelection.isEmpty()) {
+        myEditor.getSelectionModel()
+            .setSelection(oldSelection.vpstart, oldSelection.start, oldSelection.vpend, oldSelection.end);
+        if (oldSelection.isSticky) {
+          myEditor.setStickySelection(true);
         }
       }
     } else {
-      EmacsPlusAction.errorMessage(this.getNoActionMsg(this));
+      EmacsPlusAction.errorMessage(getNoActionMsg(this));
     }
   }
 
   void changeFieldActions(final ISearchDelegate searcher, final boolean isReplace) {
     final JTextComponent field = isReplace ? searcher.getReplaceField() : searcher.getSearchField();
     final KeyboardShortcut kbS = new KeyboardShortcut(KeyStroke.getKeyStroke(9, 512), null);
-    if (!this.addToAction("com.intellij.find.editorHeaderActions.ShowHistoryAction", kbS, field)
-        && this.findAction(field, InnerShowHistory.class) == null) {
+    if (!addToAction("com.intellij.find.editorHeaderActions.ShowHistoryAction", kbS, field)
+        && findAction(field, InnerShowHistory.class) == null) {
       new InnerShowHistory(searcher, field, kbS);
     }
     final KeyStroke ksG = KeyStroke.getKeyStroke(71, 128);
-    this.removeFromAction("com.intellij.find.editorHeaderActions.CloseOnESCAction", ksG, field);
+    removeFromAction("com.intellij.find.editorHeaderActions.CloseOnESCAction", ksG, field);
     final InputMap im = field.getInputMap();
     final ActionMap am = field.getActionMap();
     am.put("IS.Interrupt", new ISearchInterrupt("IS.Interrupt"));
@@ -140,17 +139,17 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     im.put(KeyStroke.getKeyStroke(86, Keymaps.getMeta()), "IS.Up");
     im.put(Keymaps.getIntlKeyStroke(47), "undoKeystroke");
     final KeyStroke ksE = KeyStroke.getKeyStroke(10, 0);
-    this.removeFromAction(NextOccurrenceAction.class, new KeyboardShortcut(ksE, null), field);
+    removeFromAction(NextOccurrenceAction.class, new KeyboardShortcut(ksE, null), field);
     if (isReplace) {
-      this.replaceSpecifics(ksE, field);
+      replaceSpecifics(ksE, field);
     } else {
-      this.searchSpecifics(searcher, ksE, field);
+      searchSpecifics(searcher, ksE, field);
     }
   }
 
   private void replaceSpecifics(final KeyStroke ksE, final JComponent field) {
-    if (!this.isMulti()) {
-      this.removeFromAction("com.intellij.find.editorHeaderActions.ReplaceOnEnterAction", ksE, field);
+    if (!isMulti()) {
+      removeFromAction("com.intellij.find.editorHeaderActions.ReplaceOnEnterAction", ksE, field);
       field.getActionMap().put("IS.Replace", new IReplaceReturn("IS.Replace"));
       field.getInputMap().put(ksE, "IS.Replace");
     }
@@ -159,19 +158,19 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   private void searchSpecifics(final ISearchDelegate searcher, final KeyStroke ksE, final JComponent field) {
     final KeyboardShortcut kbC = new KeyboardShortcut(KeyStroke.getKeyStroke(9, 128), null);
     if (field instanceof JTextComponent) {
-      this.addToAction(VariantsCompletionAction.class, kbC, (JTextComponent) field);
+      addToAction(VariantsCompletionAction.class, kbC, (JTextComponent) field);
     }
-    if (!this.isMulti() && !searcher.getFindModel().isReplaceState()) {
+    if (!isMulti() && !searcher.getFindModel().isReplaceState()) {
       field.getActionMap().put("IS.Enter", new ISearchReturn("IS.Enter"));
       field.getInputMap().put(ksE, "IS.Enter");
-      if (this.findAction(field, InnerISearchReturn.class) == null) {
+      if (findAction(field, InnerISearchReturn.class) == null) {
         new InnerISearchReturn(searcher, field, new KeyboardShortcut(KeyStroke.getKeyStroke(10, 0), null));
       }
     }
   }
 
   private void watchModelChanges(final FindModel model) {
-    model.addObserver(this.fmo);
+    model.addObserver(fmo);
   }
 
   private void setSwitchAction(final ISearchDelegate searcher) {
@@ -180,23 +179,23 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   }
 
   private void cleanUp() {
-    if (this.mySearcher != null) {
-      final FindModel fm = this.mySearcher.getFindModel();
+    if (mySearcher != null) {
+      final FindModel fm = mySearcher.getFindModel();
       if (fm.isRegularExpressions()) {
         fm.setRegularExpressions(false);
       }
-      this.mySearcher = null;
+      mySearcher = null;
     }
   }
 
   private void isearchReturn() {
-    final ISearchDelegate searcher = this.getSearcher();
+    final ISearchDelegate searcher = getSearcher();
     if (searcher != null) {
-      this.cleanUp();
+      cleanUp();
       searcher.close();
     }
-    this.myEditor.getSelectionModel().removeSelection();
-    this.myEditor.getScrollingModel().scrollToCaret(ScrollType.CENTER);
+    myEditor.getSelectionModel().removeSelection();
+    myEditor.getScrollingModel().scrollToCaret(ScrollType.CENTER);
   }
 
   private AnAction findAction(final JComponent field, final Class actionClass) {
@@ -224,11 +223,11 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
 
   private boolean addToAction(final Class actionClass, final Shortcut cut, final JTextComponent field) {
     boolean result = false;
-    final AnAction action = this.findAction(field, actionClass);
+    final AnAction action = findAction(field, actionClass);
     if (action != null) {
       result = true;
       final Shortcut[] cuts = action.getShortcutSet().getShortcuts();
-      if (this.findCut(cuts, cut) == null) {
+      if (findCut(cuts, cut) == null) {
         final Shortcut[] newcuts = new Shortcut[cuts.length + 1];
         newcuts[0] = cut;
         System.arraycopy(cuts, 0, newcuts, 1, cuts.length);
@@ -243,7 +242,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     boolean result = false;
     try {
       final Class clazz = Class.forName(actionClass);
-      result = this.addToAction(clazz, cut, field);
+      result = addToAction(clazz, cut, field);
     } catch (ClassNotFoundException e) {
       LOG.error(e);
     }
@@ -252,10 +251,10 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
 
   private boolean removeFromAction(final Class actionClass, final Shortcut cut, final JComponent field) {
     boolean result = false;
-    final AnAction action = this.findAction(field, actionClass);
+    final AnAction action = findAction(field, actionClass);
     if (action != null) {
       final Shortcut[] cuts = action.getShortcutSet().getShortcuts();
-      final Shortcut oldCut = this.findCut(cuts, cut);
+      final Shortcut oldCut = findCut(cuts, cut);
       if (oldCut != null) {
         final Shortcut[] newcuts = new Shortcut[cuts.length - 1];
         int diff = 0;
@@ -275,7 +274,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   }
 
   private void removeFromAction(final String actionClass, final KeyStroke ks, final JComponent field) {
-    if (!this.removeFromAction(actionClass, new KeyboardShortcut(ks, null), field)) {
+    if (!removeFromAction(actionClass, new KeyboardShortcut(ks, null), field)) {
       field.unregisterKeyboardAction(ks);
     }
   }
@@ -284,7 +283,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     boolean result = false;
     try {
       final Class clazz = Class.forName(actionClass);
-      result = this.removeFromAction(clazz, cut, field);
+      result = removeFromAction(clazz, cut, field);
     } catch (ClassNotFoundException e) {
       LOG.error(e);
     }
@@ -299,14 +298,14 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     boolean isSticky;
 
     theSelection(final SelectionModel sm, final EditorEx editor) {
-      this.isSticky = false;
+      isSticky = false;
       if (sm.hasSelection()) {
-        this.vpstart = sm.getSelectionStartPosition();
-        this.vpend = sm.getSelectionEndPosition();
-        this.start = sm.getSelectionStart();
-        this.end = sm.getSelectionEnd();
+        vpstart = sm.getSelectionStartPosition();
+        vpend = sm.getSelectionEndPosition();
+        start = sm.getSelectionStart();
+        end = sm.getSelectionEnd();
         if (editor != null) {
-          this.isSticky = editor.isStickySelection();
+          isSticky = editor.isStickySelection();
           editor.setStickySelection(false);
         } else {
           sm.removeSelection(true);
@@ -315,7 +314,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     }
 
     boolean isEmpty() {
-      return this.vpstart == null;
+      return vpstart == null;
     }
   }
 
@@ -327,16 +326,16 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     @Override
     public void actionPerformed(final ActionEvent e) {
       boolean hasMatches = true;
-      if (ISearchForward.this.mySearcher != null) {
-        hasMatches = ISearchForward.this.mySearcher.hasMatches();
-        ISearchForward.this.mySearcher.close();
-        ISearchForward.this.cleanUp();
+      if (mySearcher != null) {
+        hasMatches = mySearcher.hasMatches();
+        mySearcher.close();
+        cleanUp();
       }
       if (hasMatches) {
-        ISearchForward.this.myEditor.getCaretModel().moveToOffset(ISearchForward.this.myStartOffset);
-        ISearchForward.this.myEditor.getSelectionModel().removeSelection();
+        myEditor.getCaretModel().moveToOffset(myStartOffset);
+        myEditor.getSelectionModel().removeSelection();
       }
-      ISearchForward.this.myEditor.getScrollingModel().scrollToCaret(ScrollType.CENTER);
+      myEditor.getScrollingModel().scrollToCaret(ScrollType.CENTER);
     }
   }
 
@@ -346,15 +345,15 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     InnerShowHistory(final ISearchDelegate searcher, final JTextComponent field, final KeyboardShortcut shortcut) {
       this.field = null;
       this.field = field;
-      this.registerCustomShortcutSet(new CustomShortcutSet(shortcut), field);
+      registerCustomShortcutSet(new CustomShortcutSet(shortcut), field);
     }
 
     public void actionPerformed(final AnActionEvent e) {
-      ISearchForward.this.getSearcher().showHistory(false, this.field);
+      getSearcher().showHistory(false, field);
     }
 
     public void update(final AnActionEvent e) {
-      e.getPresentation().setEnabled(ISearchForward.this.getSearcher() != null);
+      e.getPresentation().setEnabled(getSearcher() != null);
     }
   }
 
@@ -364,18 +363,18 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     InnerISearchReturn(final ISearchDelegate searcher, final JComponent field, final KeyboardShortcut shortcut) {
       this.field = null;
       this.field = field;
-      this.registerCustomShortcutSet(new CustomShortcutSet(shortcut), field);
+      registerCustomShortcutSet(new CustomShortcutSet(shortcut), field);
     }
 
     public void actionPerformed(final AnActionEvent e) {
-      ISearchForward.this.isearchReturn();
+      isearchReturn();
     }
 
     public void update(final AnActionEvent e) {
-      final ISearchDelegate searcher = ISearchForward.this.getSearcher();
+      final ISearchDelegate searcher = getSearcher();
       e.getPresentation()
           .setEnabled(
-              searcher != null && searcher.hasMatches() && !ISearchForward.this.isMulti() && !StringUtil.isEmpty(
+              searcher != null && searcher.hasMatches() && !isMulti() && !StringUtil.isEmpty(
                   searcher.getSearchField().getText()));
     }
   }
@@ -387,7 +386,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-      ISearchForward.this.isearchReturn();
+      isearchReturn();
     }
   }
 
@@ -396,28 +395,28 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
 
     public IReplaceReturn(final String name) {
       super(name);
-      this.once = true;
+      once = true;
     }
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-      final ISearchDelegate searcher = ISearchForward.this.getSearcher();
+      final ISearchDelegate searcher = getSearcher();
       if (searcher != null) {
-        final List<CaretState> state = this.makeState(searcher);
+        final List<CaretState> state = makeState(searcher);
         searcher.replaceCurrent();
         if (state != null && !searcher.hasMatches()) {
-          ISearchForward.this.myEditor.getCaretModel().setCaretsAndSelections(state);
+          myEditor.getCaretModel().setCaretsAndSelections(state);
         }
       }
     }
 
     private List<CaretState> makeState(final ISearchDelegate searcher) {
       List<CaretState> result = null;
-      if (this.once) {
-        this.once = false;
-        final SelectionModel sm = ISearchForward.this.myEditor.getSelectionModel();
+      if (once) {
+        once = false;
+        final SelectionModel sm = myEditor.getSelectionModel();
         if (sm.hasSelection() && !searcher.getFindModel().isGlobal()) {
-          final int off = ISearchForward.this.myEditor.getCaretModel().getOffset();
+          final int off = myEditor.getCaretModel().getOffset();
           final int[] starts = sm.getBlockSelectionStarts();
           final int[] ends = sm.getBlockSelectionEnds();
           for (int i = 0; i < starts.length; ++i) {
@@ -425,9 +424,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
               if (result == null) {
                 result = new ArrayList<>();
               }
-              result.add(new CaretState(ISearchForward.this.myEditor.offsetToLogicalPosition(off),
-                  ISearchForward.this.myEditor.offsetToLogicalPosition(starts[i]),
-                  ISearchForward.this.myEditor.offsetToLogicalPosition(ends[i])));
+              result.add(new CaretState(myEditor.offsetToLogicalPosition(off), myEditor.offsetToLogicalPosition(starts[i]), myEditor.offsetToLogicalPosition(ends[i])));
             }
           }
         }
@@ -447,9 +444,9 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-      final ISearchDelegate searcher = ISearchForward.this.getSearcher();
+      final ISearchDelegate searcher = getSearcher();
       if (searcher != null) {
-        final JTextComponent field = this.isReplace ? searcher.getReplaceField() : searcher.getSearchField();
+        final JTextComponent field = isReplace ? searcher.getReplaceField() : searcher.getSearchField();
         field.setCaretPosition(field.getText().length());
       }
     }
@@ -466,9 +463,9 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-      final ISearchDelegate searcher = ISearchForward.this.getSearcher();
+      final ISearchDelegate searcher = getSearcher();
       if (searcher != null) {
-        final JTextComponent field = this.isReplace ? searcher.getReplaceField() : searcher.getSearchField();
+        final JTextComponent field = isReplace ? searcher.getReplaceField() : searcher.getSearchField();
         field.setCaretPosition(0);
       }
     }
@@ -476,20 +473,20 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
 
   private class SwitchToISearch extends AnAction {
     SwitchToISearch(final ISearchDelegate searcher) {
-      this.registerCustomShortcutSet(ISearchForward.this.getShortcutSet(), searcher.getComponent());
+      registerCustomShortcutSet(ISearchForward.this.getShortcutSet(), searcher.getComponent());
     }
 
     public void actionPerformed(final AnActionEvent e) {
-      final JTextComponent field = ISearchForward.this.getSearcher().getSearchField();
+      final JTextComponent field = getSearcher().getSearchField();
       if (field != null && field.getText().isEmpty()) {
-        final AnAction action = ISearchForward.this.findAction(field, RestorePreviousSettingsAction.class);
+        final AnAction action = findAction(field, RestorePreviousSettingsAction.class);
         if (action != null) {
           action.update(e);
           action.actionPerformed(e);
         } else {
           final FindModel model = FindManager.getInstance(e.getProject()).getPreviousFindModel();
           if (model != null) {
-            ISearchForward.this.getSearcher().getFindModel().copyFrom(model);
+            getSearcher().getFindModel().copyFrom(model);
           }
         }
       }
@@ -504,7 +501,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
       final Collection<Shortcut> shortcuts = new ArrayList<>();
       ContainerUtil.addAll(shortcuts,
           ActionManager.getInstance().getAction("Emacs+.ISearchBackward").getShortcutSet().getShortcuts());
-      this.registerCustomShortcutSet(
+      registerCustomShortcutSet(
           new CustomShortcutSet(shortcuts.toArray(new Shortcut[shortcuts.size()])),
           searcher.getComponent());
     }
@@ -520,25 +517,25 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
     }
 
     public void actionPerformed(final AnActionEvent e) {
-      final ISearchDelegate searcher = ISearchForward.this.getSearcher();
+      final ISearchDelegate searcher = getSearcher();
       if (searcher != null) {
         searcher.searchBackward();
         final JTextComponent field = searcher.getSearchField();
         if (field.getText().isEmpty()) {
           final String[] vals = FindSettings.getInstance().getRecentFindStrings();
           if (vals.length > 0) {
-            final int offset = ISearchForward.this.myEditor.getCaretModel().getOffset();
-            this.setInitialText(searcher, field, vals[vals.length - 1]);
+            final int offset = myEditor.getCaretModel().getOffset();
+            setInitialText(searcher, field, vals[vals.length - 1]);
             int adj;
-            if ((adj = offset) < ISearchForward.this.myEditor.getDocument().getTextLength()) {
+            if ((adj = offset) < myEditor.getDocument().getTextLength()) {
               ++adj;
             }
             try {
-              ISearchForward.this.myEditor.getCaretModel().moveToOffset(adj);
-              FindUtil.searchBack(e.getProject(), ISearchForward.this.myEditor, null);
+              myEditor.getCaretModel().moveToOffset(adj);
+              FindUtil.searchBack(e.getProject(), myEditor, null);
             } finally {
-              if (ISearchForward.this.myEditor.getCaretModel().getOffset() == adj) {
-                ISearchForward.this.myEditor.getCaretModel().moveToOffset(offset);
+              if (myEditor.getCaretModel().getOffset() == adj) {
+                myEditor.getCaretModel().moveToOffset(offset);
               }
             }
           }

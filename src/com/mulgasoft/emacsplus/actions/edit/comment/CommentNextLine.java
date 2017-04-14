@@ -26,7 +26,7 @@ public class CommentNextLine extends CommentAction {
         final PsiFile file) {
       final Document document = editor.getDocument();
       LogicalPosition pos = null;
-      final PsiElement ele = this.inComment(editor, caret);
+      final PsiElement ele = inComment(editor, caret);
       if (ele != null && ele.getTextRange() != null) {
         pos = editor.offsetToLogicalPosition(ele.getTextRange().getEndOffset());
       } else {

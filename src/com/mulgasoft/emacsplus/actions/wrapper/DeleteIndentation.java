@@ -23,7 +23,7 @@ public class DeleteIndentation extends EmacsPlusWrapper {
 
     public Handler() {
       super(true);
-      this.wrappedHandler = new JoinLinesHandler(EmacsPlusWrapper.getWrappedHandler("EditorJoinLines"));
+      wrappedHandler = new JoinLinesHandler(EmacsPlusWrapper.getWrappedHandler("EditorJoinLines"));
     }
 
     public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
@@ -32,7 +32,7 @@ public class DeleteIndentation extends EmacsPlusWrapper {
         int currentLine = document.getLineNumber(caret.getOffset());
         if (currentLine > 0) {
           caret.moveToOffset(document.getLineEndOffset(--currentLine));
-          this.wrappedHandler.execute(editor, caret, dataContext);
+          wrappedHandler.execute(editor, caret, dataContext);
         }
       }
     }

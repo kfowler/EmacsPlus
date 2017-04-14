@@ -30,7 +30,7 @@ public abstract class EmacsPlusCaretHandler extends EditorActionHandler {
   }
 
   protected void doExecute(final Editor editor, final Caret caret, final DataContext dataContext) {
-    this.doXecute(editor, this.checkCaret(editor, caret), dataContext);
+    doXecute(editor, checkCaret(editor, caret), dataContext);
   }
 
   protected abstract void doXecute(final Editor p0, final Caret p1, final DataContext p2);

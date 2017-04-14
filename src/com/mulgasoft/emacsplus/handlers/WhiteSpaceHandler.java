@@ -14,7 +14,7 @@ public class WhiteSpaceHandler extends EmacsPlusWriteHandler {
       final String replace, final boolean ignoreCR) {
     checkNotNull(editor);
     checkNotNull(caret);
-    return this.transformSpace(editor, caret.getOffset(), dataContext, replace, ignoreCR);
+    return transformSpace(editor, caret.getOffset(), dataContext, replace, ignoreCR);
   }
 
   protected int transformSpace(@NotNull final Editor editor, final int offset, final DataContext dataContext,
@@ -22,8 +22,8 @@ public class WhiteSpaceHandler extends EmacsPlusWriteHandler {
     checkNotNull(editor);
     final Document document = editor.getDocument();
     final int lastOff = document.getTextLength();
-    final int left = this.countWS(document, lastOff, offset - 1, -1, ignoreCR);
-    final int right = this.countWS(document, lastOff, offset, 1, ignoreCR);
+    final int left = countWS(document, lastOff, offset - 1, -1, ignoreCR);
+    final int right = countWS(document, lastOff, offset, 1, ignoreCR);
     if (ignoreCR) {
       replace = ((offset - left == 0 || offset + right == document.getTextLength()) ? replace : (replace + "\n"));
     }
@@ -34,7 +34,7 @@ public class WhiteSpaceHandler extends EmacsPlusWriteHandler {
   protected boolean isBlankLine(final Document document, final int line) {
     final int offset = document.getLineStartOffset(line);
     final int lastOff = document.getTextLength();
-    return this.countWS(document, lastOff, offset, 1, false) == document.getLineEndOffset(line) - offset;
+    return countWS(document, lastOff, offset, 1, false) == document.getLineEndOffset(line) - offset;
   }
 
   private int countWS(final Document document, final int lastOff, final int offset, final int dir,

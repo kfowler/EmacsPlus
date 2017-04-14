@@ -25,7 +25,7 @@ public class ISearch15 implements ISearchDelegate {
 
   ISearch15(final Editor editor, final Object session, final JComponent component) {
     this.session = session;
-    this.searchComp = component;
+    searchComp = component;
   }
 
   private Object invoke(final Object element, final String method) {
@@ -72,17 +72,17 @@ public class ISearch15 implements ISearchDelegate {
 
   @Override
   public JComponent getComponent() {
-    return this.searchComp;
+    return searchComp;
   }
 
   @Override
   public JTextComponent getSearchField() {
-    return (JTextComponent) this.invoke(this.searchComp, ISearch15.GET_SEARCH);
+    return (JTextComponent) invoke(searchComp, ISearch15.GET_SEARCH);
   }
 
   private JTextComponent getSearchWrapper() {
     JTextComponent result = null;
-    final Object wrap = this.getAF(this.getComponent(), "mySearchTextComponent");
+    final Object wrap = getAF(getComponent(), "mySearchTextComponent");
     if (wrap instanceof JTextComponent) {
       result = (JTextComponent) wrap;
     }
@@ -91,32 +91,32 @@ public class ISearch15 implements ISearchDelegate {
 
   @Override
   public JTextComponent getReplaceField() {
-    return (JTextComponent) this.invoke(this.searchComp, ISearch15.GET_REPLACE);
+    return (JTextComponent) invoke(searchComp, ISearch15.GET_REPLACE);
   }
 
   @Override
   public FindModel getFindModel() {
-    return (FindModel) this.invoke(this.session, ISearch15.GET_FIND);
+    return (FindModel) invoke(session, ISearch15.GET_FIND);
   }
 
   @Override
   public boolean hasMatches() {
-    return (boolean) this.invoke(this.session, "hasMatches");
+    return (boolean) invoke(session, "hasMatches");
   }
 
   @Override
   public void searchForward() {
-    this.invoke(this.session, "searchForward");
+    invoke(session, "searchForward");
   }
 
   @Override
   public void searchBackward() {
-    this.invoke(this.session, "searchBackward");
+    invoke(session, "searchBackward");
   }
 
   @Override
   public void replaceCurrent() {
-    this.invoke(this.session, "replaceCurrent");
+    invoke(session, "replaceCurrent");
   }
 
   @Override
@@ -125,11 +125,11 @@ public class ISearch15 implements ISearchDelegate {
 
   @Override
   public void requestFocus() {
-    this.invoke(this.searchComp, "requstFocus");
+    invoke(searchComp, "requstFocus");
   }
 
   @Override
   public void close() {
-    this.invoke(this.session, "close");
+    invoke(session, "close");
   }
 }

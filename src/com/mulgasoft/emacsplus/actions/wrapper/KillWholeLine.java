@@ -24,7 +24,7 @@ public class KillWholeLine extends KillWrapper {
       if (editor.getSelectionModel().hasSelection(true)) {
         editor.getSelectionModel().removeSelection(true);
       }
-      this.myCutHandler.executeWriteAction(editor, caret, dataContext);
+      myCutHandler.executeWriteAction(editor, caret, dataContext);
     }
   }
 }

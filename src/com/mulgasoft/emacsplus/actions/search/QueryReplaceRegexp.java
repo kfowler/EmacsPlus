@@ -16,7 +16,7 @@ public class QueryReplaceRegexp extends QueryReplace {
   @Override
   public void after(final CommandEvent e) {
     super.after(e);
-    final ISearchDelegate searcher = this.getSearcher();
+    final ISearchDelegate searcher = getSearcher();
     if (searcher != null) {
       searcher.getFindModel().setRegularExpressions(true);
     }

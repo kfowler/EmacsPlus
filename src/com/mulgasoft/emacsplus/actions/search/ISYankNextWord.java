@@ -21,9 +21,9 @@ public class ISYankNextWord extends EmacsPlusAction {
     public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
       final Document doc = isEditor.getDocument();
       final Editor editor = ISHandler.getTextEditor(isEditor);
-      final String text = this.getNextWord(editor, isEditor.isOneLineMode() && !this.isRegexp(isEditor), false);
+      final String text = getNextWord(editor, isEditor.isOneLineMode() && !isRegexp(isEditor), false);
       if (text != null && !text.isEmpty()) {
-        doc.insertString(isCaret.getOffset(), this.fixYank(isEditor, text));
+        doc.insertString(isCaret.getOffset(), fixYank(isEditor, text));
       }
     }
   }

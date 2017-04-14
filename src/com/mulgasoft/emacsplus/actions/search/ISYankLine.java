@@ -26,7 +26,7 @@ public class ISYankLine extends EmacsPlusAction {
       final Document doc = editor.getDocument();
       final String text = doc.getText(new TextRange(offset, doc.getLineEndOffset(doc.getLineNumber(offset))));
       if (text != null) {
-        isEditor.getDocument().insertString(isCaret.getOffset(), this.fixYank(isEditor, text));
+        isEditor.getDocument().insertString(isCaret.getOffset(), fixYank(isEditor, text));
       }
     }
   }

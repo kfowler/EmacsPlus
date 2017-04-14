@@ -28,9 +28,9 @@ public class CommentDwim extends CommentAction {
     protected void invokeAction(final Editor editor, final Caret caret, final DataContext dataContext,
         final PsiFile file) {
       if (caret.hasSelection()) {
-        this.commentSelection(editor, caret, dataContext, file);
+        commentSelection(editor, caret, dataContext, file);
       } else {
-        this.commentLine(editor, caret, dataContext);
+        commentLine(editor, caret, dataContext);
       }
     }
 
@@ -39,19 +39,19 @@ public class CommentDwim extends CommentAction {
       final int start = caret.getSelectionStart();
       final int end = caret.getSelectionEnd();
       final String text = document.getText(new TextRange(start, end)).trim();
-      String seq = this.getLineComment();
+      String seq = getLineComment();
       final Project project = editor.getProject();
       if (seq != null && text.startsWith(seq)) {
-        this.invoke(new CommentByLineCommentHandler(), project, editor, caret, file);
-      } else if ((seq = this.getBlockStart()) != null && text.startsWith(seq)) {
-        this.invoke(new CommentByBlockCommentHandler(), project, editor, caret, file);
+        invoke(new CommentByLineCommentHandler(), project, editor, caret, file);
+      } else if ((seq = getBlockStart()) != null && text.startsWith(seq)) {
+        invoke(new CommentByBlockCommentHandler(), project, editor, caret, file);
       } else {
-        final int ls = this.getLineStartOffset(document, start);
-        final int es = this.getLineEndOffset(document, end);
-        if ((start == ls && (end == es || end == this.getLineStartOffset(document, end))) || !this.hasBlockComments()) {
-          this.invoke(new CommentByLineCommentHandler(), project, editor, caret, file);
+        final int ls = getLineStartOffset(document, start);
+        final int es = getLineEndOffset(document, end);
+        if ((start == ls && (end == es || end == getLineStartOffset(document, end))) || !hasBlockComments()) {
+          invoke(new CommentByLineCommentHandler(), project, editor, caret, file);
         } else {
-          this.invoke(new CommentByBlockCommentHandler(), project, editor, caret, file);
+          invoke(new CommentByBlockCommentHandler(), project, editor, caret, file);
         }
       }
     }

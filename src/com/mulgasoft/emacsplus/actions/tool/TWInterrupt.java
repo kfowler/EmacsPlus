@@ -17,7 +17,7 @@ public class TWInterrupt extends TWAction {
   @Override
   public void actionPerformed(final AnActionEvent e) {
     final Project project = CommonDataKeys.PROJECT.getData(e.getDataContext());
-    this.checkTW(e, project);
+    checkTW(e, project);
     EditorUtil.closeEditorPopups();
     EditorUtil.activateCurrentEditor(project);
   }
@@ -34,6 +34,6 @@ public class TWInterrupt extends TWAction {
 
   @Override
   protected boolean isValid(final AnActionEvent e) {
-    return this.getComponent(e.getDataContext()) != null;
+    return getComponent(e.getDataContext()) != null;
   }
 }

@@ -26,18 +26,18 @@ public class Recenter extends EditorAction {
     private CS state;
 
     public myHandler() {
-      this.state = CS.C;
+      state = CS.C;
     }
 
     @Override
     protected void doXecute(final Editor editor, final Caret caret, final DataContext dataContext) {
       if (!"recenter-top-bottom".equals(EmacsPlus.getUltCommand())) {
-        this.state = CS.C;
+        state = CS.C;
       }
       final int lineHeight = editor.getLineHeight();
       final int cpos = caret.getVisualPosition().getLine() * lineHeight;
       final Rectangle visibleArea = editor.getScrollingModel().getVisibleArea();
-      editor.getScrollingModel().scrollVertically(this.state.getLine(this, cpos, visibleArea.height, lineHeight));
+      editor.getScrollingModel().scrollVertically(state.getLine(this, cpos, visibleArea.height, lineHeight));
     }
 
     private enum CS {

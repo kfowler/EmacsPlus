@@ -27,23 +27,23 @@ public class TransposeWords extends EmacsPlusAction {
       if (offset == maxOffset) {
         caret.moveToOffset(--offset);
       }
-      TextRange right = this.getNextWordRange(editor, false, true);
+      TextRange right = getNextWordRange(editor, false, true);
       final int leftdir =
           (offset != 0 && Character.isJavaIdentifierPart(chars.charAt(offset)) && !Character.isJavaIdentifierPart(
               chars.charAt(offset - 1))) ? 1 : 0;
-      TextRange left = this.getPreviousWordRange(editor, false, true, leftdir);
+      TextRange left = getPreviousWordRange(editor, false, true, leftdir);
       boolean eof = false;
       if (offset == 0 || left.isEmpty()) {
         left = right;
         caret.moveToOffset(right.getEndOffset() + 1);
-        right = this.getNextWordRange(editor, false, true);
-      } else if (offset == maxOffset || this.trueEnd(maxOffset, left, right, doc)) {
+        right = getNextWordRange(editor, false, true);
+      } else if (offset == maxOffset || trueEnd(maxOffset, left, right, doc)) {
         eof = true;
       } else if (Character.isJavaIdentifierPart(chars.charAt(offset)) && Character.isJavaIdentifierPart(
           chars.charAt(offset - 1))) {
         left = new TextRange(left.getStartOffset(), right.getEndOffset());
         caret.moveToOffset(Math.min(maxOffset, right.getEndOffset() + 1));
-        right = this.getNextWordRange(editor, false, true);
+        right = getNextWordRange(editor, false, true);
         if (right.getEndOffset() == maxOffset) {
           eof = true;
         }
@@ -51,7 +51,7 @@ public class TransposeWords extends EmacsPlusAction {
       if (eof) {
         right = left;
         caret.moveToOffset(right.getStartOffset() - 1);
-        left = this.getPreviousWordRange(editor, false, true, leftdir);
+        left = getPreviousWordRange(editor, false, true, leftdir);
       }
       if (right != null && !right.isEmpty() && left != null && !left.isEmpty()) {
         final String rtext = doc.getText(right);

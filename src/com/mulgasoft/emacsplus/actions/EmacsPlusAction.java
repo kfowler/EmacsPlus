@@ -25,11 +25,9 @@ public abstract class EmacsPlusAction extends TextComponentEditorAction implemen
     EmacsPlusAction.ourCommandMap.put(id, action);
   }
 
-  public void before(final CommandEvent e) {
-  }
+  public void before(final CommandEvent e) {}
 
-  public void after(final CommandEvent e) {
-  }
+  public void after(final CommandEvent e) {}
 
   public static CommandListener getCommandListener() {
     return StaticCommandListener.ourCommandListener;

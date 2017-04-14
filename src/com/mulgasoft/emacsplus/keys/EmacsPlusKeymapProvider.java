@@ -43,7 +43,7 @@ public class EmacsPlusKeymapProvider implements BundledKeymapProvider {
     /*
      * Hack to work around: https://github.com/JetBrains/intellij-community/pull/493
      */
-    try (InputStream stream = this.getClass().getResourceAsStream(key)) {
+    try (InputStream stream = getClass().getResourceAsStream(key)) {
       return consumer.apply(stream);
     } catch (Exception e) {
       LOG.error("Error loading keymap: " + key, e);

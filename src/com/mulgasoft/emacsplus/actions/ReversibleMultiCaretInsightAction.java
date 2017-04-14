@@ -33,18 +33,18 @@ public abstract class ReversibleMultiCaretInsightAction extends MultiCaretCodeIn
   }
 
   private ReversibleMultiCaretInsightAction(final boolean reverse) {
-    this.isReverse = true;
-    this.myDataContext = null;
-    this.isReverse = reverse;
+    isReverse = true;
+    myDataContext = null;
+    isReverse = reverse;
   }
 
   public DataContext getDataContext() {
-    return this.myDataContext;
+    return myDataContext;
   }
 
   @NotNull
   protected MultiCaretCodeInsightActionHandler getHandler() {
-    final MultiCaretCodeInsightActionHandler handler = this.getHandler(this);
+    final MultiCaretCodeInsightActionHandler handler = getHandler(this);
     if (handler == null) {
       throw new IllegalStateException(String.format("@NotNull method %s.%s must not return null",
           "com/mulgasoft/emacsplus/actions/ReversibleMultiCaretInsightAction", "getHandler"));
@@ -62,10 +62,10 @@ public abstract class ReversibleMultiCaretInsightAction extends MultiCaretCodeIn
     }
     final Project project = e.getProject();
     if (project != null) {
-      this.myDataContext = e.getDataContext();
-      final Editor hostEditor = CommonDataKeys.EDITOR.getData(this.myDataContext);
+      myDataContext = e.getDataContext();
+      final Editor hostEditor = CommonDataKeys.EDITOR.getData(myDataContext);
       if (hostEditor != null) {
-        this.actionPerformedImpl(project, hostEditor);
+        actionPerformedImpl(project, hostEditor);
       }
     }
   }
@@ -73,14 +73,14 @@ public abstract class ReversibleMultiCaretInsightAction extends MultiCaretCodeIn
   public void actionPerformedImpl(final Project project, final Editor hostEditor) {
     CommandProcessor.getInstance()
         .executeCommand(project, () -> ApplicationManager.getApplication().runWriteAction(() -> {
-          final MultiCaretCodeInsightActionHandler handler = ReversibleMultiCaretInsightAction.this.getHandler();
+          final MultiCaretCodeInsightActionHandler handler = getHandler();
           try {
-            ReversibleMultiCaretInsightAction.this.iterateCarets(project, hostEditor, handler);
+            iterateCarets(project, hostEditor, handler);
           } finally {
             handler.postInvoke();
-            ReversibleMultiCaretInsightAction.this.myDataContext = null;
+            myDataContext = null;
           }
-        }), this.getCommandName(), DocCommandGroupId.noneGroupId(hostEditor.getDocument()));
+        }), getCommandName(), DocCommandGroupId.noneGroupId(hostEditor.getDocument()));
     hostEditor.getScrollingModel().scrollToCaret(ScrollType.RELATIVE);
   }
 
@@ -110,13 +110,13 @@ public abstract class ReversibleMultiCaretInsightAction extends MultiCaretCodeIn
         final Caret injectedCaret = InjectedLanguageUtil.getCaretForInjectedLanguageNoCommit(caret, psiFile);
         if (injectedCaret != null) {
           caret = injectedCaret;
-          editor = caret.getEditor();
+          editor = injectedCaret.getEditor();
         }
       }
       final PsiFile file = PsiUtilBase.getPsiFileInEditor(caret, project);
       if (file != null) {
         handler.invoke(project, editor, caret, file);
       }
-    }, this.isReverse);
+    }, isReverse);
   }
 }

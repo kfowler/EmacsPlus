@@ -16,23 +16,23 @@ public abstract class KillWrapper extends EmacsPlusWrapper {
 
   KillWrapper(final EditorActionHandler defaultHandler) {
     super(defaultHandler);
-    this.info = null;
-    EmacsPlusAction.addCommandListener(this, this.getName());
+    info = null;
+    EmacsPlusAction.addCommandListener(this, getName());
   }
 
   protected abstract String getName();
 
   @Override
   public void before(final CommandEvent e) {
-    this.info = KillCmdUtil.beforeKill();
+    info = KillCmdUtil.beforeKill();
   }
 
   @Override
   public void after(final CommandEvent e) {
     try {
-      KillCmdUtil.afterKill(this.info, e.getDocument(), true);
+      KillCmdUtil.afterKill(info, e.getDocument(), true);
     } finally {
-      this.info = null;
+      info = null;
     }
   }
 
@@ -40,7 +40,7 @@ public abstract class KillWrapper extends EmacsPlusWrapper {
     final EditorWriteActionHandler myCutHandler;
 
     public CutHandler() {
-      this.myCutHandler = this.getWrappedHandler("EditorCut");
+      myCutHandler = getWrappedHandler("EditorCut");
     }
 
     private EditorWriteActionHandler getWrappedHandler(final String name) {

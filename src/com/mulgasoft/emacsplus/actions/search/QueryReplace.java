@@ -31,7 +31,7 @@ class QueryReplace extends ISearchForward implements FocusListener, KeyListener 
 
   @Override
   public void focusGained(final FocusEvent e) {
-    EmacsPlus.resetCommand(this.getName());
+    EmacsPlus.resetCommand(getName());
   }
 
   @Override
@@ -40,7 +40,7 @@ class QueryReplace extends ISearchForward implements FocusListener, KeyListener 
 
   @Override
   public void keyTyped(final KeyEvent e) {
-    EmacsPlus.resetCommand(this.getName());
+    EmacsPlus.resetCommand(getName());
   }
 
   @Override

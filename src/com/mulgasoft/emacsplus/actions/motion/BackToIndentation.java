@@ -26,7 +26,7 @@ public class BackToIndentation extends EmacsPlusAction {
     @Override
     protected void doXecute(final Editor editor, final Caret caret, final DataContext dataContext) {
       EditorUtil.checkMarkSelection(editor, caret);
-      final int line = this.getCorrectLine(editor, caret);
+      final int line = getCorrectLine(editor, caret);
       final int col = EditorActionUtil.findFirstNonSpaceColumnOnTheLine(editor, line);
       if (col >= 0) {
         caret.moveToVisualPosition(new VisualPosition(line, col));

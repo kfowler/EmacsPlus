@@ -22,12 +22,12 @@ public class SaveRegion extends KillWrapper {
     private final EditorActionHandler mySaveHandler;
 
     private myHandler() {
-      this.mySaveHandler = EmacsPlusWrapper.getWrappedHandler("EditorCopy");
+      mySaveHandler = EmacsPlusWrapper.getWrappedHandler("EditorCopy");
     }
 
     public void doExecute(final Editor editor, final Caret caret, final DataContext dataContext) {
-      if (this.mySaveHandler != null) {
-        this.mySaveHandler.execute(editor, caret, dataContext);
+      if (mySaveHandler != null) {
+        mySaveHandler.execute(editor, caret, dataContext);
       }
     }
 

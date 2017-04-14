@@ -19,39 +19,26 @@ import com.mulgasoft.emacsplus.handlers.CommentHandler;
 import com.mulgasoft.emacsplus.handlers.ISHandler;
 import org.jetbrains.annotations.NotNull;
 
+import static com.google.common.base.Preconditions.*;
+
 
 public abstract class CommentAction extends ReversibleMultiCaretInsightAction {
   protected abstract CommentHandler getMyHandler();
 
   @Override
   protected MultiCaretCodeInsightActionHandler getHandler(final ReversibleMultiCaretInsightAction action) {
-    final CommentHandler mine = this.getMyHandler();
+    final CommentHandler mine = getMyHandler();
     mine.preInvoke(action);
     return mine;
   }
 
   protected boolean isValidFor(@NotNull final Project project, @NotNull final Editor editor, @NotNull final Caret caret,
       @NotNull final PsiFile file) {
-    if (project == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "project",
-              "com/mulgasoft/emacsplus/actions/edit/comment/CommentAction", "isValidFor"));
-    }
-    if (editor == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "editor",
-              "com/mulgasoft/emacsplus/actions/edit/comment/CommentAction", "isValidFor"));
-    }
-    if (caret == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "caret",
-              "com/mulgasoft/emacsplus/actions/edit/comment/CommentAction", "isValidFor"));
-    }
-    if (file == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "file",
-              "com/mulgasoft/emacsplus/actions/edit/comment/CommentAction", "isValidFor"));
-    }
+    checkNotNull(project);
+    checkNotNull(editor);
+    checkNotNull(caret);
+    checkNotNull(file);
+
     boolean result = false;
     if (!ISHandler.isInISearch(editor)) {
       final FileType fileType = file.getFileType();

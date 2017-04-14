@@ -10,7 +10,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 public class ISearchBackwardRegexp extends ISearchBackward {
   @Override
   public void actionPerformed(final AnActionEvent e) {
-    final ISearchDelegate searcher = this.delegateAction(e);
+    final ISearchDelegate searcher = delegateAction(e);
     if (searcher != null) {
       searcher.getFindModel().setRegularExpressions(true);
     }

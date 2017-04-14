@@ -23,8 +23,8 @@ public class KillRegion extends KillWrapper {
 
   public static class myHandler extends CutHandler {
     public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
-      if (this.myCutHandler != null) {
-        this.myCutHandler.executeWriteAction(editor, caret, dataContext);
+      if (myCutHandler != null) {
+        myCutHandler.executeWriteAction(editor, caret, dataContext);
       }
     }
 

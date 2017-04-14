@@ -20,12 +20,12 @@ public class Yank extends Yanking {
 
   @Override
   public void before(final CommandEvent e) {
-    this.reset();
+    reset();
   }
 
   private static final class myHandler extends YankHandler {
     public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
-      Yanking.yanked(this.yankIt(editor, caret));
+      Yanking.yanked(yankIt(editor, caret));
     }
   }
 }

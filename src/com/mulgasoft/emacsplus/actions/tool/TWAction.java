@@ -26,10 +26,10 @@ class TWAction extends AnAction {
   }
 
   public void actionPerformed(final AnActionEvent e) {
-    final JComponent component = this.getComponent(e.getDataContext());
-    final ActionListener act = component.getActionForKeyStroke(this.getKey(e));
+    final JComponent component = getComponent(e.getDataContext());
+    final ActionListener act = component.getActionForKeyStroke(getKey(e));
     if (act != null) {
-      act.actionPerformed(new ActionEvent(this.getComponent(e.getDataContext()), 0, null));
+      act.actionPerformed(new ActionEvent(getComponent(e.getDataContext()), 0, null));
     }
   }
 
@@ -40,11 +40,11 @@ class TWAction extends AnAction {
   public void update(final AnActionEvent e) {
     final Presentation presentation = e.getPresentation();
     final DataContext dataContext = e.getDataContext();
-    final Editor editor = this.getEditor(dataContext);
+    final Editor editor = getEditor(dataContext);
     if (editor != null) {
       presentation.setEnabled(false);
     } else {
-      presentation.setEnabled(this.isValid(e));
+      presentation.setEnabled(isValid(e));
     }
   }
 
@@ -58,20 +58,20 @@ class TWAction extends AnAction {
   }
 
   boolean isValid(final AnActionEvent e) {
-    final JComponent component = this.getComponent(e.getDataContext());
-    final KeyStroke key = this.getKey(e);
+    final JComponent component = getComponent(e.getDataContext());
+    final KeyStroke key = getKey(e);
     return component != null && key != null && component.getActionForKeyStroke(key) != null;
   }
 
   static {
     TWAction.keys = new HashMap<String, KeyStroke>() {
       {
-        this.put("Emacs+.TWSelectPrevious", KeyStroke.getKeyStroke(224, 0));
-        this.put("Emacs+.TWSelectNext", KeyStroke.getKeyStroke(225, 0));
-        this.put("Emacs+.TWScrollUp", KeyStroke.getKeyStroke(34, 0));
-        this.put("Emacs+.TWScrollDown", KeyStroke.getKeyStroke(33, 0));
-        this.put("Emacs+.TWBegin", KeyStroke.getKeyStroke(36, 0));
-        this.put("Emacs+.TWEnd", KeyStroke.getKeyStroke(35, 0));
+        put("Emacs+.TWSelectPrevious", KeyStroke.getKeyStroke(224, 0));
+        put("Emacs+.TWSelectNext", KeyStroke.getKeyStroke(225, 0));
+        put("Emacs+.TWScrollUp", KeyStroke.getKeyStroke(34, 0));
+        put("Emacs+.TWScrollDown", KeyStroke.getKeyStroke(33, 0));
+        put("Emacs+.TWBegin", KeyStroke.getKeyStroke(36, 0));
+        put("Emacs+.TWEnd", KeyStroke.getKeyStroke(35, 0));
       }
     };
   }

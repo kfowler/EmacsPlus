@@ -23,7 +23,7 @@ public class CommentKill extends CommentAction {
     @Override
     protected void invokeAction(final Editor editor, final Caret caret, final DataContext d, final PsiFile file) {
       final DataContext dataContext = DataManager.getInstance().getDataContext(editor.getComponent());
-      final CommentRange range = this.findCommentRange(editor, caret, dataContext);
+      final CommentRange range = findCommentRange(editor, caret, dataContext);
       if (range != null) {
         caret.moveToOffset(range.getStartOffset());
         caret.setSelection(range.getStartOffset(), range.getEndOffset());

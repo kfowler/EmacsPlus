@@ -14,9 +14,9 @@ public class CaseHandler extends EmacsPlusWriteHandler {
   protected void caseAction(final Editor editor, final Caret caret, final Cases cases) {
     final Document doc = editor.getDocument();
     final TextRange range =
-        caret.hasSelection() ? this.getSelectionRange(caret) : this.getNextWordRange(editor, false, true);
+        caret.hasSelection() ? getSelectionRange(caret) : getNextWordRange(editor, false, true);
     if (!range.isEmpty()) {
-      doc.replaceString(range.getStartOffset(), range.getEndOffset(), this.toCase(doc.getText(range), cases));
+      doc.replaceString(range.getStartOffset(), range.getEndOffset(), toCase(doc.getText(range), cases));
       caret.moveToVisualPosition(editor.offsetToVisualPosition(range.getEndOffset()));
     }
   }

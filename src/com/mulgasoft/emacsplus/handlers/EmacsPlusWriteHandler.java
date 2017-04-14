@@ -17,16 +17,16 @@ public abstract class EmacsPlusWriteHandler extends EditorWriteActionHandler {
   }
 
   protected String getNextWord(final Editor editor, final boolean isLine, final boolean isWord) {
-    return editor.getDocument().getText(this.getNextWordRange(editor, isLine, isWord));
+    return editor.getDocument().getText(getNextWordRange(editor, isLine, isWord));
   }
 
   protected TextRange getNextWordRange(final Editor editor, final boolean isLine, final boolean isWord) {
-    return this.getWordRange(editor, isLine, isWord, 1);
+    return getWordRange(editor, isLine, isWord, 1);
   }
 
   protected TextRange getPreviousWordRange(final Editor editor, final boolean isLine, final boolean isWord,
       final int dir) {
-    return this.getWordRange(editor, isLine, isWord, (dir > 0) ? (-dir) : dir);
+    return getWordRange(editor, isLine, isWord, (dir > 0) ? (-dir) : dir);
   }
 
   private TextRange getWordRange(final Editor editor, final boolean isLine, final boolean isWord, int dir) {

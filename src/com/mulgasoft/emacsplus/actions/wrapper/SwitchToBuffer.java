@@ -42,9 +42,9 @@ public class SwitchToBuffer extends DumbAwareAction {
   public void actionPerformed(@NotNull final AnActionEvent event) {
     checkNotNull(event);
     FeatureUsageTracker.getInstance().triggerFeatureUsed("navigation.recent.files");
-    final Switcher.SwitcherPanel switcher = this.getSwitcher(event);
+    final Switcher.SwitcherPanel switcher = getSwitcher(event);
     if (switcher != null) {
-      this.keySetup(switcher);
+      keySetup(switcher);
     }
   }
 
@@ -78,12 +78,12 @@ public class SwitchToBuffer extends DumbAwareAction {
     final KeyStroke ksU = KeyStroke.getKeyStroke(86, Keymaps.getMeta());
     final KeyStroke ksT = Keymaps.getIntlKeyStroke(153);
     final KeyStroke ksB = Keymaps.getIntlKeyStroke(160);
-    this.removeFromActions(field, ksG, null);
-    this.removeFromActions(field, ksN, null);
-    this.removeFromActions(field, ksP, null);
-    this.removeFromActions(field, ksD, null);
+    removeFromActions(field, ksG, null);
+    removeFromActions(field, ksN, null);
+    removeFromActions(field, ksP, null);
+    removeFromActions(field, ksD, null);
     final CustomShortcutSet cuts = CustomShortcutSet.fromString("ESCAPE", "control G");
-    this.replaceOnActions(field, KeyStroke.getKeyStroke(27, 0), null, cuts);
+    replaceOnActions(field, KeyStroke.getKeyStroke(27, 0), null, cuts);
     final InputMap im = field.getInputMap();
     final ActionMap am = field.getActionMap();
     am.put("Emacs+.Forward", new TextAction("Emacs+.Forward") {

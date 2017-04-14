@@ -19,7 +19,7 @@ public class ISearch14 implements ISearchDelegate {
   private final JComponent searchComp;
 
   ISearch14(final Editor editor, final JComponent component) {
-    this.searchComp = component;
+    searchComp = component;
   }
 
   private Object invoke(final Object element, final String method) {
@@ -36,52 +36,52 @@ public class ISearch14 implements ISearchDelegate {
 
   @Override
   public JComponent getComponent() {
-    return this.searchComp;
+    return searchComp;
   }
 
   @Override
   public JTextComponent getSearchField() {
-    return (JTextComponent) this.invoke(this.searchComp, "getSearchField");
+    return (JTextComponent) invoke(searchComp, "getSearchField");
   }
 
   @Override
   public JTextComponent getReplaceField() {
-    return (JTextComponent) this.invoke(this.searchComp, "getReplaceField");
+    return (JTextComponent) invoke(searchComp, "getReplaceField");
   }
 
   @Override
   public FindModel getFindModel() {
-    return (FindModel) this.invoke(this.searchComp, "getFindModel");
+    return (FindModel) invoke(searchComp, "getFindModel");
   }
 
   @Override
   public boolean hasMatches() {
-    return (boolean) this.invoke(this.searchComp, "hasMatches");
+    return (boolean) invoke(searchComp, "hasMatches");
   }
 
   @Override
   public void searchForward() {
-    this.invoke(this.searchComp, "searchForward");
+    invoke(searchComp, "searchForward");
   }
 
   @Override
   public void searchBackward() {
-    this.invoke(this.searchComp, "searchBackward");
+    invoke(searchComp, "searchBackward");
   }
 
   @Override
   public void replaceCurrent() {
-    this.invoke(this.searchComp, "replaceCurrent");
+    invoke(searchComp, "replaceCurrent");
   }
 
   @Override
   public void showHistory(final boolean byToolBar, final JTextComponent field) {
     try {
       final Method meth;
-      if (this.searchComp != null
-          && (meth = this.searchComp.getClass().getMethod("showHistory", Boolean.class, JTextComponent.class))
+      if (searchComp != null
+          && (meth = searchComp.getClass().getMethod("showHistory", Boolean.class, JTextComponent.class))
           != null) {
-        meth.invoke(this.searchComp, byToolBar, field);
+        meth.invoke(searchComp, byToolBar, field);
       }
     } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
       LOG.error("show history failed ", e);
@@ -90,11 +90,11 @@ public class ISearch14 implements ISearchDelegate {
 
   @Override
   public void requestFocus() {
-    this.invoke(this.searchComp, "requestFocus");
+    invoke(searchComp, "requestFocus");
   }
 
   @Override
   public void close() {
-    this.invoke(this.searchComp, "close");
+    invoke(searchComp, "close");
   }
 }

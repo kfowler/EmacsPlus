@@ -1,7 +1,3 @@
-//
-// Decompiled by Procyon v0.5.30
-//
-
 package com.mulgasoft.emacsplus.handlers;
 
 import com.intellij.codeInsight.actions.MultiCaretCodeInsightActionHandler;
@@ -26,9 +22,11 @@ import com.mulgasoft.emacsplus.util.ActionUtil;
 import com.mulgasoft.emacsplus.util.EditorUtil;
 import org.jetbrains.annotations.NotNull;
 
+import static com.google.common.base.Preconditions.*;
+
 
 public class CommentHandler extends MultiCaretCodeInsightActionHandler {
-  private static Integer ourCommentColumn;
+  private static final Integer ourCommentColumn = 32;
   private String myLangId;
   private String myLineC;
   private String myBlockStart;
@@ -36,51 +34,35 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
   private ReversibleMultiCaretInsightAction myAction;
 
   public CommentHandler() {
-    this.myLangId = null;
-    this.myLineC = null;
-    this.myBlockStart = null;
-    this.myBlockEnd = null;
-    this.myAction = null;
+    myLangId = null;
+    myLineC = null;
+    myBlockStart = null;
+    myBlockEnd = null;
+    myAction = null;
   }
 
   public void preInvoke(final ReversibleMultiCaretInsightAction action) {
-    this.myAction = action;
+    myAction = action;
   }
 
   public void postInvoke() {
-    this.myAction = null;
+    myAction = null;
   }
 
   public void invoke(@NotNull final Project project, @NotNull final Editor editor, @NotNull final Caret caret,
       @NotNull final PsiFile file) {
-    if (project == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "project",
-              "com/mulgasoft/emacsplus/handlers/CommentHandler", "invoke"));
-    }
-    if (editor == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "editor",
-              "com/mulgasoft/emacsplus/handlers/CommentHandler", "invoke"));
-    }
-    if (caret == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "caret",
-              "com/mulgasoft/emacsplus/handlers/CommentHandler", "invoke"));
-    }
-    if (file == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "file",
-              "com/mulgasoft/emacsplus/handlers/CommentHandler", "invoke"));
-    }
-    if (this.checkLanguage(project, caret, file)) {
-      this.invokeAction(editor, caret, this.myAction.getDataContext(), file);
+    checkNotNull(project);
+    checkNotNull(editor);
+    checkNotNull(caret);
+    checkNotNull(file);
+    if (checkLanguage(project, caret, file)) {
+      invokeAction(editor, caret, myAction.getDataContext(), file);
     }
   }
 
   protected void invokeAction(final Editor editor, final Caret caret, final DataContext dataContext,
       final PsiFile file) {
-    this.commentLine(editor, caret, dataContext);
+    commentLine(editor, caret, dataContext);
   }
 
   private int getCommentColumn() {
@@ -88,23 +70,23 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
   }
 
   protected String getLineComment() {
-    return this.myLineC;
+    return myLineC;
   }
 
   protected String getBlockStart() {
-    return this.myBlockStart;
+    return myBlockStart;
   }
 
   protected boolean hasBlockComments() {
-    return this.myBlockStart != null && this.myBlockEnd != null;
+    return myBlockStart != null && myBlockEnd != null;
   }
 
   private String getEmptyBlockComment() {
-    return " " + this.myBlockStart + " " + " " + this.myBlockEnd;
+    return " " + myBlockStart + " " + " " + myBlockEnd;
   }
 
   private String getEmptyLineComment() {
-    return " " + this.myLineC + " ";
+    return " " + myLineC + " ";
   }
 
   protected int getLineStartOffset(final Document document, final int offset) {
@@ -141,7 +123,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
   }
 
   protected CommentRange findCommentRange(final Editor editor, final Caret caret, final DataContext dataContext) {
-    return this.findCommentRange(EditorUtil.getPsiFile(editor, caret), editor, caret, dataContext);
+    return findCommentRange(EditorUtil.getPsiFile(editor, caret), editor, caret, dataContext);
   }
 
   private CommentRange findCommentRange(final PsiFile psi, final Editor editor, final Caret caret,
@@ -152,9 +134,9 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     final int bol = document.getLineStartOffset(line);
     final int eol = document.getLineEndOffset(line);
     final String text = document.getText(new TextRange(bol, eol));
-    CommentRange result = this.findCommentRange(psi, bol, text, this.myLineC);
+    CommentRange result = findCommentRange(psi, bol, text, myLineC);
     if (result == null) {
-      return findCommentRange(psi, bol, text, this.myBlockStart);
+      return findCommentRange(psi, bol, text, myBlockStart);
     }
     return result;
   }
@@ -168,16 +150,16 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
         if (index >= 0) {
           PsiElement ele = psi.findElementAt(filePos + index);
           if (ele instanceof PsiComment || (ele = ele.getParent()) instanceof PsiComment) {
-            crange = this.commentRange(ele, prefix);
+            crange = commentRange(ele, prefix);
             break;
           }
           ++index;
         }
       }
       if (crange == null) {
-        final PsiElement ele = this.inComment(psi, filePos);
+        final PsiElement ele = inComment(psi, filePos);
         if (ele != null && ele.getText().startsWith(prefix)) {
-          crange = this.commentRange(ele, prefix);
+          crange = commentRange(ele, prefix);
         }
       }
     }
@@ -194,7 +176,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
   }
 
   protected PsiElement inComment(final Editor editor, final Caret caret) {
-    return this.inComment(EditorUtil.getPsiFile(editor, caret), caret.getOffset());
+    return inComment(EditorUtil.getPsiFile(editor, caret), caret.getOffset());
   }
 
   private PsiElement inComment(final PsiFile psi, final int offset) {
@@ -213,7 +195,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     final int bol = document.getLineStartOffset(line);
     final int eol = document.getLineEndOffset(line);
     final PsiFile psi = EditorUtil.getPsiFile(editor, caret);
-    final CommentRange range = this.findCommentRange(psi, editor, caret, dataContext);
+    final CommentRange range = findCommentRange(psi, editor, caret, dataContext);
     if (range != null) {
       int index = range.getStartOffset() + Math.min(range.getPrefix().length(), range.getLength());
       if (index != eol && index + 1 < document.getTextLength()) {
@@ -224,7 +206,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
       }
       caret.moveToOffset(index);
     } else {
-      tabit = this.addComment(editor, caret, bol, eol);
+      tabit = addComment(editor, caret, bol, eol);
     }
     if (tabit) {
       ActionUtil.getInstance()
@@ -238,12 +220,12 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     boolean tabit = false;
     String comment = null;
     int length = 0;
-    if (this.myLineC != null) {
-      comment = this.getEmptyLineComment();
+    if (myLineC != null) {
+      comment = getEmptyLineComment();
       length = comment.length();
-    } else if (this.myBlockStart != null) {
-      comment = this.getEmptyBlockComment();
-      length = this.myBlockStart.length() + 2;
+    } else if (myBlockStart != null) {
+      comment = getEmptyBlockComment();
+      length = myBlockStart.length() + 2;
     }
     if (comment != null) {
       String text;
@@ -256,7 +238,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
         caret.moveToOffset(bol + length);
         tabit = true;
       } else {
-        final int cc = this.getCommentColumn() - 1;
+        final int cc = getCommentColumn() - 1;
         final int newoff = bol + end;
         if (end < cc) {
           caret.moveToOffset(newoff);
@@ -272,10 +254,6 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     return tabit;
   }
 
-  static {
-    CommentHandler.ourCommentColumn = 32;
-  }
-
   public static class CommentRange {
     final TextRange range;
     final String prefix;
@@ -286,19 +264,19 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     }
 
     public String getPrefix() {
-      return this.prefix;
+      return prefix;
     }
 
     public int getStartOffset() {
-      return this.range.getStartOffset();
+      return range.getStartOffset();
     }
 
     public int getEndOffset() {
-      return this.range.getEndOffset();
+      return range.getEndOffset();
     }
 
     public int getLength() {
-      return this.range.getLength();
+      return range.getLength();
     }
   }
 }

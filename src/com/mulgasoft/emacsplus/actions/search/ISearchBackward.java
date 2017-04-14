@@ -14,7 +14,7 @@ import com.mulgasoft.emacsplus.util.ActionUtil;
 
 class ISearchBackward extends SearchBackAction {
   public void actionPerformed(final AnActionEvent e) {
-    this.delegateAction(e);
+    delegateAction(e);
   }
 
   ISearchDelegate delegateAction(final AnActionEvent e) {

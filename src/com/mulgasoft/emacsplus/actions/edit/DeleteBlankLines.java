@@ -39,18 +39,18 @@ class DeleteBlankLines extends EmacsPlusAction {
       final Document document = editor.getDocument();
       int offset = caret.getOffset();
       final int lineNum = document.getLineNumber(offset);
-      final boolean nextBlank = lineNum < document.getLineCount() - 1 && this.isBlankLine(document, lineNum + 1);
-      if (!this.isBlankLine(document, lineNum)) {
+      final boolean nextBlank = lineNum < document.getLineCount() - 1 && isBlankLine(document, lineNum + 1);
+      if (!isBlankLine(document, lineNum)) {
         if (nextBlank) {
           offset = document.getLineStartOffset(document.getLineNumber(offset) + 1);
-          this.transformSpace(editor, offset, dataContext, "", true);
+          transformSpace(editor, offset, dataContext, "", true);
         }
       } else {
-        if (nextBlank || (lineNum != 0 && this.isBlankLine(document, lineNum - 1))) {
-          offset = this.transformSpace(editor, offset, dataContext, "", true);
+        if (nextBlank || (lineNum != 0 && isBlankLine(document, lineNum - 1))) {
+          offset = transformSpace(editor, offset, dataContext, "", true);
           document.insertString(offset, "\n");
         } else {
-          offset = this.transformSpace(editor, caret, dataContext, "", true);
+          offset = transformSpace(editor, caret, dataContext, "", true);
         }
         caret.moveToOffset(offset);
         EditorModificationUtil.scrollToCaret(editor);

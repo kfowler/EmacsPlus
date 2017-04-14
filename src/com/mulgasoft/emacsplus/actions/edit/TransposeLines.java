@@ -30,7 +30,7 @@ public class TransposeLines extends EmacsPlusAction {
       final int line3 = --cline;
       final int len = document.getLineCount();
       if (line2 < len) {
-        this.swapLines(document, line3, line2);
+        swapLines(document, line3, line2);
         caret.moveToOffset(document.getLineStartOffset((++line2 < len) ? line2 : (len - 1)));
         EditorModificationUtil.scrollToCaret(editor);
       }

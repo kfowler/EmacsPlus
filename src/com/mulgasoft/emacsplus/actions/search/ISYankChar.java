@@ -24,7 +24,7 @@ public class ISYankChar extends EmacsPlusAction {
       final int offset = editor.getCaretModel().getOffset();
       final String text = editor.getDocument().getText(new TextRange(offset, offset + 1));
       if (text != null) {
-        isEditor.getDocument().insertString(isCaret.getOffset(), this.fixYank(isEditor, text));
+        isEditor.getDocument().insertString(isCaret.getOffset(), fixYank(isEditor, text));
       }
     }
   }

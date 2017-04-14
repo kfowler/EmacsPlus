@@ -21,7 +21,7 @@ public class ExchangePointAndMark extends EmacsPlusAction {
 
   public ExchangePointAndMark() {
     super(new myHandler());
-    EmacsPlusAction.addCommandListener(this, this.getName());
+    EmacsPlusAction.addCommandListener(this, getName());
   }
 
   private String getName() {
@@ -32,7 +32,7 @@ public class ExchangePointAndMark extends EmacsPlusAction {
   public void after(final CommandEvent e) {
     if (ExchangePointAndMark.dc != null) {
       ActionUtil.getInstance().dispatchLater("EditorSwapSelectionBoundaries", ExchangePointAndMark.dc);
-      final Editor editor = this.getEditor(ExchangePointAndMark.dc);
+      final Editor editor = getEditor(ExchangePointAndMark.dc);
       ExchangePointAndMark.dc = null;
       if (editor.getCaretModel().getCaretCount() == 1) {
         editor.getScrollingModel()

@@ -42,7 +42,7 @@ public class YankPop extends Yanking {
   public void after(final CommandEvent e) {
     YankPop.dispatched = false;
     if (YankPop.yanker) {
-      this.popped(YankPop.dest);
+      popped(YankPop.dest);
       YankPop.yanker = false;
     }
   }
@@ -64,14 +64,14 @@ public class YankPop extends Yanking {
           Yanking.setIndex(index);
         }
         final Transferable content = contents[index];
-        YankPop.dest = this.paste(editor, caret, content, Yanking.getLength());
+        YankPop.dest = paste(editor, caret, content, Yanking.getLength());
       } else if (!YankPop.dispatched) {
         YankPop.dispatched = true;
         YankPop.yanker = false;
         if (editor instanceof EditorEx) {
           ActionUtil.getInstance().dispatchLater("PasteMultiple", dataContext);
         } else {
-          this.beep();
+          beep();
         }
       }
     }

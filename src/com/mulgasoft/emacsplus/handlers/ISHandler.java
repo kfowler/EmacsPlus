@@ -24,14 +24,14 @@ import org.jetbrains.annotations.NotNull;
 public abstract class ISHandler extends YankHandler {
   private static final Logger LOG = Logger.getInstance(ISHandler.class);
 
-  private char[] regTokens;
+  private final char[] regTokens;
   @NonNls
   private static String[] SearchMethods;
   @NonNls
   private static String[] ReplaceMethods;
 
   public ISHandler() {
-    this.regTokens = new char[]{'{', '}', '(', ')', '[', ']', '\\', '^', '$', '.', '|', '?', '*', '+'};
+    regTokens = new char[]{'{', '}', '(', ')', '[', ']', '\\', '^', '$', '.', '|', '?', '*', '+'};
   }
 
   public static FindModel getFindModel(final Editor editor) {
@@ -99,14 +99,14 @@ public abstract class ISHandler extends YankHandler {
 
   protected String fixYank(final Editor isEditor, final String text) {
     String result = text;
-    if (this.isRegexp(isEditor)) {
+    if (isRegexp(isEditor)) {
       final StringBuilder sb = new StringBuilder();
       for (final char c : text.toCharArray()) {
         if (c == '\n') {
           sb.append('\\');
           sb.append('n');
         } else {
-          for (final char r : this.regTokens) {
+          for (final char r : regTokens) {
             if (c == r) {
               sb.append('\\');
               break;

@@ -34,7 +34,7 @@ public class ActionUtil {
 
   private List<KeyboardShortcut> getKBShortCuts(@NotNull final String actionId) {
     checkNotNull(actionId);
-    return this.getKBShortCuts(this.getAction(actionId));
+    return getKBShortCuts(getAction(actionId));
   }
 
   public List<KeyboardShortcut> getKBShortCuts(@NotNull final AnAction action) {
@@ -53,14 +53,14 @@ public class ActionUtil {
       @Nullable final KeyStroke key2) {
     checkNotNull(actionId);
     checkNotNull(key1);
-    return getShortcut(this.getKBShortCuts(actionId), key1, key2) != null;
+    return getShortcut(getKBShortCuts(actionId), key1, key2) != null;
   }
 
   public boolean hasKBShortCut(@NotNull final AnAction action, @NotNull final KeyStroke key1,
       @Nullable final KeyStroke key2) {
     checkNotNull(action);
     checkNotNull(key1);
-    return getShortcut(this.getKBShortCuts(action), key1, key2) != null;
+    return getShortcut(getKBShortCuts(action), key1, key2) != null;
   }
 
   public KeyboardShortcut getShortcut(@NotNull final List<KeyboardShortcut> kbs, @NotNull final KeyStroke key1,
@@ -90,7 +90,7 @@ public class ActionUtil {
   public boolean isOnceAction(@NotNull final String id) {
     checkNotNull(id);
     boolean result = true;
-    final AnAction action = this.getAction(id);
+    final AnAction action = getAction(id);
     if (action instanceof EditorAction) {
       final EditorActionHandler handler = ((EditorAction) action).getHandler();
       result = !handler.runForAllCarets();
@@ -104,7 +104,7 @@ public class ActionUtil {
 
   public EditorAction getEditorAction(final String id) {
     EditorAction result = null;
-    final AnAction a = this.getAction(id);
+    final AnAction a = getAction(id);
     if (a instanceof EditorAction) {
       result = (EditorAction) a;
     }
@@ -114,20 +114,20 @@ public class ActionUtil {
   public boolean dispatch(@NotNull final String id, @NotNull final DataContext context) {
     checkNotNull(id);
     checkNotNull(context);
-    final AnAction dispatch = this.getAction(id);
-    return dispatch != null && this.dispatch(dispatch, context);
+    final AnAction dispatch = getAction(id);
+    return dispatch != null && dispatch(dispatch, context);
   }
 
   public void dispatchLater(@NotNull final String id, @NotNull final DataContext context) {
     checkNotNull(id);
     checkNotNull(context);
-    ApplicationManager.getApplication().invokeLater(() -> ActionUtil.this.dispatch(id, context));
+    ApplicationManager.getApplication().invokeLater(() -> dispatch(id, context));
   }
 
   public boolean dispatchLater(@NotNull final AnAction dispatch, @NotNull final DataContext context) {
     checkNotNull(dispatch);
     checkNotNull(context);
-    ApplicationManager.getApplication().invokeLater(() -> ActionUtil.this.dispatch(dispatch, context));
+    ApplicationManager.getApplication().invokeLater(() -> dispatch(dispatch, context));
     return true;
   }
 

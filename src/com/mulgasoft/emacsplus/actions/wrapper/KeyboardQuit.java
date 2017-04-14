@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 public class KeyboardQuit extends EmacsPlusWrapper {
   public KeyboardQuit() {
     super(new myHandler(EmacsPlusWrapper.getWrappedHandler("EditorEscape")));
-    this.setInjectedContext(true);
+    setInjectedContext(true);
   }
 
   private static class myHandler extends EditorActionHandler {
@@ -33,20 +33,20 @@ public class KeyboardQuit extends EmacsPlusWrapper {
             String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "wrappedHandler",
                 "com/mulgasoft/emacsplus/actions/wrapper/KeyboardQuit$myHandler", "<init>"));
       }
-      this.isTextComponent = false;
+      isTextComponent = false;
       this.wrappedHandler = null;
       this.wrappedHandler = wrappedHandler;
     }
 
     public void execute(final Editor editor, final DataContext dataContext) {
-      if (this.isTextComponent) {
-        this.isTextComponent = false;
-        if (!this.cancelIfDialog(editor.getComponent())) {
+      if (isTextComponent) {
+        isTextComponent = false;
+        if (!cancelIfDialog(editor.getComponent())) {
           editor.getCaretModel().removeCaret(editor.getCaretModel().getPrimaryCaret());
         }
         EditorUtil.closeEditorPopups();
       } else {
-        this.wrappedHandler.execute(editor, dataContext);
+        wrappedHandler.execute(editor, dataContext);
       }
       EditorUtil.closeEditorPopups();
       EditorUtil.activateCurrentEditor(CommonDataKeys.PROJECT.getData(dataContext));
@@ -57,9 +57,9 @@ public class KeyboardQuit extends EmacsPlusWrapper {
         if (ISHandler.isInISearch(editor)) {
           return false;
         }
-        this.isTextComponent = true;
+        isTextComponent = true;
       }
-      return this.isTextComponent || this.wrappedHandler.isEnabled(editor, dataContext) || (editor instanceof EditorEx
+      return isTextComponent || wrappedHandler.isEnabled(editor, dataContext) || (editor instanceof EditorEx
           && ((EditorEx) editor).isStickySelection());
     }
 

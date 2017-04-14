@@ -23,7 +23,7 @@ class DeleteHorizSpace extends EmacsPlusAction {
 
   private static class myHandler extends WhiteSpaceHandler {
     public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
-      this.transformSpace(editor, caret, dataContext, "", false);
+      transformSpace(editor, caret, dataContext, "", false);
     }
   }
 }

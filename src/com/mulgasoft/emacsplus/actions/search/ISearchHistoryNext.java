@@ -18,15 +18,15 @@ public class ISearchHistoryNext extends EmacsPlusAction {
 
   private static final class myHandler extends ISearchHistory {
     public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
-      final String[] vals = this.getHistory(isEditor);
-      int index = this.getIndex();
+      final String[] vals = getHistory(isEditor);
+      int index = getIndex();
       if (index < vals.length - 1) {
-        this.setText(isEditor, vals, this.isReset() ? index : (++index));
-      } else if (this.getText(isEditor).isEmpty()) {
-        this.beep(isEditor);
+        setText(isEditor, vals, isReset() ? index : (++index));
+      } else if (getText(isEditor).isEmpty()) {
+        beep(isEditor);
       } else {
-        this.setIndex(vals.length);
-        this.setText(isEditor, "");
+        setIndex(vals.length);
+        setText(isEditor, "");
       }
     }
   }

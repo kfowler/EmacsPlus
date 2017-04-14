@@ -20,7 +20,7 @@ class DowncaseWord extends EmacsPlusAction {
 
   private static class myHandler extends CaseHandler {
     public void executeWriteAction(final Editor editor, final Caret caret, final DataContext dataContext) {
-      this.caseAction(editor, caret, Cases.LOWER);
+      caseAction(editor, caret, Cases.LOWER);
     }
   }
 }

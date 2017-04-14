@@ -23,7 +23,7 @@ public class ISYankLast extends EmacsPlusAction {
     }
 
     public void executeWriteAction(final Editor isEditor, final Caret isCaret, final DataContext dataContext) {
-      this.yankIt(isEditor, isCaret);
+      yankIt(isEditor, isCaret);
     }
   }
 }

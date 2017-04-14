@@ -25,7 +25,7 @@ public class WhatCursorPos extends EditorAction {
       final Document doc = editor.getDocument();
       final int offset = caret.getOffset();
       final int docLen = doc.getTextLength();
-      final String msg = (offset >= docLen) ? this.getEob(offset, docLen) : this.getCurPos(offset, docLen, doc);
+      final String msg = (offset >= docLen) ? getEob(offset, docLen) : getCurPos(offset, docLen, doc);
       EmacsPlusAction.infoMessage(msg);
     }
 
@@ -36,7 +36,7 @@ public class WhatCursorPos extends EditorAction {
     private String getCurPos(final int offset, final int docLen, final Document doc) {
       final char curChar = doc.getCharsSequence().charAt(offset);
       final int percent = Math.round(offset * 100 / docLen + 0.5f);
-      final String sChar = (curChar <= ' ') ? this.normalizeChar(curChar) : String.valueOf(curChar);
+      final String sChar = (curChar <= ' ') ? normalizeChar(curChar) : String.valueOf(curChar);
       return String.format("Char: %s  (%d, #o%o, #x%x)  point=%d of %d (%d%%)", sChar, curChar, curChar, curChar,
           offset, docLen, percent);
     }

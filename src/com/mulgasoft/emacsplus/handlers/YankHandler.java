@@ -27,7 +27,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler {
   }
 
   private String getText(final Transferable data, final Editor editor) {
-    return KillCmdUtil.getTransferableText(data, this.getSepr(editor));
+    return KillCmdUtil.getTransferableText(data, getSepr(editor));
   }
 
   @NonNls
@@ -52,7 +52,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler {
           String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "data",
               "com/mulgasoft/emacsplus/handlers/YankHandler", "paste"));
     }
-    final String text = this.getText(data, editor);
+    final String text = getText(data, editor);
     final int caretOffset = caret.getOffset();
     final int newOff = caretOffset - length;
     TextRange result = null;
@@ -80,7 +80,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler {
           String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "data",
               "com/mulgasoft/emacsplus/handlers/YankHandler", "paste"));
     }
-    final String text = this.getText(data, editor);
+    final String text = getText(data, editor);
     final TextRange result = new TextRange(range.getStartOffset(), range.getStartOffset() + text.length());
     editor.getDocument().replaceString(range.getStartOffset(), range.getEndOffset(), text);
     return result;
@@ -102,7 +102,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler {
           String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "data",
               "com/mulgasoft/emacsplus/handlers/YankHandler", "paste"));
     }
-    final String text = this.getText(data, editor);
+    final String text = getText(data, editor);
     final int caretOffset = caret.getOffset();
     final TextRange result = new TextRange(caretOffset, caretOffset + text.length());
     if (editor instanceof TextComponentEditor) {
@@ -115,7 +115,7 @@ public abstract class YankHandler extends EmacsPlusWriteHandler {
   }
 
   protected TextRange yankIt(final Editor editor, final Caret caret) {
-    final Transferable data = this.getData();
+    final Transferable data = getData();
     final boolean isReplace = YankHandler.ourYankReplace || editor.isOneLineMode();
     TextRange replace = null;
     final SelectionModel sm = editor.getSelectionModel();
@@ -131,9 +131,9 @@ public abstract class YankHandler extends EmacsPlusWriteHandler {
     }
     TextRange location;
     if (replace == null || !isReplace) {
-      location = this.paste(editor, caret, data);
+      location = paste(editor, caret, data);
     } else {
-      location = this.paste(editor, replace, data);
+      location = paste(editor, replace, data);
     }
     return location;
   }
