@@ -1,7 +1,3 @@
-//
-// Decompiled by Procyon v0.5.30
-//
-
 package com.mulgasoft.emacsplus.actions.edit;
 
 import com.intellij.openapi.actionSystem.DataContext;
@@ -12,6 +8,10 @@ import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.WhiteSpaceHandler;
 
 
+/**
+ * From Emacs docs: Delete all spaces and tabs around point.
+ *                  If BACKWARD-ONLY is non-nil, only delete them before point.
+ */
 public class DeleteHorizSpace extends EmacsPlusAction {
   public DeleteHorizSpace() {
     this(new myHandler());
