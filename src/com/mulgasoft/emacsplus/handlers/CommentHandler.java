@@ -254,7 +254,7 @@ public class CommentHandler extends MultiCaretCodeInsightActionHandler {
     return tabit;
   }
 
-  public static class CommentRange {
+  public static final class CommentRange {
     final TextRange range;
     final String prefix;
 

@@ -19,12 +19,15 @@ import org.jdom.Document;
 import org.jetbrains.annotations.NonNls;
 
 
-public abstract class Keymaps {
+public final class Keymaps {
   @NonNls
   private static final String USER_KEYMAP;
   private static List<String> mapNames;
   private static boolean isAlt;
   private static String isLocale;
+
+  private Keymaps() {
+  }
 
   public static void enableKeymaps() {
     enableKeymap("Keymap_EmacsPlus.xml");

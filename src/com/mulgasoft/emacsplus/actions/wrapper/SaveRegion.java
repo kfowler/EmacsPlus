@@ -18,7 +18,7 @@ public class SaveRegion extends KillWrapper {
     return "kill-ring-save";
   }
 
-  private static class myHandler extends EditorActionHandler {
+  private static final class myHandler extends EditorActionHandler {
     private final EditorActionHandler mySaveHandler;
 
     private myHandler() {

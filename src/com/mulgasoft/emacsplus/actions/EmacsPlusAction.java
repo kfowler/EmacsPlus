@@ -5,6 +5,7 @@
 package com.mulgasoft.emacsplus.actions;
 
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.command.CommandAdapter;
 import com.intellij.openapi.command.CommandEvent;
 import com.intellij.openapi.command.CommandListener;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
@@ -45,7 +46,7 @@ public abstract class EmacsPlusAction extends TextComponentEditorAction implemen
     EmacsPlusAction.ourCommandMap = new HashMap<>();
   }
 
-  private static class EmacsPlusCommandListener implements CommandListener {
+  private static class EmacsPlusCommandListener extends CommandAdapter {
     public void commandStarted(final CommandEvent event) {
       final EmacsPlusBA thisAction = EmacsPlusAction.ourCommandMap.get(event.getCommandName());
       if (thisAction != null) {
@@ -59,18 +60,9 @@ public abstract class EmacsPlusAction extends TextComponentEditorAction implemen
         thisAction.after(event);
       }
     }
-
-    public void beforeCommandFinished(final CommandEvent event) {
-    }
-
-    public void undoTransparentActionStarted() {
-    }
-
-    public void undoTransparentActionFinished() {
-    }
   }
 
-  private static class StaticCommandListener {
+  private static final class StaticCommandListener {
     private static final EmacsPlusCommandListener ourCommandListener;
 
     static {

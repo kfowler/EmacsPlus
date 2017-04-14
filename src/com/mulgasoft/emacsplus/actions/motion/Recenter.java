@@ -1,7 +1,3 @@
-//
-// Decompiled by Procyon v0.5.30
-//
-
 package com.mulgasoft.emacsplus.actions.motion;
 
 import com.intellij.openapi.actionSystem.DataContext;
@@ -25,7 +21,7 @@ public class Recenter extends EditorAction {
   private static class myHandler extends EmacsPlusCaretHandler {
     private CS state;
 
-    public myHandler() {
+    myHandler() {
       state = CS.C;
     }
 
@@ -43,7 +39,7 @@ public class Recenter extends EditorAction {
     private enum CS {
       B, T, C;
 
-      static int scrollMargin;
+      static int scrollMargin = 0;
 
       public static void setScrollMargin(final int sm) {
         CS.scrollMargin = sm;
@@ -67,9 +63,6 @@ public class Recenter extends EditorAction {
         return caretLine - areaHeight / 2;
       }
 
-      static {
-        CS.scrollMargin = 0;
-      }
     }
   }
 }

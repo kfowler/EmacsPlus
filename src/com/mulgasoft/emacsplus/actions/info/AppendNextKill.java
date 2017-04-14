@@ -18,7 +18,7 @@ public class AppendNextKill extends EmacsPlusAction {
   }
 
   private static class myHandler extends EmacsPlusCaretHandler {
-    public myHandler(final boolean runForEachCaret) {
+    myHandler(final boolean runForEachCaret) {
       super(runForEachCaret);
     }
 

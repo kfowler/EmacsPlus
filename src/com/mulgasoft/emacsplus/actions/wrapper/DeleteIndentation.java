@@ -21,7 +21,7 @@ public class DeleteIndentation extends EmacsPlusWrapper {
   private static class Handler extends EditorWriteActionHandler {
     final EditorActionHandler wrappedHandler;
 
-    public Handler() {
+    Handler() {
       super(true);
       wrappedHandler = new JoinLinesHandler(EmacsPlusWrapper.getWrappedHandler("EditorJoinLines"));
     }

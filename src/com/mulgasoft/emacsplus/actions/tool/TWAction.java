@@ -1,7 +1,3 @@
-//
-// Decompiled by Procyon v0.5.30
-//
-
 package com.mulgasoft.emacsplus.actions.tool;
 
 import com.intellij.openapi.actionSystem.AnAction;
@@ -19,7 +15,16 @@ import javax.swing.*;
 
 
 class TWAction extends AnAction {
-  private static Map<String, KeyStroke> keys;
+  private static final Map<String, KeyStroke> keys = new HashMap<String, KeyStroke>() {
+      {
+        put("Emacs+.TWSelectPrevious", KeyStroke.getKeyStroke(224, 0));
+        put("Emacs+.TWSelectNext", KeyStroke.getKeyStroke(225, 0));
+        put("Emacs+.TWScrollUp", KeyStroke.getKeyStroke(34, 0));
+        put("Emacs+.TWScrollDown", KeyStroke.getKeyStroke(33, 0));
+        put("Emacs+.TWBegin", KeyStroke.getKeyStroke(36, 0));
+        put("Emacs+.TWEnd", KeyStroke.getKeyStroke(35, 0));
+      }
+    };
 
   private KeyStroke getKey(final AnActionEvent e) {
     return TWAction.keys.get(e.getActionManager().getId(this));
@@ -63,16 +68,4 @@ class TWAction extends AnAction {
     return component != null && key != null && component.getActionForKeyStroke(key) != null;
   }
 
-  static {
-    TWAction.keys = new HashMap<String, KeyStroke>() {
-      {
-        put("Emacs+.TWSelectPrevious", KeyStroke.getKeyStroke(224, 0));
-        put("Emacs+.TWSelectNext", KeyStroke.getKeyStroke(225, 0));
-        put("Emacs+.TWScrollUp", KeyStroke.getKeyStroke(34, 0));
-        put("Emacs+.TWScrollDown", KeyStroke.getKeyStroke(33, 0));
-        put("Emacs+.TWBegin", KeyStroke.getKeyStroke(36, 0));
-        put("Emacs+.TWEnd", KeyStroke.getKeyStroke(35, 0));
-      }
-    };
-  }
 }

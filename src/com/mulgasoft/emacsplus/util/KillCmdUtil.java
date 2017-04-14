@@ -20,7 +20,10 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 
-public class KillCmdUtil {
+public final class KillCmdUtil {
+  private KillCmdUtil() {
+  }
+
   public static void killWrapper(final String cmdId, final DataContext data, final Document doc) {
     killWrapper(cmdId, data, doc, false);
   }

@@ -46,7 +46,7 @@ public class ExchangePointAndMark extends EmacsPlusAction {
   }
 
   private static class myHandler extends EditorActionHandler {
-    public myHandler() {
+    myHandler() {
       super(true);
     }
 

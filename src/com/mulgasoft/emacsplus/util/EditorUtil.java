@@ -19,7 +19,10 @@ import com.intellij.psi.util.PsiUtilBase;
 import javax.swing.*;
 
 
-public class EditorUtil {
+public final class EditorUtil {
+  private EditorUtil() {
+  }
+
   private static Editor getCurrentEditor(final Project project) {
     return FileEditorManager.getInstance(project).getSelectedTextEditor();
   }

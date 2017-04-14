@@ -12,8 +12,11 @@ import java.lang.reflect.Method;
 import javax.swing.*;
 
 
-public class ISearchFactory {
+public final class ISearchFactory {
   private static final Logger LOG = Logger.getInstance(ISearch14.class);
+
+  private ISearchFactory() {
+  }
 
   public static ISearchDelegate getISearchObject(final Editor editor) {
     ISearchDelegate result = null;

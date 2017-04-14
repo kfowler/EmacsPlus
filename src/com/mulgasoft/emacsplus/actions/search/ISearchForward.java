@@ -319,7 +319,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   }
 
   private class ISearchInterrupt extends TextAction {
-    public ISearchInterrupt(final String name) {
+    ISearchInterrupt(final String name) {
       super(name);
     }
 
@@ -380,7 +380,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   }
 
   private class ISearchReturn extends TextAction {
-    public ISearchReturn(final String name) {
+    ISearchReturn(final String name) {
       super(name);
     }
 
@@ -393,7 +393,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   private class IReplaceReturn extends TextAction {
     private boolean once;
 
-    public IReplaceReturn(final String name) {
+    IReplaceReturn(final String name) {
       super(name);
       once = true;
     }
@@ -436,7 +436,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   private class IMoveDown extends TextAction {
     private boolean isReplace;
 
-    public IMoveDown(final String name, final boolean isReplace) {
+    IMoveDown(final String name, final boolean isReplace) {
       super(name);
       this.isReplace = false;
       this.isReplace = isReplace;
@@ -455,7 +455,7 @@ public class ISearchForward extends EditorAction implements EmacsPlusBA {
   private class IMoveUp extends TextAction {
     private boolean isReplace;
 
-    public IMoveUp(final String name, final boolean isReplace) {
+    IMoveUp(final String name, final boolean isReplace) {
       super(name);
       this.isReplace = false;
       this.isReplace = isReplace;
