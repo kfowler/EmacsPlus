@@ -4,7 +4,9 @@
 
 package com.mulgasoft.emacsplus;
 
+import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManager;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.CommandEvent;
 import com.intellij.openapi.command.CommandListener;
 import com.intellij.openapi.command.CommandProcessor;
@@ -16,24 +18,19 @@ import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import java.awt.*;
 import org.jetbrains.annotations.NotNull;
 
+import static com.google.common.base.Preconditions.*;
+
 
 public class EmacsPlus implements ApplicationComponent {
   private static final Logger LOG = Logger.getInstance(EmacsPlus.class);
 
-  private static PluginDescriptor ourPlugin;
-  private static String ultCommand;
-  private static String penultCommand;
-  private static boolean visualBeep;
+  private static final String EMACS_PLUS = "Emacs+";
 
-  public static PluginDescriptor getPlugin() {
-    return EmacsPlus.ourPlugin;
-  }
+  private static String ultCommand = null;
+  private static String penultCommand = null;
+  private static boolean visualBeep = false;
 
   public void initComponent() {
-    final PluginId pluginId = PluginManager.getPluginByClassName(EmacsPlus.class.getName());
-    EmacsPlus.ourPlugin = PluginManager.getPlugin(pluginId);
-    // Let BundledKeymapProvider do this
-    // Keymaps.enableKeymaps();
     CommandProcessor.getInstance().addCommandListener(new CommandListener() {
       public void beforeCommandFinished(final CommandEvent event) {
       }
@@ -81,11 +78,7 @@ public class EmacsPlus implements ApplicationComponent {
   }
 
   public static void resetCommand(@NotNull final String name) {
-    if (name == null) {
-      throw new IllegalArgumentException(
-          String.format("Argument for @NotNull parameter '%s' of %s.%s must not be null", "name",
-              "com/mulgasoft/emacsplus/EmacsPlus", "resetCommand"));
-    }
+    checkNotNull(name);
     setUltCommand(name);
   }
 
@@ -95,19 +88,22 @@ public class EmacsPlus implements ApplicationComponent {
 
   @NotNull
   public String getComponentName() {
-    final String s = "EmacsPlus";
-    if (s == null) {
-      throw new IllegalStateException(
-          String.format("@NotNull method %s.%s must not return null", "com/mulgasoft/emacsplus/EmacsPlus",
-              "getComponentName"));
-    }
-    return s;
+    return EMACS_PLUS;
   }
 
-  static {
-    EmacsPlus.ourPlugin = null;
-    EmacsPlus.ultCommand = null;
-    EmacsPlus.penultCommand = null;
-    EmacsPlus.visualBeep = false;
+  @NotNull
+  public static PluginId getPluginId() {
+    return PluginId.getId(EMACS_PLUS);
+  }
+
+  @NotNull
+  public static String getVersion() {
+    if (!ApplicationManager.getApplication().isInternal()) {
+      final IdeaPluginDescriptor plugin = PluginManager.getPlugin(getPluginId());
+      return plugin != null ? plugin.getVersion() : "SNAPSHOT";
+    }
+    else {
+      return "INTERNAL";
+    }
   }
 }

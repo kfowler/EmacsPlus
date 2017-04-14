@@ -1,7 +1,3 @@
-//
-// Decompiled by Procyon v0.5.30
-//
-
 package com.mulgasoft.emacsplus.actions.edit;
 
 import com.intellij.openapi.actionSystem.DataContext;
@@ -11,7 +7,10 @@ import com.mulgasoft.emacsplus.actions.EmacsPlusAction;
 import com.mulgasoft.emacsplus.handlers.CaseHandler;
 import com.mulgasoft.emacsplus.handlers.ISHandler;
 
-
+/**
+ * Action to capitalize the first letter of a selected word.
+ * E.g., "example" -> "Example"
+ */
 public class CapitalizeWord extends EmacsPlusAction {
   public CapitalizeWord() {
     super(new myHandler());
