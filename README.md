@@ -7,7 +7,7 @@ TODO
 =====
   * `string-rectangle`
 
-    
+
     string-rectangle is an interactive autoloaded compiled Lisp function in ‘rect.el’.
 
     It is bound to C-x r t.
@@ -18,3 +18,5 @@ TODO
     The length of STRING need not be the same as the rectangle width.
 
     Called from a program, takes three args; START, END and STRING.
+
+  * `Could not find EditorSearchComponent: com.intellij.find.EditorSearchComponent PluginClassLoader[com.mulgasoft.emacsplus, SNAPSHOT]`
